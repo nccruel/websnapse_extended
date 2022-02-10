@@ -1,0 +1,49 @@
+div.modal-content{
+    overflow-x:scroll;
+    overflow-y: scroll;
+    
+    max-height: 600px;
+}
+
+td {
+    width:1px;
+    white-space:nowrap;
+}
+
+.choice-history-header {
+    top: 0;
+    position: sticky;
+    z-index: 9997;
+    width: 50%;
+    background-color: #786fa6;
+    color: #ffff;
+}
+
+table{
+    position: relative;
+}
+
+.custom-choice-history-modal{
+    height: 95%;
+}
+.headtime{
+    background-color:#596275;
+    top: 0;
+    left: 0;
+    position: sticky;
+    z-index: 9999;
+    color:#ffff;
+    text-align: center;
+}
+.time{
+    background-color:#596275;
+    left: 0;
+    position: sticky;
+    z-index: 9998;
+    color:#ffff;
+    text-align: center;
+}
+
+.choicehistory {
+    table-layout: auto;
+}
