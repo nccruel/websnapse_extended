@@ -12,6 +12,7 @@ import { step, backStep, parseRule } from "./utils/automata";
 import ChooseRuleForm from './components/forms/ChooseRuleForm';
 import NewNodeForm from './components/forms/NewNodeForm';
 import NewOutputNodeForm from './components/forms/NewOutputNodeForm';
+import NewInputNodeForm from './components/forms/NewInputNodeForm';
 import EditNodeForm from './components/forms/EditNodeForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
@@ -578,6 +579,10 @@ function App() {
             <NewOutputNodeForm showNewOutputModal={showNewOutputModal}
               handleCloseNewOutputModal={handleCloseNewOutputModal}
               handleNewOutput={handleNewOutput}
+              handleError={showError} />
+            <NewInputNodeForm showNewInputModal={showNewInputModal}
+              handleCloseNewInputModal={handleCloseNewInputModal}
+              handleNewInput={handleNewOutput}
               handleError={showError} />
             <EditNodeForm showEditModal={showEditModal}
               handleCloseEditModal={handleCloseEditModal}
