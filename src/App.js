@@ -122,6 +122,7 @@ function App() {
   // Modal Booleans
   const [showNewNodeModal, setShowNewNodeModal] = useState(false);
   const [showNewOutputModal, setShowNewOutputModal] = useState(false);
+  const [showNewInputModal, setShowNewInputModal] = useState(false);
   const [showChooseRuleModal, setShowChooseRuleModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showChoiceHistoryModal, setShowChoiceHistoryModal] = useState(false);
@@ -139,6 +140,8 @@ function App() {
   const handleShow = () => setShowNewNodeModal(true)
   const handleCloseNewOutputModal = () => setShowNewOutputModal(false);
   const handleShowNewOutputModal = () => setShowNewOutputModal(true);
+  const handleCloseNewInputModal = () => setShowNewInputModal(false);
+  const handleShowNewInputModal = () => setShowNewInputModal(true);
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = () => setShowEditModal(true);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
@@ -288,6 +291,13 @@ function App() {
   async function handleNewOutput(newOutput) {
     await setNeurons(draft => {
       draft[newOutput.id] = newOutput;
+    });
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+  async function handleNewInput(newInput) {
+    await setNeurons(draft => {
+      draft[newInput.id] = newInput;
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
@@ -582,7 +592,7 @@ function App() {
               handleError={showError} />
             <NewInputNodeForm showNewInputModal={showNewInputModal}
               handleCloseNewInputModal={handleCloseNewInputModal}
-              handleNewInput={handleNewOutput}
+              handleNewInput={handleNewInput}
               handleError={showError} />
             <EditNodeForm showEditModal={showEditModal}
               handleCloseEditModal={handleCloseEditModal}
