@@ -66,7 +66,8 @@ const NewNodeForm = ({ showNewNodeModal, handleCloseModal, handleNewNode, handle
         delay: 0,
         spikes: parseInt(formData.startingSpikes),
         isOutput: false,
-        out: []
+        out: [],
+        outWeights: {}
       }
       handleNewNode(newNeuron);
     } else {

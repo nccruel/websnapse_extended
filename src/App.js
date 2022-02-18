@@ -11,6 +11,7 @@ import shortid from 'shortid';
 import { step, backStep, parseRule } from "./utils/automata";
 import ChooseRuleForm from './components/forms/ChooseRuleForm';
 import NewNodeForm from './components/forms/NewNodeForm';
+import AddSynapseWeightForm from './components/forms/AddSynapseWeightForm';
 import NewOutputNodeForm from './components/forms/NewOutputNodeForm';
 import NewInputNodeForm from './components/forms/NewInputNodeForm';
 import EditNodeForm from './components/forms/EditNodeForm';
@@ -83,7 +84,8 @@ function App() {
       delay: 0,
       spikes: 1,
       isOutput: false,
-      out: ['n2']
+      out: ['n2'],
+      outWeights: {'n2': 1}
     },
     n2: {
       id: "n2",
@@ -93,7 +95,8 @@ function App() {
       delay: 0,
       spikes: 0,
       isOutput: false,
-      out: ['n3']
+      out: ['n3'],
+      outWeights: {'n3': 1}
     },
     n3: {
       id: "n3",
@@ -103,7 +106,8 @@ function App() {
       delay: 0,
       spikes: 1,
       isOutput: false,
-      out: ["n4"]
+      out: ["n4"],
+      outWeights: {'n4': 1}
     },
     n4: {
       id: "n4",
@@ -114,12 +118,14 @@ function App() {
     }
   });
 
-
+  const [srce, setSrce] = useState('');
+  const [dest, setDest] = useState('');
   const [time, setTime] = useState(0);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
   // Modal Booleans
+  const [showAddWeightModal, setShowAddWeightModal] = useState(false);
   const [showNewNodeModal, setShowNewNodeModal] = useState(false);
   const [showNewOutputModal, setShowNewOutputModal] = useState(false);
   const [showNewInputModal, setShowNewInputModal] = useState(false);
@@ -138,6 +144,8 @@ function App() {
   const headless = process.env.NODE_ENV === 'test'
   const handleClose = () => setShowNewNodeModal(false)
   const handleShow = () => setShowNewNodeModal(true)
+  const handleCloseAddWeightModal = () => setShowAddWeightModal(false);
+  const handleShowAddWeightModal = () => setShowAddWeightModal(true);  
   const handleCloseNewOutputModal = () => setShowNewOutputModal(false);
   const handleShowNewOutputModal = () => setShowNewOutputModal(true);
   const handleCloseNewInputModal = () => setShowNewInputModal(false);
@@ -266,13 +274,35 @@ function App() {
   /// add weight argument
   /// make array of objects (neuron ID, weight)
   const onEdgeCreate = async (src, dst) => {
+    setSrce(src); // srce = src
+    setDest(dst); // dest = dst
+    // await setNeurons(draft => {
+    //   if (!(draft[dst].isOutput)){
+    //     handleShowAddWeightModal();
+    //   }
+    // })
+    handleShowAddWeightModal();
+    console.log("GLOBAL SRC", srce);
+    console.log("GLOBAL DST", dest);
     console.log("newEdge", src, dst);
     await setNeurons(draft => {
       var outCopy = [...draft[src].out];
       outCopy.push(dst)
       draft[src].out = outCopy;
     })
+    
   }
+
+  async function handleAddWeight(src, dst, weight) {
+    await setNeurons(draft => {
+      (draft[src].outWeights)[dst] = weight;
+    });
+    setSrce('');
+    setDest('');
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
   const handleNewPosition = async (position, id) => {
     setNeurons(draft => {
       draft[id].position = position;
@@ -295,6 +325,7 @@ function App() {
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
+
   async function handleNewInput(newInput) {
     await setNeurons(draft => {
       draft[newInput.id] = newInput;
@@ -581,7 +612,13 @@ function App() {
               headless={headless} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
-              handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>
+              handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>\
+            <AddSynapseWeightForm showAddWeightModal={showAddWeightModal}
+              handleCloseAddWeightModal={handleCloseAddWeightModal}
+              handleAddWeight={handleAddWeight}
+              handleError={showError} 
+              srce = {srce}
+              dest = {dest} />              
             <NewNodeForm showNewNodeModal={showNewNodeModal}
               handleCloseModal={handleClose}
               handleNewNode={handleNewNode}

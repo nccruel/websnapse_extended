@@ -101,6 +101,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         }
         for (var k in draft) {
             var neuron = draft[k];
+            var neuronOutWeights = {...neuron.outWeights};
             //work on the rule
             if (neuron.currentRule) {
                 shouldEnd = false;
@@ -122,6 +123,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                         for (let k of neuronOutKeys) {
                             spikeAdds[k] =
                                 k in spikeAdds ? spikeAdds[k] + produces : produces
+                            // spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];
                             console.log("Sent spikes " + spikeAdds[k]);
                         }
                     }
@@ -142,8 +144,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             //states[k].spikes -= spikeAdds[k]
             let newSpikes = draft[k].spikes.valueOf();
             newSpikes += spikeAdds[k];
+            console.log("SPIKE", spikeAdds[k]);
             draft[k].spikes = newSpikes;
-            console.log("Got here!");
             if (draft[k].isOutput) {
                 var newString = `${draft[k].bitstring}${(spikeAdds[k] || '0')}`
                 draft[k].bitstring = newString;

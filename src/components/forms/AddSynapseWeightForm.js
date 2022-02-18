@@ -17,7 +17,7 @@ const formReducer = (state, event) => {
 
 const initialFormState = {id:""}; 
 
-const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, handleAddWeight, handleError, src, dst}) => {
+const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, handleAddWeight, handleError, srce, dest}) => {
   const handleClose = () => {
     handleCloseAddWeightModal();
   };
@@ -35,6 +35,8 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
   function handleSubmit(event) {
     event.preventDefault();
     const weight = parseInt(formData.weight);
+    console.log("SOURCE", srce);
+    console.log("DEST", dest);
     console.log("weight", weight);    
     handleClose();
     // let newId = `${formData.id}-${shortid.generate()}`;
@@ -53,7 +55,7 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
     //     spikes: 0,
     //     bitstring: ' '
     //   }
-    handleAddWeight(src, dst, weight);
+    handleAddWeight(srce, dest, weight);
   }
 
   return (
@@ -64,7 +66,7 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
         <Form.Group>
-            <Form.Label>Weight of the Synapse between {src} and {dst}:</Form.Label>
+            <Form.Label>Weight of the Synapse between {srce} and {dest}:</Form.Label>
             <Form.Control  required name="weight" type="number" placeholder="1" min="1" value={formData.weight} onChange={handleChange} />
           </Form.Group>
           <Button variant="secondary" onClick={handleClose}>
