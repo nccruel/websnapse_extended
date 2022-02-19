@@ -276,21 +276,20 @@ function App() {
   const onEdgeCreate = async (src, dst) => {
     setSrce(src); // srce = src
     setDest(dst); // dest = dst
-    // await setNeurons(draft => {
-    //   if (!(draft[dst].isOutput)){
-    //     handleShowAddWeightModal();
-    //   }
-    // })
-    handleShowAddWeightModal();
     console.log("GLOBAL SRC", srce);
     console.log("GLOBAL DST", dest);
     console.log("newEdge", src, dst);
     await setNeurons(draft => {
+      if (!(draft[dst].isOutput)){
+        handleShowAddWeightModal();
+      }
+      else{
+        handleAddWeight(src, dst, 1);
+      }
       var outCopy = [...draft[src].out];
       outCopy.push(dst)
       draft[src].out = outCopy;
-    })
-    
+    })  
   }
 
   async function handleAddWeight(src, dst, weight) {

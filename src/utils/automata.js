@@ -121,9 +121,11 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     if (neuron.out) {
                         const neuronOutKeys = neuron.out;
                         for (let k of neuronOutKeys) {
+                            
                             spikeAdds[k] =
                                 k in spikeAdds ? spikeAdds[k] + produces : produces
-                            // spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];
+                            
+                            spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];
                             console.log("Sent spikes " + spikeAdds[k]);
                         }
                     }
@@ -144,7 +146,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             //states[k].spikes -= spikeAdds[k]
             let newSpikes = draft[k].spikes.valueOf();
             newSpikes += spikeAdds[k];
-            console.log("SPIKE", spikeAdds[k]);
+            
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
                 var newString = `${draft[k].bitstring}${(spikeAdds[k] || '0')}`
