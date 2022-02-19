@@ -280,21 +280,41 @@ function App() {
     console.log("GLOBAL DST", dest);
     console.log("newEdge", src, dst);
     await setNeurons(draft => {
-      if (!(draft[dst].isOutput)){
-        handleShowAddWeightModal();
-      }
-      else{
-        handleAddWeight(src, dst, 1);
-      }
       var outCopy = [...draft[src].out];
-      outCopy.push(dst)
-      draft[src].out = outCopy;
+      var weightsDict = {...draft[src].outWeights};
+      var currWeight = weightsDict[dst];
+
+      if (!(draft[dst].isOutput)){  // if DEST is NOT!! OUTPUT NODE
+        if (outCopy.includes(dst)){
+          handleAddWeight(src, dst, currWeight + 1);
+        }
+        else{
+          handleShowAddWeightModal();
+          outCopy.push(dst)
+          console.log(outCopy);
+          draft[src].out = outCopy;
+        } 
+      }
+
+      else{                         // if DEST is OUTPUT NODE (disable adding weights)
+        if (!(outCopy.includes(dst))){
+          handleAddWeight(src, dst, 1);
+          outCopy.push(dst)
+          console.log(outCopy);
+          draft[src].out = outCopy;
+        }
+      }      
+     
     })  
   }
 
   async function handleAddWeight(src, dst, weight) {
     await setNeurons(draft => {
-      (draft[src].outWeights)[dst] = weight;
+      var weightsDict = {...draft[src].outWeights};
+      weightsDict[dst] = weight;
+      draft[src].outWeights = weightsDict;
+      console.log("WEIGHTS", weightsDict);
+
     });
     setSrce('');
     setDest('');
