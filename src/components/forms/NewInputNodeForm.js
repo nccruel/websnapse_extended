@@ -47,8 +47,12 @@ const NewInputNodeForm = ({ showNewInputModal, handleCloseNewInputModal, handleN
         id: newId,
         position: { x: 300, y: 300 },
         isInput: true,
+        isOutput: false,
         spikes: 0,
-        bitstring: ' '
+        delay: 0,
+        out: [],
+        bitstring: formData.bitstring,
+        outWeights: {}
       }
       handleNewInput(newInput);
   }
@@ -63,7 +67,11 @@ const NewInputNodeForm = ({ showNewInputModal, handleCloseNewInputModal, handleN
         <Form.Group>
             <Form.Label>Input Node Name</Form.Label>
             <Form.Control  required name="id" type="text" placeholder="n0" value={formData.id} onChange={handleChange} />
-          </Form.Group>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label> Bitstring/Spike Train</Form.Label>
+          <Form.Control  required name="bitstring" type="text" placeholder="101" value={formData.bitstring} onChange={handleChange} />
+        </Form.Group>
           <Button variant="secondary" onClick={handleClose}>
             Close
             </Button> {' '}

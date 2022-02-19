@@ -57,13 +57,14 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
     const newStates = produce(neurons, draft => {
         const spikeAdds = {}
         const outputTracker = [];
+        const inputTracker = [];
         var neuronValidRules = {};
         var shouldEnd = true;
 
         for (var k in draft) {
             var neuron = draft[k];
             //choose rule to follow if not working on a rule currently
-            if (!neuron.currentRule && !neuron.isOutput) {
+            if (!neuron.currentRule && !neuron.isOutput &&!neuron.isInput) {
                 delete draft[neuron.id].chosenRule;
                 delete draft[neuron.id].currentRule;
                 //pick a rule
@@ -125,7 +126,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                             spikeAdds[k] =
                                 k in spikeAdds ? spikeAdds[k] + produces : produces
                             
-                            spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];
+                            spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
                             console.log("Sent spikes " + spikeAdds[k]);
                         }
                     }
@@ -133,12 +134,37 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     //resolve rule
                     delete draft[neuron.id].currentRule;
                 }
+            } else if (neuron.isInput) {
+                var len = (neuron.bitstring).length;
+                inputTracker.push(neuron.id);
+
+                if (neuron.out) {
+                    const neuronOut_in = neuron.out;
+                    for (let k of neuronOut_in) {    
+                        const bit = (neuron.bitstring)[time];
+                        var spk = 0;
+                        console.log("Bit", bit);
+                        if (time < len){        // Check if bitstring length is less than time
+                            let newDelay = neuron.delay.valueOf();
+                            newDelay--;
+                            draft[neuron.id].delay = newDelay;                           
+                            if (bit == "1"){
+                                spk = neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
+                            } 
+                        }
+                        else{
+                            draft[neuron.id].delay = 0;  
+                        }                     
+                        spikeAdds[k] = spk;
+                        console.log("Sent spikes from IN", spk);
+                    }
+                }
             } else if (neuron.isOutput) {
                 outputTracker.push(neuron.id);
                 if (!(k in spikeAdds)) {
                     spikeAdds[k] = 0
                 }
-            } else if (neuron.delay == -1) {
+            } else if (neuron.delay == -1 && !neuron.isInput) {
                 draft[neuron.id].delay = 0;
             }
         }
@@ -149,7 +175,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
-                var newString = `${draft[k].bitstring}${(spikeAdds[k] || '0')}`
+                var outBit = (spikeAdds[k] || 0) > 0? '1':'0';
+                var newString = `${draft[k].bitstring}${outBit}`
                 draft[k].bitstring = newString;
             }
         }

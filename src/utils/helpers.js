@@ -1,8 +1,4 @@
-export const createNeuron = (newId, x,
-    y,
-    rules,
-    spike,
-    time) => [{
+export const createNeuron = (newId, x, y, rules, spike, time) => [{
         data: {
             id: newId,
             label: `${(newId.includes('-'))? newId.substr(0, newId.indexOf('-')) : newId}`
@@ -38,11 +34,7 @@ export const createNeuron = (newId, x,
         classes: 'snapse-node__time'
     }];
 
-export const createClosedNeuron = (newId, x,
-        y,
-        rules,
-        spike,
-        time) => [{
+export const createClosedNeuron = (newId, x, y, rules, spike, time) => [{
             data: {
                 id: newId,
                 label: `${(newId.includes('-'))? newId.substr(0, newId.indexOf('-')) : newId}`
@@ -94,6 +86,20 @@ export const createOutputNeuron = (id,x,y,output,spike) => [
         position: { x, y: y + 40 }
       }
 ]
+
+export const createInputNeuron = (id,x,y, input,spike) =>  [{
+    data: {
+        id: id,
+        label: `${(id.includes('-'))? id.substr(0, id.indexOf('-')) : id}`
+    },
+    position: { x: x, y: y },
+    classes: 'snapse-input'
+},
+{
+    data: { rootId: id, id: `${id}-input`, parent: id, label: `${(typeof input === 'string') ? input.replace(/\[object Object\]/g,'').replaceAll(/(.{12})/g,'$&\n') : ''}`},
+    classes: 'snapse-node__input',
+    position: { x, y: y }
+}];
 export const checkValidRule = (rule) =>{
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     const testRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
@@ -144,12 +150,17 @@ export const convertElements = elements =>{
             array.nodes.push(newNodes[1])
             array.nodes.push(newNodes[2])
             array.nodes.push(newNodes[3])
-        }else if(!element.isOutput){
+        }else if(!element.isOutput && !element.isInput){
             var newNodes = createNeuron(element.id, element.position.x,element.position.y,element.rules, element.spikes, element.delay);
             array.nodes.push(newNodes[0])
             array.nodes.push(newNodes[1])
             array.nodes.push(newNodes[2])
             array.nodes.push(newNodes[3])
+            
+        }else if(element.isInput){
+            var newInputNode = createInputNeuron(element.id, element.position.x,element.position.y, element.bitstring, 0);
+            array.nodes.push(newInputNode[0])
+            array.nodes.push(newInputNode[1])
             
         }else{
             var newOutputNode = createOutputNeuron(element.id, element.position.x,element.position.y, element.bitstring, 0);
@@ -160,7 +171,6 @@ export const convertElements = elements =>{
         if(element.out){
             for (var i=0; i< element.out.length; i++){
                 if (element.delay<0) {
-                    console.log(element.delay)
                     for (let out of element.out) {
                       var newEdge = createEdge(element.id, element.out[i],' edge--triggering');
                       array.edges.push(newEdge);

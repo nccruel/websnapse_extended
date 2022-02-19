@@ -66,8 +66,9 @@ const NewNodeForm = ({ showNewNodeModal, handleCloseModal, handleNewNode, handle
         delay: 0,
         spikes: parseInt(formData.startingSpikes),
         isOutput: false,
+        isInput: false,                                   // check if Input node
         out: [],
-        outWeights: {}
+        outWeights: {}                                    // dict of weights for each synapse
       }
       handleNewNode(newNeuron);
     } else {

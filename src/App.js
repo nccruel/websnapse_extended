@@ -586,10 +586,11 @@ function App() {
                   <div style={{ textAlign: "center" }}>
                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <PlusSquare />{' '}Node Actions Test
+                        <PlusSquare />{' '}Node Actions
                     </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) */}
                       <Dropdown.Menu>
                         <Dropdown.Item id="new-node-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button></Dropdown.Item>
+                        <Dropdown.Item id="new-input-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button></Dropdown.Item>
                         <Dropdown.Item id="new-output-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewOutputModal} disabled={time > 0 ? true : false}>New Output Node</Button></Dropdown.Item>
                         <Dropdown.Item id="edit-node-btn"><Button variant="link" size="sm" className="node-actions text-info" onClick={handleShowEditModal} disabled={time > 0 ? true : false}>Edit</Button></Dropdown.Item>
                         <Dropdown.Item id="del-node-btn"><Button variant="link" size="sm" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button></Dropdown.Item>

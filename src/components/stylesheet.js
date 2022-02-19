@@ -1,6 +1,6 @@
 const styles = [
     {
-        selector: '.snapse-node, .snapse-output',
+        selector: '.snapse-node, .snapse-output, .snapse-input',
         style: {
             'font-family': 'Computer Modern',
             'background-opacity': '0',
@@ -27,7 +27,7 @@ const styles = [
         }
     },
     {
-        selector: '.snapse-node__rules, .snapse-node__output',
+        selector: '.snapse-node__rules, .snapse-node__output, .snapse-node__input',
         style: {
             'font-family': 'Computer Modern',
             'font-style':'italic',
