@@ -276,8 +276,6 @@ function App() {
   const onEdgeCreate = async (src, dst) => {
     setSrce(src); // srce = src
     setDest(dst); // dest = dst
-    console.log("GLOBAL SRC", srce);
-    console.log("GLOBAL DST", dest);
     console.log("newEdge", src, dst);
     await setNeurons(draft => {
       var outCopy = [...draft[src].out];
@@ -302,6 +300,10 @@ function App() {
           outCopy.push(dst)
           console.log(outCopy);
           draft[src].out = outCopy;
+        }
+        else{
+          alert("Duplicate synapses to output neurons ARE NOT allowed!");
+          console.log("WEIGHTS TO OUT", {...draft[src].outWeights});
         }
       }      
      
