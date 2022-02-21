@@ -175,8 +175,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
-                var outBit = (spikeAdds[k] || 0) > 0? '1':'0';
-                var newString = `${draft[k].bitstring}${outBit}`
+                var newString = `${draft[k].bitstring}${spikeAdds[k] || 0}`
                 draft[k].bitstring = newString;
             }
         }
