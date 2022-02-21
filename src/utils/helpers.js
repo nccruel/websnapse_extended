@@ -142,22 +142,23 @@ export const convertElements = elements =>{
         nodes: [],
         edges:[],
     }
+    console.log("EDGES", array.edges);
     for (var k in elements) {
         var element = elements[k];
-        if (element.currentRule){
+        if (element.currentRule){ // currently applying a rule
             var newNodes = createClosedNeuron(element.id, element.position.x, element.position.y,element.rules, element.spikes, element.delay);
             array.nodes.push(newNodes[0])
             array.nodes.push(newNodes[1])
             array.nodes.push(newNodes[2])
             array.nodes.push(newNodes[3])
-        }else if(!element.isOutput && !element.isInput){
+        }else if(!element.isOutput && !element.isInput){ // standard interface for regular neurons
             var newNodes = createNeuron(element.id, element.position.x,element.position.y,element.rules, element.spikes, element.delay);
             array.nodes.push(newNodes[0])
             array.nodes.push(newNodes[1])
             array.nodes.push(newNodes[2])
             array.nodes.push(newNodes[3])
             
-        }else if(element.isInput){
+        }else if(element.isInput){ // input neuron
             var newInputNode = createInputNeuron(element.id, element.position.x,element.position.y, element.bitstring, 0);
             array.nodes.push(newInputNode[0])
             array.nodes.push(newInputNode[1])

@@ -29,6 +29,11 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
           console.log("change position", evt.target.id())
           handleChangePosition(evt.position, evt.target.id());
         })
+        cy.on('mouseup', 'edge', (eve) => {
+          console.log("Edge ID", eve.target.id())
+          // record edge ID
+          // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
+        }) 
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",
