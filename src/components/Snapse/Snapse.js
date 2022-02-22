@@ -26,7 +26,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
       const cy = cyRef.current
       if (cy) {
         cy.on('mouseup', '.snapse-node, .snapse-output, .snapse-input', (evt) => {
-          console.log("change position", evt.target.id())
+          console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
         })
         cy.on('mouseup', 'edge', (eve) => {

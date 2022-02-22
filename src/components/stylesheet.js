@@ -113,23 +113,43 @@ const styles = [
             'target-arrow-shape': 'triangle',
             'text-background-color': 'white',
             'text-background-shape': 'rectangle',
-            width: 1
-        }
+            width: 1,
+            // content: 'data(label)',
+            // 'text-halign': 'center',
+            // 'text-valign': 'top',
+        },
     },
     {
         selector: '.edge--triggering',
         style: {
-          'line-color': 'magenta',
-          'line-style': 'dashed',
-          'target-arrow-color': 'magenta',
-          'line-color': 'magenta',
-          'line-style': 'dashed',
-          'target-arrow-color': 'magenta',
-          'width': 4,
-          'line-dash-offset': 3,
-          'line-dash-pattern': [15,3],
-          'arrow-scale': 1.5
-        }
+            'line-color': 'magenta',
+            'line-style': 'dashed',
+            'target-arrow-color': 'magenta',
+            'line-color': 'magenta',
+            'line-style': 'dashed',
+            'target-arrow-color': 'magenta',
+            'width': 4,
+            'line-dash-offset': 3,
+            'line-dash-pattern': [15,3],
+            'arrow-scale': 1.5
+        },
+        // content: 'data(label)',
+        // 'text-halign': 'center',
+        // 'text-valign': 'top',
     },
+    {
+        selector: "edge[label]",
+        css: {
+            "label": "data(label)",
+            "text-rotation": "autorotate",
+            "text-margin-x": "0px",
+            "text-margin-y": "0px",
+            "text-background-opacity": 1,
+            'font-weight': 'bold',
+            'font-size': 18
+
+        }
+      },
+
 ]
 export default styles;

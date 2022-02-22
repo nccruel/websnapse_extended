@@ -109,12 +109,13 @@ export const checkValidRule = (rule) =>{
     return result;
 }
 
-export const createEdge = (src,dst,c) =>{
+export const createEdge = (src,dst, weight, c) =>{
     return {
         data: {
           id: src + '-' + dst,
           source: src,
-          target: dst
+          target: dst,
+          label: weight
         },
         classes: c
       };
@@ -173,11 +174,12 @@ export const convertElements = elements =>{
             for (var i=0; i< element.out.length; i++){
                 if (element.delay<0) {
                     for (let out of element.out) {
-                      var newEdge = createEdge(element.id, element.out[i],' edge--triggering');
+                      var newEdge = createEdge(element.id, element.out[i], (element.outWeights)[element.out[i]], ' edge--triggering');
                       array.edges.push(newEdge);
+                     
                     }
                 }else{
-                    var newEdges = createEdge(element.id, element.out[i],'');
+                    var newEdges = createEdge(element.id, element.out[i], (element.outWeights)[element.out[i]], '');
                     array.edges.push(newEdges);
                 }
             }
