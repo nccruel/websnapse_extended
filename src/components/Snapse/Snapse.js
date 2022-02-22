@@ -8,8 +8,11 @@ import { convertElements } from '../../utils/helpers';
 import { AlignCenter } from 'react-bootstrap-icons';
 import { XSquareFill } from 'react-bootstrap-icons';
 
-const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, headless }) => {
   const [cyRef, setCy] = useAnimateEdges()
+  const handleShow = () => {
+    handleShowDeleteAll();
+  };
   function handleCenterGraph() {
     const cy = cyRef.current;
     if (cy) {
@@ -31,7 +34,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
           handleChangePosition(evt.position, evt.target.id());
         })
         cy.on('mouseup', 'edge', (eve) => {
-          
+          // record edge ID
           const edgeID = eve.target.id();
           console.log("Edge ID:", edgeID);
           var temp_edgeArr = edgeID.split("-");         
@@ -41,9 +44,14 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
           
           const edgeArr = [srcID, dstID];
           console.log("Source & dest:", edgeArr);
-          // record edge ID
+          
           // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
+
         }) 
+        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
+          console.log("Hover", ev.target.id());
+        
+        })
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",
@@ -72,7 +80,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
       height: "100%"
     }}>
       <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>
-      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleCenterGraph}><XSquareFill />{' '}Clear All</Button>
+      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><XSquareFill />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}
         elements={CytoscapeComponent.normalizeElements(elements)}

@@ -16,6 +16,7 @@ import NewOutputNodeForm from './components/forms/NewOutputNodeForm';
 import NewInputNodeForm from './components/forms/NewInputNodeForm';
 import EditNodeForm from './components/forms/EditNodeForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
+import DeleteAllForm from './components/forms/DeleteAllForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
 import convert from 'xml-js';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
@@ -132,6 +133,7 @@ function App() {
   const [showChooseRuleModal, setShowChooseRuleModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showChoiceHistoryModal, setShowChoiceHistoryModal] = useState(false);
+  const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   // Menu Booleans 
   const [showDropdownBasic, setShowDropdownBasic] = useState(false);
@@ -152,6 +154,8 @@ function App() {
   const handleShowNewInputModal = () => setShowNewInputModal(true);
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = () => setShowEditModal(true);
+  const handleCloseDeleteAllModal = () => setShowDeleteAllModal(false);
+  const handleShowDeleteAllModal = () => setShowDeleteAllModal(true);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
   const handleCloseChooseRuleModal = () => setShowChooseRuleModal(false);
@@ -341,6 +345,11 @@ function App() {
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
+
+  async function handleShowDeleteAll() {
+    handleShowDeleteAllModal()
+  }
+
   async function handleEditNode(id, rules, spikes) {
     //console.log("handleEditNode")
     await setNeurons(draft => {
@@ -373,6 +382,19 @@ function App() {
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
+
+  async function handleDeleteAll() {
+    console.log("Delete All");
+    await setNeurons(draft => {
+      for (var k in draft) {
+        delete draft[k];
+      };
+    });
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
+
   function handlePlay() {
     if (!hasEnded) {
       console.log(`isPlaying before ${isPlaying}`);
@@ -618,6 +640,7 @@ function App() {
                 addedEles.remove();
               }}
               handleChangePosition={handleNewPosition}
+              handleShowDeleteAll = {handleShowDeleteAll}
               headless={headless} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
@@ -645,6 +668,11 @@ function App() {
               handleEditNode={handleEditNode}
               handleError={showError}
               neurons={neurons} />
+            <DeleteAllForm showDeleteAllModal={showDeleteAllModal}
+              handleCloseDeleteAllModal={handleCloseDeleteAllModal}
+              handleDeleteAll={handleDeleteAll}
+              handleError={showError}
+            />
             <DeleteNodeForm showDeleteModal={showDeleteModal}
               handleCloseDeleteModal={handleCloseDeleteModal}
               handleDeleteNode={handleDeleteNode}
