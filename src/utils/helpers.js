@@ -143,7 +143,6 @@ export const convertElements = elements =>{
         nodes: [],
         edges:[],
     }
-    console.log("EDGES", array.edges);
     for (var k in elements) {
         var element = elements[k];
         if (element.currentRule){ // currently applying a rule

@@ -30,7 +30,16 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
           handleChangePosition(evt.position, evt.target.id());
         })
         cy.on('mouseup', 'edge', (eve) => {
-          console.log("Edge ID", eve.target.id())
+          
+          const edgeID = eve.target.id();
+          console.log("Edge ID:", edgeID);
+          var temp_edgeArr = edgeID.split("-");         
+
+          var edg1 = temp_edgeArr[0] + "-"+ temp_edgeArr[1];
+          var edg2 = temp_edgeArr[2] + "-"+ temp_edgeArr[3];
+          
+          const edgeArr = [edg1, edg2];
+          console.log("Edges array:", edgeArr);
           // record edge ID
           // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
         }) 
