@@ -19,6 +19,7 @@ const initialFormState = {id:""};
 
 const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, handleAddWeight, handleError, srce, dest}) => {
   const handleClose = () => {
+    handleAddWeight(srce, dest, 1)
     handleCloseAddWeightModal();
   };
   const [neuronId, setNeuronId] = useState(''); //

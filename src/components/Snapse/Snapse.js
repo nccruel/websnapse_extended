@@ -6,6 +6,7 @@ import useAnimateEdges from './useAnimateEdges';
 import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
 import { AlignCenter } from 'react-bootstrap-icons';
+import { XSquareFill } from 'react-bootstrap-icons';
 
 const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
   const [cyRef, setCy] = useAnimateEdges()
@@ -71,6 +72,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
       height: "100%"
     }}>
       <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>
+      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleCenterGraph}><XSquareFill />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}
         elements={CytoscapeComponent.normalizeElements(elements)}
