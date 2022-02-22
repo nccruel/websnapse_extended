@@ -35,11 +35,11 @@ const Snapse = ({ neurons, onEdgeCreate, handleChangePosition, headless }) => {
           console.log("Edge ID:", edgeID);
           var temp_edgeArr = edgeID.split("-");         
 
-          var edg1 = temp_edgeArr[0] + "-"+ temp_edgeArr[1];
-          var edg2 = temp_edgeArr[2] + "-"+ temp_edgeArr[3];
+          var srcID = temp_edgeArr[0] + "-"+ temp_edgeArr[1];
+          var dstID = temp_edgeArr[2] + "-"+ temp_edgeArr[3];
           
-          const edgeArr = [edg1, edg2];
-          console.log("Edges array:", edgeArr);
+          const edgeArr = [srcID, dstID];
+          console.log("Source & dest:", edgeArr);
           // record edge ID
           // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
         }) 
