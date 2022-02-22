@@ -384,13 +384,14 @@ function App() {
   }
 
   async function handleDeleteAll() {
-    console.log("Delete All");
-    await setNeurons(draft => {
+   
+    setNeurons(draft => {
       for (var k in draft) {
         delete draft[k];
-      };
+      }
     });
     setDirty(true);
+    console.log("ALL DELETED", neurons);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 

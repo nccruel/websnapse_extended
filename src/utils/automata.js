@@ -148,9 +148,9 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                             let newDelay = neuron.delay.valueOf();
                             newDelay--;
                             draft[neuron.id].delay = newDelay;                           
-                            if (bit == "1"){
-                                spk = neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
-                            } 
+                           
+                            spk = parseInt(bit)*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
+                           
                         }
                         else{
                             draft[neuron.id].delay = 0;  
