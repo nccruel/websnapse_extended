@@ -282,30 +282,17 @@ function App() {
       var weightsDict = {...draft[src].outWeights};
       var currWeight = weightsDict[dst];
 
-      if (!(draft[dst].isOutput)){  // if DEST is NOT!! OUTPUT NODE
-        if (outCopy.includes(dst)){
-          handleAddWeight(src, dst, currWeight + 1);
-        }
-        else{
-          handleShowAddWeightModal();
-          outCopy.push(dst)
-          console.log(outCopy);
-          draft[src].out = outCopy;
-        } 
+      if (outCopy.includes(dst)){
+        handleAddWeight(src, dst, currWeight + 1);
       }
+      
+      else{
+        handleShowAddWeightModal();
+        outCopy.push(dst)
+        console.log(outCopy);
+        draft[src].out = outCopy;
+      } 
 
-      else{                         // if DEST is OUTPUT NODE (disable adding weights)
-        if (!(outCopy.includes(dst))){
-          handleAddWeight(src, dst, 1);
-          outCopy.push(dst)
-          console.log(outCopy);
-          draft[src].out = outCopy;
-        }
-        else{
-          alert("Duplicate synapses to output neurons ARE NOT allowed!");
-          console.log("WEIGHTS TO OUT", {...draft[src].outWeights});
-        }
-      }      
      
     })  
   }
