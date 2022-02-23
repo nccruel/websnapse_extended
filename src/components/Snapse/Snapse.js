@@ -7,12 +7,15 @@ import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
 import { AlignCenter } from 'react-bootstrap-icons';
 import { XSquareFill } from 'react-bootstrap-icons';
+import Slider from '@mui/material/Slider';
+
 
 const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, headless }) => {
   const [cyRef, setCy] = useAnimateEdges()
   const handleShow = () => {
     handleShowDeleteAll();
   };
+
   function handleCenterGraph() {
     const cy = cyRef.current;
     if (cy) {
@@ -28,7 +31,8 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
   useEffect(() => {
     if (!headless) {
       const cy = cyRef.current
-      if (cy) {
+      if (cy) {     
+      
         cy.on('mouseup', '.snapse-node, .snapse-output, .snapse-input', (evt) => {
           console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
@@ -37,10 +41,10 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           // record edge ID
           const edgeID = eve.target.id();
           console.log("Edge ID:", edgeID);
-          var temp_edgeArr = edgeID.split("-");         
+          var temp_edgeArr = edgeID.split("->");         
 
-          var srcID = temp_edgeArr[0] + "-"+ temp_edgeArr[1];
-          var dstID = temp_edgeArr[2] + "-"+ temp_edgeArr[3];
+          var srcID = temp_edgeArr[0];
+          var dstID = temp_edgeArr[1];
           
           const edgeArr = [srcID, dstID];
           console.log("Source & dest:", edgeArr);
@@ -50,6 +54,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
         }) 
         cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
           console.log("Hover", ev.target.id());
+
         
         })
         cy.gridGuide({
@@ -69,7 +74,14 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
             //return sourceNode.edgesTo(targetNode).empty() ? 'flat' : undefined
           },
           complete: onEdgeCreate
-        });
+        })
+        
+        // cy.elements().unbind('mouseover');
+        // cy.elements().bind('mouseover', (event) => event.target.id.show());
+
+        // cy.elements().unbind('mouseout');
+        // cy.elements().bind('mouseout', (event) => event.target.id.hide());
+        // ;
       }
     }
     

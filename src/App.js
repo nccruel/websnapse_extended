@@ -1,10 +1,11 @@
 import './scss/custom.scss';
 import './App.css';
-import { slide as Menu } from 'react-burger-menu'
+import Slider from '@mui/material/Slider';
+import { slide as Menu } from 'react-burger-menu';
 import { useState, useEffect, useRef } from "react";
 import { useImmer } from "use-immer";
 import { Button, Container, Alert, Row, Col, Form, OverlayTrigger, Tooltip, Dropdown, DropdownButton } from 'react-bootstrap';
-import { PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, WindowSidebar } from 'react-bootstrap-icons';
+import { PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar } from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components'
 import Snapse from "./components/Snapse/Snapse";
 import shortid from 'shortid';
@@ -124,6 +125,7 @@ function App() {
   const [time, setTime] = useState(0);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
+  const [progRate, setProgRate] = useState(3);
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
   // Modal Booleans
   const [showAddWeightModal, setShowAddWeightModal] = useState(false);
@@ -144,6 +146,14 @@ function App() {
   const [error, setError] = useState("");
   const [pBar, setPBar] = useState(0);
   const headless = process.env.NODE_ENV === 'test'
+  const [sld_value, setSldValue] = useState(0);
+  const handleSldChange = (event, newValue) => {
+    if (isPlaying){
+      setIsPlaying(false);
+    }
+    console.log("new val", newValue);
+    setSldValue(newValue);
+  };
   const handleClose = () => setShowNewNodeModal(false)
   const handleShow = () => setShowNewNodeModal(true)
   const handleCloseAddWeightModal = () => setShowAddWeightModal(false);
@@ -173,6 +183,29 @@ function App() {
 
   const handleShowChoiceHistoryModal = () => {setShowChoiceHistoryModal(true); setShowSideBarMenu(false);}
   const handleCloseHoiceHistoryModal = () => setShowChoiceHistoryModal(false);
+
+  const shortening = keyframes`
+    from {
+      transform: scaleX(100%);
+    }
+
+    to {
+      transform: scaleX(0%);
+    }
+  `
+
+  const ProgressBar = styled.div`
+    ${props =>
+      props.isPlaying &&
+      css`
+        animation: ${shortening} ${progRate}s linear; 
+      `}
+    background-color: #c44569;
+    height: 4px;
+    transform-origin: left center;
+    margin-bottom: 2px;
+  `
+
 
   const handleSimulationEnd = () => {
     setHasEnded(true);
@@ -266,6 +299,7 @@ function App() {
           if(!draft[k].isOutput && !draft[k].out){
             draft[k].out = [];
           }
+          
         }
       })
       window.localStorage.setItem('originalNeurons', JSON.stringify(result.content));
@@ -487,10 +521,12 @@ function App() {
     setPBar(p => p + 1);
   }
   useEffect(() => {
+    var simu_speed = 3000 - (sld_value*55);
+    console.log("Simu speed", simu_speed);
     if (isPlaying) {
       var interval = setInterval(() => {
         onIntervalStepRef.current()
-      }, 3000) /// simulation speed
+      }, simu_speed) /// simulation speed
     }
     return () => clearInterval(interval);
   }, [isPlaying, onIntervalStepRef])
@@ -519,9 +555,22 @@ function App() {
     onBackward();
   }
 
+  function handleDelKey() {
+    console.log("Delete Key Pressed");
+    onBackward();
+  }
+
+  function handleBackspaceKey() {
+    console.log("Backspace Key Pressed");
+    onBackward();
+  }
+
   useKey("Space", handleSpace);
   useKey("ArrowLeft", handleLeftKey);
   useKey("ArrowRight", handleRightKey);
+  useKey("Delete", handleDelKey);
+  useKey("Backspace", handleBackspaceKey);
+  
   /// handle backspace key for deleting neurons/synapses
 
  
@@ -618,7 +667,7 @@ function App() {
                   <div style={{ textAlign: "center" }}>
                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <PlusSquare />{' '}Node Actions
+                        <PlusSquare />{' '}Node Actions Test
                     </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) */}
                       <Dropdown.Menu>
                         <Dropdown.Item id="new-node-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button></Dropdown.Item>
@@ -628,6 +677,12 @@ function App() {
                         <Dropdown.Item id="del-node-btn"><Button variant="link" size="sm" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button></Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
+                  </div>
+                  <br></br>
+                  {/* Slider */}
+                  <div style={{backgroundColor: "#786fa6", textAlign: "center", borderRadius: "10px", padding: "0.5em"}}>                    
+                    <h6 className="slider-title"><Sliders />{' '}Simulation Speed Slider</h6>
+                    <Slider aria-label="simuSpeed" color="secondary" min={-50} max={50} value={sld_value} onChange={handleSldChange} valueLabelDisplay="auto"/> 
                   </div>
                 </Col>
                 <Col style={{ textAlign: "right" }}><Button variant="danger" onClick={handleReset}>Restart Simulation</Button>{' '}</Col>
@@ -645,7 +700,7 @@ function App() {
               headless={headless} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
-              handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>\
+              handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>
             <AddSynapseWeightForm showAddWeightModal={showAddWeightModal}
               handleCloseAddWeightModal={handleCloseAddWeightModal}
               handleAddWeight={handleAddWeight}
@@ -693,26 +748,6 @@ function App() {
   );
 }
 
-const shortening = keyframes`
-  from {
-    transform: scaleX(100%);
-  }
-
-  to {
-    transform: scaleX(0%);
-  }
-`
-const ProgressBar = styled.div`
-  ${props =>
-    props.isPlaying &&
-    css`
-      animation: ${shortening} 3s linear; 
-    `}
-  background-color: #c44569;
-  height: 4px;
-  transform-origin: left center;
-  margin-bottom: 2px;
-`
 
 
 export default App;

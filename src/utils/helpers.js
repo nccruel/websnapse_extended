@@ -112,10 +112,11 @@ export const checkValidRule = (rule) =>{
 export const createEdge = (src,dst, weight, c) =>{
     return {
         data: {
-          id: src + '-' + dst,
+          id: src + '->' + dst,
           source: src,
           target: dst,
-          label: weight
+          label: weight,
+          title: "synapse weight"
         },
         classes: c
       };

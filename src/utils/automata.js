@@ -64,7 +64,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         for (var k in draft) {
             var neuron = draft[k];
             //choose rule to follow if not working on a rule currently
-            if (!neuron.currentRule && !neuron.isOutput &&!neuron.isInput) {
+            if (!neuron.currentRule && !neuron.isOutput && !neuron.isInput) {
                 delete draft[neuron.id].chosenRule;
                 delete draft[neuron.id].currentRule;
                 //pick a rule
@@ -104,7 +104,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             var neuron = draft[k];
             var neuronOutWeights = {...neuron.outWeights};
             //work on the rule
-            if (neuron.currentRule) {
+            if (neuron.currentRule && !neuronOutWeights.isInput) {
                 shouldEnd = false;
                 if (neuron.delay >= 0) {
                     let newDelay = neuron.delay.valueOf();
@@ -127,7 +127,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                                 k in spikeAdds ? spikeAdds[k] + produces : produces
                             
                             spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
-                            console.log("Sent spikes " + spikeAdds[k]);
+                            console.log("Sent spikes from " + k + ": " + spikeAdds[k]);
                         }
                     }
 

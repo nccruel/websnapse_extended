@@ -4,6 +4,21 @@
 .websnapse-title{
   color: #786fa6;
 }
+
+.slider-title{
+  color: #ffffff;
+}
+
+.MuiSlider-thumb{
+  color: white;
+}
+.MuiSlider-rail{
+  color:white;
+}
+.MuiSlider-track{
+  color:rgb(109, 6, 6);
+}
+
 .node-actions{
   text-transform: uppercase;
 
