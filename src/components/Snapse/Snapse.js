@@ -5,8 +5,7 @@ import { Button, Container } from 'react-bootstrap';
 import useAnimateEdges from './useAnimateEdges';
 import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
-import { AlignCenter } from 'react-bootstrap-icons';
-import { XSquareFill } from 'react-bootstrap-icons';
+import { AlignCenter, Trash } from 'react-bootstrap-icons';
 import Slider from '@mui/material/Slider';
 
 
@@ -92,7 +91,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
       height: "100%"
     }}>
       <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>
-      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><XSquareFill />{' '}Clear All</Button>
+      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}
         elements={CytoscapeComponent.normalizeElements(elements)}

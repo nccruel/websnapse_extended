@@ -5,7 +5,7 @@ import { slide as Menu } from 'react-burger-menu';
 import { useState, useEffect, useRef } from "react";
 import { useImmer } from "use-immer";
 import { Button, Container, Alert, Row, Col, Form, OverlayTrigger, Tooltip, Dropdown, DropdownButton } from 'react-bootstrap';
-import { PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar } from 'react-bootstrap-icons';
+import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar } from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components'
 import Snapse from "./components/Snapse/Snapse";
 import shortid from 'shortid';
@@ -26,6 +26,7 @@ import useUnsavedChanges from './components/useUnsavedChanges/useUnsavedChanges'
 import { original } from 'immer';
 import Tour from './components/Tour/Tour';
 var options = { compact: true, ignoreComment: true, spaces: 4, sanitize: false };
+var progBarRate = 3;
 
 function useKey(key, cb) {
   const isFocus = useRef(false);
@@ -125,7 +126,6 @@ function App() {
   const [time, setTime] = useState(0);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
-  const [progRate, setProgRate] = useState(3);
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
   // Modal Booleans
   const [showAddWeightModal, setShowAddWeightModal] = useState(false);
@@ -151,9 +151,9 @@ function App() {
     if (isPlaying){
       setIsPlaying(false);
     }
-    console.log("new val", newValue);
     setSldValue(newValue);
-  };
+  }
+  const handleSldOver = () => console.log("slide over");
   const handleClose = () => setShowNewNodeModal(false)
   const handleShow = () => setShowNewNodeModal(true)
   const handleCloseAddWeightModal = () => setShowAddWeightModal(false);
@@ -183,29 +183,6 @@ function App() {
 
   const handleShowChoiceHistoryModal = () => {setShowChoiceHistoryModal(true); setShowSideBarMenu(false);}
   const handleCloseHoiceHistoryModal = () => setShowChoiceHistoryModal(false);
-
-  const shortening = keyframes`
-    from {
-      transform: scaleX(100%);
-    }
-
-    to {
-      transform: scaleX(0%);
-    }
-  `
-
-  const ProgressBar = styled.div`
-    ${props =>
-      props.isPlaying &&
-      css`
-        animation: ${shortening} ${progRate}s linear; 
-      `}
-    background-color: #c44569;
-    height: 4px;
-    transform-origin: left center;
-    margin-bottom: 2px;
-  `
-
 
   const handleSimulationEnd = () => {
     setHasEnded(true);
@@ -529,7 +506,7 @@ function App() {
   }
   useEffect(() => {
     var simu_speed = 3000 - ((0.01*sld_value)*3000);
-    setProgRate(simu_speed/1000);
+    progBarRate = simu_speed/1000;
     console.log("Simu speed", simu_speed);
     if (isPlaying) {
       var interval = setInterval(() => {
@@ -683,6 +660,7 @@ function App() {
                     <Button variant="link" onClick={() => onForward()}><SkipForwardFill /></Button>{' '}
 
                   </div>
+                  
                   <div style={{ textAlign: "center" }}>
                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
@@ -697,13 +675,17 @@ function App() {
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <br></br>
-                  {/* Slider */}
-                  <div style={{backgroundColor: "#786fa6", textAlign: "center", borderRadius: "10px", padding: "0.5em"}}>                    
-                    <h6 className="slider-title"><Sliders />{' '}Simulation Speed</h6>
+      
+                </Col>
+                <Col style={{ textAlign: "right" }}>
+                  <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginBottom: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
+                  <div style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
+                    <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
+                      <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset</Button>{' '}
+                    </h6>
+                    
                     <Slider 
                       aria-label="simuSpeed"
-                      size="small"
                       color="secondary" 
                       min={-100} 
                       max={100} 
@@ -712,10 +694,9 @@ function App() {
                       valueLabelDisplay="auto"
                       valueLabelFormat={sliderThumbLabelFormat}
                     /> 
-                    <Button size="sm" variant="light" onClick={resetSlider}>Reset</Button>{' '}
+                    
                   </div>
                 </Col>
-                <Col style={{ textAlign: "right" }}><Button variant="danger" onClick={handleReset}>Restart Simulation</Button>{' '}</Col>
               </Row>
             </div>
             <hr />
@@ -778,6 +759,28 @@ function App() {
   );
 }
 
+const shortening = keyframes`
+from {
+  transform: scaleX(100%);
+}
+
+to {
+  transform: scaleX(0%);
+}
+`
+
+
+const ProgressBar = styled.div`
+${props =>
+  props.isPlaying &&
+  css`
+    animation: ${shortening} ${progBarRate}s linear; 
+  `}
+background-color: #c44569;
+height: 4px;
+transform-origin: left center;
+margin-bottom: 2px;
+`
 
 
 export default App;
