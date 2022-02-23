@@ -429,6 +429,13 @@ function App() {
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 
+  function resetSlider(){
+    if (isPlaying){
+      setIsPlaying(false);
+    }
+    setSldValue(0)
+  }
+
 
   function handlePlay() {
     if (!hasEnded) {
@@ -521,7 +528,8 @@ function App() {
     setPBar(p => p + 1);
   }
   useEffect(() => {
-    var simu_speed = 3000 - (sld_value*55);
+    var simu_speed = 3000 - ((0.01*sld_value)*3000);
+    setProgRate(simu_speed/1000);
     console.log("Simu speed", simu_speed);
     if (isPlaying) {
       var interval = setInterval(() => {
@@ -573,8 +581,19 @@ function App() {
   
   /// handle backspace key for deleting neurons/synapses
 
- 
+  function sliderThumbLabelFormat(value){
+    if (value > 0){
+      return `+${value}%`;
+    }
+    else if (value == 0){
+      return  `Default speed`;
+    }
 
+    else{
+      return `${value}%`;
+    }
+    
+  }
 
   return (
     <Router>
@@ -667,7 +686,7 @@ function App() {
                   <div style={{ textAlign: "center" }}>
                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <PlusSquare />{' '}Node Actions Test
+                        <PlusSquare />{' '}Node Actions
                     </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) */}
                       <Dropdown.Menu>
                         <Dropdown.Item id="new-node-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button></Dropdown.Item>
@@ -681,8 +700,19 @@ function App() {
                   <br></br>
                   {/* Slider */}
                   <div style={{backgroundColor: "#786fa6", textAlign: "center", borderRadius: "10px", padding: "0.5em"}}>                    
-                    <h6 className="slider-title"><Sliders />{' '}Simulation Speed Slider</h6>
-                    <Slider aria-label="simuSpeed" color="secondary" min={-50} max={50} value={sld_value} onChange={handleSldChange} valueLabelDisplay="auto"/> 
+                    <h6 className="slider-title"><Sliders />{' '}Simulation Speed</h6>
+                    <Slider 
+                      aria-label="simuSpeed"
+                      size="small"
+                      color="secondary" 
+                      min={-100} 
+                      max={100} 
+                      value={sld_value} 
+                      onChange={handleSldChange} 
+                      valueLabelDisplay="auto"
+                      valueLabelFormat={sliderThumbLabelFormat}
+                    /> 
+                    <Button size="sm" variant="light" onClick={resetSlider}>Reset</Button>{' '}
                   </div>
                 </Col>
                 <Col style={{ textAlign: "right" }}><Button variant="danger" onClick={handleReset}>Restart Simulation</Button>{' '}</Col>
