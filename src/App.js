@@ -314,25 +314,27 @@ function App() {
 
   async function handleDeleteSynapse(srcID, dstID, edgeArr) {
     await setNeurons(draft => {
-      for (var k in draft) {
-        console.log("K VALUE", k);
-        if (draft[k].id == srcID) {
+      var origoutArr = [...draft[srcID].out];
+      console.log("OLD OUT DETAILS ", origoutArr);
 
-          // remove dstID in out
-          let arr = draft[k].out.filter(function (item) {
-            return item !== dstID
-          });
-          draft[k].out = arr;
-          var outArr = {...draft[k].out};
-          console.log("NEURON DETAILS ", outArr);
-          
-          var weightsDict = {...draft[k].outWeights};
-          console.log("WEIGHTS DETAILS", weightsDict);
+      var weightsDict = {...draft[srcID].outWeights};
+      console.log("WEIGHTS DETAILS", weightsDict);               
 
-          // remove dstID in outWeights
-          delete draft[k].outWeights[dstID];
-        }
-      }
+      // remove dstID in out
+      let arr = draft[srcID].out.filter(function (item) {
+        return item !== dstID
+      });
+      draft[srcID].out = arr;      
+      
+      // remove dstID in outWeights
+      delete draft[srcID].outWeights[dstID];
+    
+      
+      var newoutArr = [...draft[srcID].out];
+      console.log("NEW OUT DETAILS ", newoutArr);
+  
+      var newweightsDict = {...draft[srcID].outWeights};
+      console.log("WEIGHTS DETAILS", newweightsDict);
 
       console.log("DELETED SYNAPSE");
     });
