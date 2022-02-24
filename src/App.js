@@ -124,6 +124,8 @@ function App() {
   const [srce, setSrce] = useState('');
   const [dest, setDest] = useState('');
   const [time, setTime] = useState(0);
+  const [isPressedDel, setIsPressedDel] = useState(false);
+  const [isClickedSynapse, setIsClickedSynapse] = useState(false);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
@@ -329,7 +331,6 @@ function App() {
       // remove dstID in outWeights
       delete draft[srcID].outWeights[dstID];
     
-      
       var newoutArr = [...draft[srcID].out];
       console.log("NEW OUT DETAILS ", newoutArr);
   
@@ -552,6 +553,19 @@ function App() {
     }
   }, [])
 
+  async function helperBackspaceDelete(srcID, dstID) {
+    // function is only called when synapse is clicked
+    //console.log("backspace should be false", isPressedDel);
+    //setIsClickedSynapse(true);
+    //console.log("backspace should be true", isPressedDel);
+    if (isPressedDel) {
+      handleDeleteSynapse(srcID, dstID);
+      await setIsPressedDel(false);
+    }
+    
+    console.log("Helper Done");
+  }
+
   // Key Bindings 
   function handleSpace() {
     console.log("Space Pressed");
@@ -577,7 +591,7 @@ function App() {
 
   function handleBackspaceKey() {
     console.log("Backspace Key Pressed");
-    onBackward();
+    setIsPressedDel(true);
   }
 
   useKey("Space", handleSpace);
@@ -738,6 +752,7 @@ function App() {
               }}
               handleChangePosition={handleNewPosition}
               handleDeleteSynapse={handleDeleteSynapse}
+              helperBackspaceDelete={helperBackspaceDelete}
               handleShowDeleteAll = {handleShowDeleteAll}
               headless={headless} />
             <ChoiceHistory time={time}

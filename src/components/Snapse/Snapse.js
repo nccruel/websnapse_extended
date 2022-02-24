@@ -9,7 +9,7 @@ import { AlignCenter, Trash } from 'react-bootstrap-icons';
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, handleDeleteSynapse, headless }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, handleDeleteSynapse, helperBackspaceDelete ,headless }) => {
   const [cyRef, setCy] = useAnimateEdges()
   const handleShow = () => {
     handleShowDeleteAll();
@@ -47,9 +47,11 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           
           const edgeArr = [srcID, dstID];
           console.log("Source & dest:", edgeArr);
-          handleDeleteSynapse(srcID, dstID, edgeArr);
+          //handleDeleteSynapse(srcID, dstID, edgeArr);
           // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
-          
+          //var input = document.getElementById('user_inp');
+          helperBackspaceDelete(srcID, dstID);
+          console.log("made it here");
         }) 
         cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
           console.log("Hover", ev.target.id());
