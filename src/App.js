@@ -309,7 +309,35 @@ function App() {
       } 
 
      
-    })  
+    });
+  }
+
+  async function handleDeleteSynapse(srcID, dstID, edgeArr) {
+    await setNeurons(draft => {
+      for (var k in draft) {
+        console.log("K VALUE", k);
+        if (draft[k].id == srcID) {
+
+          // remove dstID in out
+          let arr = draft[k].out.filter(function (item) {
+            return item !== dstID
+          });
+          draft[k].out = arr;
+          var outArr = {...draft[k].out};
+          console.log("NEURON DETAILS ", outArr);
+          
+          var weightsDict = {...draft[k].outWeights};
+          console.log("WEIGHTS DETAILS", weightsDict);
+
+          // remove dstID in outWeights
+          delete draft[k].outWeights[dstID];
+        }
+      }
+
+      console.log("DELETED SYNAPSE");
+    });
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 
   async function handleAddWeight(src, dst, weight) {
@@ -707,6 +735,7 @@ function App() {
                 addedEles.remove();
               }}
               handleChangePosition={handleNewPosition}
+              handleDeleteSynapse={handleDeleteSynapse}
               handleShowDeleteAll = {handleShowDeleteAll}
               headless={headless} />
             <ChoiceHistory time={time}
