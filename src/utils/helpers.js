@@ -143,6 +143,7 @@ export const convertElements = elements =>{
     var array = {
         nodes: [],
         edges:[],
+        edgeIDs: new Set(),
     }
     for (var k in elements) {
         var element = elements[k];
@@ -176,11 +177,13 @@ export const convertElements = elements =>{
                     for (let out of element.out) {
                       var newEdge = createEdge(element.id, element.out[i], (element.outWeights)[element.out[i]], ' edge--triggering');
                       array.edges.push(newEdge);
-                     
+                      array.edgeIDs.add(element.id + "->" + element.out[i]);
+        
                     }
                 }else{
                     var newEdges = createEdge(element.id, element.out[i], (element.outWeights)[element.out[i]], '');
                     array.edges.push(newEdges);
+                    array.edgeIDs.add(element.id + "->" + element.out[i]);
                 }
             }
         }

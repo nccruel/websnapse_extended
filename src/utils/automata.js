@@ -1,5 +1,5 @@
 import produce from 'immer'
-export function parseRule(rule) {
+export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
     const testRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
@@ -16,9 +16,11 @@ export function parseRule(rule) {
         //console.log(testRes);
         const [, requires, grouped, symbol, consumes, produces, delayStr] = testRes
         const delay = parseInt(delayStr, 10)
+        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': delayStr} );
         return [requires.length, grouped.length - 2, symbol, consumes.length, produces.length, delay];
     } else if (forgetRes) {
         const [, requires, grouped, symbol, consumes, produces, delayStr] = forgetRes;
+        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': delayStr} );
         return [requires.length, grouped.length - 2, symbol, consumes.length, 0, 0];
     }
 
@@ -71,7 +73,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 var rules = neuron.rules.split(' ');
                 var validRules = [];
                 for (var i = 0; i < rules.length; i++) {
-                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(rules[i]);
+                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(rules[i], k);
                     if (canUseRule(requires, grouped, symbol, neuron.spikes)) {
                         validRules.push(rules[i]);
                         shouldEnd = false;
@@ -80,11 +82,11 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 if (validRules.length == 1) {
                     draft[neuron.id].currentRule = validRules[0];
                     draft[neuron.id].chosenRule = validRules[0];
-                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(validRules[0]);
+                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(validRules[0], k);
                     draft[neuron.id].delay = delay
                 } else if (isRandom == true && validRules.length > 1) {
                     var randomIndex = Math.floor(Math.random() * (validRules.length))
-                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(validRules[randomIndex]);
+                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(validRules[randomIndex], k);
                     draft[neuron.id].currentRule = validRules[randomIndex];
                     draft[neuron.id].chosenRule = validRules[randomIndex];
                     draft[neuron.id].delay = delay
@@ -114,7 +116,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 console.log(neuron.delay)
                 if (neuron.delay < 0) {
                     //consume spikes
-                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(neuron.currentRule);
+                    var [requires, grouped, symbol, consumes, produces, delay] = parseRule(neuron.currentRule, k);
                     let newSpikes = neuron.spikes.valueOf();
                     newSpikes -= consumes;
                     draft[neuron.id].spikes = newSpikes;

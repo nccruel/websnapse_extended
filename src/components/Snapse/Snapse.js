@@ -9,7 +9,10 @@ import { AlignCenter, Trash } from 'react-bootstrap-icons';
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, handleDeleteSynapse, helperBackspaceDelete ,headless }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless }) => {
+
+  var isClickedSynapse = false;
+
   const [cyRef, setCy] = useAnimateEdges()
   const handleShow = () => {
     handleShowDeleteAll();
@@ -36,7 +39,8 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
         })
-        cy.on('mouseup', 'edge', (eve) => {
+        // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
+        cy.on('click', 'edge', (eve) => {
           // record edge ID
           const edgeID = eve.target.id();
           console.log("Edge ID:", edgeID);
@@ -46,18 +50,50 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           var dstID = temp_edgeArr[1];
           
           const edgeArr = [srcID, dstID];
-          console.log("Source & dest:", edgeArr);
-          //handleDeleteSynapse(srcID, dstID, edgeArr);
-          // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
-          //var input = document.getElementById('user_inp');
-          helperBackspaceDelete(srcID, dstID);
-          console.log("made it here");
-        }) 
-        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
-          console.log("Hover", ev.target.id());
+          // console.log("Source & dest:", edgeArr);
 
-        
+          isClickedSynapse = true;
+
+          //handleDeleteSynapse(srcID, dstID, edgeArr);
+          //var input = document.getElementById('user_inp');
+
+          setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+          console.log("ISCLICK", isClickedSynapse, srcID, dstID);
+          
+        }) 
+
+        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
+          // console.log("Hover", ev.target.id());
+
         })
+        cy.on('click', function(event){
+          // target holds a reference to the originator
+          // of the event (core or element)
+          var evtTarget = event.target;
+          var srcID = '.';
+          var dstID = '.';
+
+          if (evtTarget == cy){
+            console.log('tap on background');
+            isClickedSynapse = false;
+            console.log('EVT', cy);            
+            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+  
+          }
+          else{
+            var evtTargetID = event.target.id();
+            if(elements.edgeIDs.has(evtTargetID)){
+              console.log('tap on edge');
+            }
+            else {
+              console.log('tap on some element');
+              isClickedSynapse = false;
+              setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+              
+            }
+
+          }        
+        });
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",
@@ -96,6 +132,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
       <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}
+        wheelSensitivity={0.3}
         elements={CytoscapeComponent.normalizeElements(elements)}
         style={{
           width: "100%",

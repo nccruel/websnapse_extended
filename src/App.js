@@ -27,6 +27,9 @@ import { original } from 'immer';
 import Tour from './components/Tour/Tour';
 var options = { compact: true, ignoreComment: true, spaces: 4, sanitize: false };
 var progBarRate = 3;
+var isClickedSynapse = false;
+var srcDel = '';
+var dstDel = '';
 
 function useKey(key, cb) {
   const isFocus = useRef(false);
@@ -125,7 +128,6 @@ function App() {
   const [dest, setDest] = useState('');
   const [time, setTime] = useState(0);
   const [isPressedDel, setIsPressedDel] = useState(false);
-  const [isClickedSynapse, setIsClickedSynapse] = useState(false);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
@@ -314,22 +316,28 @@ function App() {
     });
   }
 
-  async function handleDeleteSynapse(srcID, dstID, edgeArr) {
+  async function handleDeleteSynapse(srcID, dstID) {
     await setNeurons(draft => {
       var origoutArr = [...draft[srcID].out];
       console.log("OLD OUT DETAILS ", origoutArr);
 
       var weightsDict = {...draft[srcID].outWeights};
-      console.log("WEIGHTS DETAILS", weightsDict);               
-
-      // remove dstID in out
-      let arr = draft[srcID].out.filter(function (item) {
-        return item !== dstID
-      });
-      draft[srcID].out = arr;      
+      console.log("WEIGHTS DETAILS", weightsDict);           
       
-      // remove dstID in outWeights
-      delete draft[srcID].outWeights[dstID];
+      if (weightsDict[dstID] > 1){
+        draft[srcID].outWeights[dstID] = weightsDict[dstID] - 1;
+      }
+
+      else{
+        // remove dstID in out
+        let arr = draft[srcID].out.filter(function (item) {
+          return item !== dstID
+        });
+        draft[srcID].out = arr;      
+        
+        // remove dstID in outWeights
+        delete draft[srcID].outWeights[dstID];
+      }
     
       var newoutArr = [...draft[srcID].out];
       console.log("NEW OUT DETAILS ", newoutArr);
@@ -435,6 +443,13 @@ function App() {
     setDirty(true);
     console.log("ALL DELETED", neurons);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
+  function setIsClickedSynapse(click_flag, srcID, dstID){
+    isClickedSynapse = click_flag;
+    srcDel = srcID;
+    dstDel = dstID;
+
   }
 
   function resetSlider(){
@@ -584,21 +599,22 @@ function App() {
     onBackward();
   }
 
-  function handleDelKey() {
-    console.log("Delete Key Pressed");
-    onBackward();
-  }
+  function handleDelBackspaceKey() {   
+    if (isClickedSynapse){
+      handleDeleteSynapse(srcDel, dstDel);
+    }
 
-  function handleBackspaceKey() {
-    console.log("Backspace Key Pressed");
-    setIsPressedDel(true);
+    else{
+      console.log("No edge clicked.");
+    }
+    console.log("Delete/Bspace Pressed");
   }
 
   useKey("Space", handleSpace);
   useKey("ArrowLeft", handleLeftKey);
   useKey("ArrowRight", handleRightKey);
-  useKey("Delete", handleDelKey);
-  useKey("Backspace", handleBackspaceKey);
+  useKey("Delete", handleDelBackspaceKey);
+  useKey("Backspace", handleDelBackspaceKey);
   
   /// handle backspace key for deleting neurons/synapses
 
@@ -752,7 +768,7 @@ function App() {
               }}
               handleChangePosition={handleNewPosition}
               handleDeleteSynapse={handleDeleteSynapse}
-              helperBackspaceDelete={helperBackspaceDelete}
+              setIsClickedSynapse={setIsClickedSynapse}
               handleShowDeleteAll = {handleShowDeleteAll}
               headless={headless} />
             <ChoiceHistory time={time}
