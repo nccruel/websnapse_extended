@@ -719,7 +719,7 @@ function App() {
                   <div style={{ textAlign: "center" }}>
                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <PlusSquare />{' '}Node Actions Test
+                        <PlusSquare />{' '}Node Actions 
                     </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) */}
                       <Dropdown.Menu>
                         <Dropdown.Item id="new-node-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button></Dropdown.Item>
