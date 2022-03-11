@@ -150,12 +150,14 @@ function App() {
   const [error, setError] = useState("");
   const [pBar, setPBar] = useState(0);
   const headless = process.env.NODE_ENV === 'test'
-  const [sld_value, setSldValue] = useState(0);
+  const [sld_value, setSldValue] = useState(1);
   const handleSldChange = (event, newValue) => {
     if (isPlaying){
       setIsPlaying(false);
     }
     setSldValue(newValue);
+    var sim_spd = 3000/newValue;
+    progBarRate = sim_spd/1000;
   }
   const handleSldOver = () => console.log("slide over");
   const handleClose = () => setShowNewNodeModal(false)
@@ -456,7 +458,7 @@ function App() {
     if (isPlaying){
       setIsPlaying(false);
     }
-    setSldValue(0)
+    setSldValue(1)
   }
 
 
@@ -551,7 +553,7 @@ function App() {
     setPBar(p => p + 1);
   }
   useEffect(() => {
-    var simu_speed = 3000 - ((0.01*sld_value)*3000);
+    var simu_speed = 3000/sld_value;
     progBarRate = simu_speed/1000;
     console.log("Simu speed", simu_speed);
     if (isPlaying) {
@@ -619,16 +621,9 @@ function App() {
   /// handle backspace key for deleting neurons/synapses
 
   function sliderThumbLabelFormat(value){
-    if (value > 0){
-      return `+${value}%`;
-    }
-    else if (value == 0){
-      return  `Default speed`;
-    }
-
-    else{
-      return `${value}%`;
-    }
+    
+      return `${value}x`;
+    
     
   }
 
@@ -741,14 +736,16 @@ function App() {
                   <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginBottom: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
                   <div style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
                     <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
-                      <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset</Button>{' '}
+                      <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}
                     </h6>
                     
                     <Slider 
                       aria-label="simuSpeed"
                       color="secondary" 
-                      min={-100} 
-                      max={100} 
+                      min={0.1} 
+                      max={3.0} 
+                      step={0.1}
+                      defaultValue={1}
                       value={sld_value} 
                       onChange={handleSldChange} 
                       valueLabelDisplay="auto"
