@@ -1,0 +1,77 @@
+<content>
+    <n1>
+        <id>n1</id>
+        <position>
+            <x>50</x>
+            <y>50</y>
+        </position>
+        <rules>a+/a-&gt;a;0</rules>
+        <startingSpikes>8</startingSpikes>
+        <delay>0</delay>
+        <spikes>8</spikes>
+        <isOutput>false</isOutput>
+        <out>n2</out>
+        <out>n5-4RzUmMqzL</out>
+    </n1>
+    <n2>
+        <id>n2</id>
+        <position>
+            <x>355.6666717529297</x>
+            <y>29.533340454101562</y>
+        </position>
+        <rules>aa/aa-&gt;a;0 a/a-&gt;0;0</rules>
+        <startingSpikes>0</startingSpikes>
+        <delay>0</delay>
+        <spikes>0</spikes>
+        <isOutput>false</isOutput>
+        <out>n4</out>
+        <out>n6-TEqaMSlVi</out>
+    </n2>
+    <n4>
+        <id>n4</id>
+        <position>
+            <x>649.6666717529297</x>
+            <y>67.53334045410156</y>
+        </position>
+        <isOutput>true</isOutput>
+        <spikes>0</spikes>
+        <bitstring> </bitstring>
+    </n4>
+    <n3-Ya7zAtdZO>
+        <id>n3-Ya7zAtdZO</id>
+        <position>
+            <x>69.66667175292969</x>
+            <y>280.53334045410156</y>
+        </position>
+        <rules>a+/a-&gt;a;0</rules>
+        <startingSpikes>5</startingSpikes>
+        <delay>0</delay>
+        <spikes>5</spikes>
+        <isOutput>false</isOutput>
+        <out>n5-4RzUmMqzL</out>
+        <out>n2</out>
+    </n3-Ya7zAtdZO>
+    <n5-4RzUmMqzL>
+        <id>n5-4RzUmMqzL</id>
+        <position>
+            <x>403.6666717529297</x>
+            <y>264.53334045410156</y>
+        </position>
+        <rules>aa/aa-&gt;0;0 a/a-&gt;a;0</rules>
+        <startingSpikes>0</startingSpikes>
+        <delay>0</delay>
+        <spikes>0</spikes>
+        <isOutput>false</isOutput>
+        <out>n6-TEqaMSlVi</out>
+    </n5-4RzUmMqzL>
+    <n6-TEqaMSlVi>
+        <id>n6-TEqaMSlVi</id>
+        <position>
+            <x>661.6666717529297</x>
+            <y>259.53334045410156</y>
+        </position>
+        <isOutput>true</isOutput>
+        <spikes>0</spikes>
+        <bitstring> </bitstring>
+    </n6-TEqaMSlVi>
+</content>

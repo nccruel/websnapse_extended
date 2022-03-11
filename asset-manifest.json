@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/websnapse_extended/static/css/main.15cceb8a.chunk.css",
+    "main.js": "/websnapse_extended/static/js/main.604cbbf1.chunk.js",
+    "main.js.map": "/websnapse_extended/static/js/main.604cbbf1.chunk.js.map",
+    "runtime-main.js": "/websnapse_extended/static/js/runtime-main.2f0f0d26.js",
+    "runtime-main.js.map": "/websnapse_extended/static/js/runtime-main.2f0f0d26.js.map",
+    "static/js/2.04dc7703.chunk.js": "/websnapse_extended/static/js/2.04dc7703.chunk.js",
+    "static/js/2.04dc7703.chunk.js.map": "/websnapse_extended/static/js/2.04dc7703.chunk.js.map",
+    "static/js/3.e97a85a3.chunk.js": "/websnapse_extended/static/js/3.e97a85a3.chunk.js",
+    "static/js/3.e97a85a3.chunk.js.map": "/websnapse_extended/static/js/3.e97a85a3.chunk.js.map",
+    "index.html": "/websnapse_extended/index.html",
+    "static/css/main.15cceb8a.chunk.css.map": "/websnapse_extended/static/css/main.15cceb8a.chunk.css.map",
+    "static/js/2.04dc7703.chunk.js.LICENSE.txt": "/websnapse_extended/static/js/2.04dc7703.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2f0f0d26.js",
+    "static/js/2.04dc7703.chunk.js",
+    "static/css/main.15cceb8a.chunk.css",
+    "static/js/main.604cbbf1.chunk.js"
+  ]
+}
