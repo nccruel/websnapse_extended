@@ -175,10 +175,10 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         }
         for (const k in spikeAdds) {
             //states[k].spikes -= spikeAdds[k]
-            let newSpikes = draft[k].spikes.valueOf();
+            let newSpikes = parseInt(draft[k].spikes.valueOf());
             newSpikes += spikeAdds[k];
 
-            console.log("NEWSPIKES", newSpikes);
+            console.log("NEWSPIKES:", newSpikes);
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
