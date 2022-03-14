@@ -177,6 +177,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             //states[k].spikes -= spikeAdds[k]
             let newSpikes = draft[k].spikes.valueOf();
             newSpikes += spikeAdds[k];
+
+            console.log("newSpikes", newSpikes);
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
