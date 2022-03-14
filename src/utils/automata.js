@@ -145,7 +145,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 if (neuron.out) {
                     const neuronOut_in = neuron.out;
                     for (let k of neuronOut_in) {    
-                        const bit = (neuron.bitstring)[time];
+                        var bit = parseInt((neuron.bitstring)[time]);
                         var spk = 0;
                         console.log("Bit", bit);
                         if (time < len){        // Check if bitstring length is less than time
@@ -154,13 +154,13 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                             newDelay--;
                             draft[neuron.id].delay = newDelay;                           
                            
-                            spk = parseInt(bit)*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
+                            spk = bit*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
                            
                         }
                         else{
                             draft[neuron.id].delay = 0;  
                         }                     
-                        spikeAdds[k] = spk;
+                        spikeAdds[k] = parseInt(spk);
                         console.log("Sent spikes from IN", spk);
                     }
                 }
@@ -178,7 +178,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             let newSpikes = draft[k].spikes.valueOf();
             newSpikes += spikeAdds[k];
 
-            console.log("newSpikes", newSpikes);
+            console.log("NEWSPIKES", newSpikes);
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
