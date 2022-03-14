@@ -75,10 +75,12 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 for (var i = 0; i < rules.length; i++) {
                     var [requires, grouped, symbol, consumes, produces, delay] = parseRule(rules[i], k);
                     if (canUseRule(requires, grouped, symbol, neuron.spikes)) {
+                        console.log("should end1", shouldEnd);
                         validRules.push(rules[i]);
                         shouldEnd = false;
                     }
                 }
+                console.log("should end2", shouldEnd);
                 if (validRules.length == 1) {
                     draft[neuron.id].currentRule = validRules[0];
                     draft[neuron.id].chosenRule = validRules[0];
@@ -106,7 +108,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             var neuron = draft[k];
             var neuronOutWeights = {...neuron.outWeights};
             //work on the rule
-            if (neuron.currentRule && !neuronOutWeights.isInput) {
+            if (neuron.currentRule) {
                 shouldEnd = false;
                 if (neuron.delay >= 0) {
                     let newDelay = neuron.delay.valueOf();
@@ -147,6 +149,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                         var spk = 0;
                         console.log("Bit", bit);
                         if (time < len){        // Check if bitstring length is less than time
+                            shouldEnd = false;
                             let newDelay = neuron.delay.valueOf();
                             newDelay--;
                             draft[neuron.id].delay = newDelay;                           
@@ -181,7 +184,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 draft[k].bitstring = newString;
             }
         }
-        //console.log("should end", shouldEnd);
+        console.log("should end", shouldEnd);
         if (shouldEnd) {
             handleSimulationEnd();
         }
