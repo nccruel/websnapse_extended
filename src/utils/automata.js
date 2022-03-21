@@ -12,8 +12,9 @@ export function parseRule(rule, id) {
       const delay = parseInt(delayStr, 10)
       return[requires.length, symbol, consumes.length, produces.length, delay];
     } */
-    if (testRes) {
-        //console.log(testRes);
+    if (testRes) {\
+        console.log("Test Res");
+        console.log(testRes);
         const [, requires, grouped, symbol, consumes, produces, delayStr] = testRes
         const delay = parseInt(delayStr, 10)
         console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': delayStr} );
