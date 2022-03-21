@@ -2,7 +2,7 @@ import produce from 'immer'
 export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
-    const testRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
+    const testRe = /(a+)([0-9]+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
     const res = re.exec(rule)
     const testRes = testRe.exec(rule);
     const forgetRes = forgetRe.exec(rule);
