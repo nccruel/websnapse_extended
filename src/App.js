@@ -175,6 +175,12 @@ function App() {
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
   const handleCloseChooseRuleModal = () => setShowChooseRuleModal(false);
+
+  const [mode,setMode]= useState('Pseudorandom Mode');
+  const handleSelect=(e)=>{
+    console.log(e);
+    setMode(e)
+  }
   // Menu Handles
   const handleShowDropdownBasic = () => setShowDropdownBasic(true);
   const handleCloseDropdownBasic = () => setShowDropdownBasic(false);
@@ -677,15 +683,25 @@ function App() {
                       <Form.Group id="formGridCheckbox">
                         <Row>
                           <Col sm={8}>
-                            <Form.Check type="checkbox"
+                          <DropdownButton id="simu-mode" title={"Simulation Mode: " + mode} onSelect={handleSelect}>
+                            <Dropdown.Item eventKey="Guided Mode" onClick={() => setIsRandom(false)} >Guided Mode</Dropdown.Item>
+                            <Dropdown.Item eventKey="Pseudorandom Mode" onClick={() => setIsRandom(true)}>Pseudorandom Mode</Dropdown.Item>
+                            
+                            
+                          </DropdownButton> 
+                       
+                             
+
+                          
+                            {/* <Form.Check type="checkbox"
                               label="Pseudorandom Mode"
                               defaultChecked={isRandom}
                               onChange={() => {
                                 setIsRandom(!isRandom)
-                              }} />
+                              }} /> */}
                           </Col>
 
-                          <Col sm={1} style={{ textAlign: "left" }}>
+                          {/* <Col sm={1} style={{ textAlign: "left" }}>
                             <OverlayTrigger
                               placement="right"
                               delay={{ show: 250, hide: 400 }}
@@ -693,7 +709,7 @@ function App() {
                             >
                               <QuestionCircle />
                             </OverlayTrigger>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Form.Group>
                     </Form>

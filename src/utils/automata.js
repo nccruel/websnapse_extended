@@ -2,7 +2,7 @@ import produce from 'immer'
 export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
-    const testRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
+    const testRe = /(a+)\(*(a*)\)*(\+*\**)\/(a+)->(a+);([0-9]+)/
     const res = re.exec(rule)
     const testRes = testRe.exec(rule);
     const forgetRes = forgetRe.exec(rule);
@@ -12,17 +12,16 @@ export function parseRule(rule, id) {
       const delay = parseInt(delayStr, 10)
       return[requires.length, symbol, consumes.length, produces.length, delay];
     } */
-    if (testRes) {\
+    if (testRes) {
         console.log("Test Res");
-        console.log(testRes);
         const [, requires, grouped, symbol, consumes, produces, delayStr] = testRes
         const delay = parseInt(delayStr, 10)
-        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': delayStr} );
-        return [requires.length, grouped.length - 2, symbol, consumes.length, produces.length, delay];
+        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
+        return [requires.length, grouped.length, symbol, consumes.length, produces.length, delay];
     } else if (forgetRes) {
         const [, requires, grouped, symbol, consumes, produces, delayStr] = forgetRes;
-        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': delayStr} );
-        return [requires.length, grouped.length - 2, symbol, consumes.length, 0, 0];
+        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
+        return [requires.length, grouped.length, symbol, consumes.length, 0, 0];
     }
 
 
