@@ -5,7 +5,7 @@ import { slide as Menu } from 'react-burger-menu';
 import { useState, useEffect, useRef } from "react";
 import { useImmer } from "use-immer";
 import { Button, Container, Alert, Row, Col, Form, OverlayTrigger, Tooltip, Dropdown, DropdownButton } from 'react-bootstrap';
-import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar } from 'react-bootstrap-icons';
+import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar, XCircle, PencilSquare, BoxArrowRight, BoxArrowInRight} from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components'
 import Snapse from "./components/Snapse/Snapse";
 import shortid from 'shortid';
@@ -791,11 +791,11 @@ function App() {
               </Row>
               <Row>
                 <Col sm={8}>
-                    <Button variant="link" size="sm" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button>
-                    <Button variant="link" size="sm" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button>
-                    <Button variant="link" size="sm" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} disabled={time > 0 ? true : false}>New Output Node</Button>
-                    <Button variant="link" size="sm" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} disabled={time > 0 ? true : false}>Edit</Button>
-                    <Button variant="link" size="sm" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button> 
+                    <Button variant="light" size="sm" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
+                    <Button variant="light" size="sm" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
+                    <Button variant="light" size="sm" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
+                    <Button variant="light" size="sm" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit</Button>
+                    <Button variant="light" size="sm" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button> 
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
                     <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
