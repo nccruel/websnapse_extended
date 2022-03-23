@@ -731,7 +731,7 @@ function App() {
 
                   </div>
                   
-                                    {/*<div style={{ textAlign: "center" }}>
+                  {/*<div style={{ textAlign: "center" }}>
                      <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
                         <PlusSquare />{' '}Node Actions 
@@ -791,11 +791,11 @@ function App() {
               </Row>
               <Row>
                 <Col sm={8}>
-                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button>
-                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button>
-                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewOutputModal} disabled={time > 0 ? true : false}>New Output Node</Button>
-                    <Button variant="link" size="sm" className="node-actions text-info" onClick={handleShowEditModal} disabled={time > 0 ? true : false}>Edit</Button>
-                    <Button variant="link" size="sm" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button> 
+                    <Button variant="link" size="sm" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button>
+                    <Button variant="link" size="sm" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button>
+                    <Button variant="link" size="sm" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} disabled={time > 0 ? true : false}>New Output Node</Button>
+                    <Button variant="link" size="sm" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} disabled={time > 0 ? true : false}>Edit</Button>
+                    <Button variant="link" size="sm" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button> 
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
                     <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}

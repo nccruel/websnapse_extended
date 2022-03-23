@@ -16,7 +16,7 @@ const TOUR_STEPS = [
       disableAnimation: true,
     }
   },
-  {
+  /*{
       target: "#dropdown-basic",
       title: "Node Actions",
       content: "Here we can find several actions you can do to create your SN P system.",
@@ -27,7 +27,7 @@ const TOUR_STEPS = [
       floaterProps: {
         disableAnimation: true,
       }
-  },
+  },*/
   {
     target:"#new-node-btn",
     title: "New Node",
