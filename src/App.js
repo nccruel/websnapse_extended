@@ -731,11 +731,11 @@ function App() {
 
                   </div>
                   
-                  <div style={{ textAlign: "center" }}>
-                    <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
+                                    {/*<div style={{ textAlign: "center" }}>
+                     <Dropdown show={showDropdownBasic} onClick={handleDropDownBasic}>
                       <Dropdown.Toggle id="dropdown-basic">
                         <PlusSquare />{' '}Node Actions 
-                    </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) */}
+                    </Dropdown.Toggle> {/* Handle row of buttons (convert text to icons) ///*}
                       <Dropdown.Menu>
                         <Dropdown.Item id="new-node-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button></Dropdown.Item>
                         <Dropdown.Item id="new-input-btn"><Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button></Dropdown.Item>
@@ -744,11 +744,11 @@ function App() {
                         <Dropdown.Item id="del-node-btn"><Button variant="link" size="sm" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button></Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
-                  </div>
+                  </div> */}
       
                 </Col>
                 <Col style={{ textAlign: "right" }}>
-                  <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginBottom: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
+                  {/*<Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginBottom: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
                   <div style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
                     <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
                       <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}
@@ -767,7 +767,38 @@ function App() {
                       valueLabelFormat={sliderThumbLabelFormat}
                     /> 
                     
+                </div>*/}
+                  <div style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
+                      <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
+                        <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}
+                      </h6>
+                      
+                      <Slider 
+                        aria-label="simuSpeed"
+                        color="secondary" 
+                        min={0.1} 
+                        max={3.0} 
+                        step={0.1}
+                        defaultValue={1}
+                        value={sld_value} 
+                        onChange={handleSldChange} 
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={sliderThumbLabelFormat}
+                      /> 
+                      
                   </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm={8}>
+                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShow} disabled={time > 0 ? true : false}>New Node</Button>
+                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewInputModal} disabled={time > 0 ? true : false}>New Input Node</Button>
+                    <Button variant="link" size="sm" className="node-actions text-primary" onClick={handleShowNewOutputModal} disabled={time > 0 ? true : false}>New Output Node</Button>
+                    <Button variant="link" size="sm" className="node-actions text-info" onClick={handleShowEditModal} disabled={time > 0 ? true : false}>Edit</Button>
+                    <Button variant="link" size="sm" className="node-actions text-danger" onClick={handleShowDeleteModal} disabled={time > 0 ? true : false}>Delete</Button> 
+                </Col>
+                <Col sm={4} style={{ textAlign: "right" }}>
+                    <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
                 </Col>
               </Row>
             </div>
