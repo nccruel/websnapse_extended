@@ -176,7 +176,7 @@ function App() {
   const handleShowDeleteModal = () => setShowDeleteModal(true);
   const handleCloseChooseRuleModal = () => setShowChooseRuleModal(false);
 
-  const [mode,setMode]= useState('Pseudorandom Mode');
+  const [mode,setMode]= useState('PSEUDORANDOM MODE');
   const handleSelect=(e)=>{
     console.log(e);
     setMode(e)
@@ -479,7 +479,7 @@ function App() {
   }
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      Pseudorandom will allow the system to decide which rule will be executed. Unchecking it will let you decide.
+      Pseudorandom mode will allow the system to decide which rule will be executed. Guided mode will let you be the one to decide.
     </Tooltip>
   );
   const handleReset = () => {
@@ -683,14 +683,13 @@ function App() {
                       <Form.Group id="formGridCheckbox">
                         <Row>
                           <Col sm={8}>
-                          <DropdownButton id="simu-mode" title={"Simulation Mode: " + mode} onSelect={handleSelect}>
-                            <Dropdown.Item eventKey="Guided Mode" onClick={() => setIsRandom(false)} >Guided Mode</Dropdown.Item>
-                            <Dropdown.Item eventKey="Pseudorandom Mode" onClick={() => setIsRandom(true)}>Pseudorandom Mode</Dropdown.Item>
-                            
-                            
-                          </DropdownButton> 
-                       
-                             
+                          <div>
+                            <DropdownButton id="simu-mode" title={"Simulation Mode: " + mode} onSelect={handleSelect}>
+                              <Dropdown.Item eventKey="GUIDED MODE" onClick={() => setIsRandom(false)} >GUIDED MODE</Dropdown.Item>
+                              <Dropdown.Item eventKey="PSEUDORANDOM MODE" onClick={() => setIsRandom(true)}>PSEUDORANDOM MODE</Dropdown.Item>
+                            </DropdownButton>
+                          </div>
+                          
 
                           
                             {/* <Form.Check type="checkbox"
@@ -701,7 +700,7 @@ function App() {
                               }} /> */}
                           </Col>
 
-                          {/* <Col sm={1} style={{ textAlign: "left" }}>
+                          <Col sm={8} style={{ textAlign: "left" }}>
                             <OverlayTrigger
                               placement="right"
                               delay={{ show: 250, hide: 400 }}
@@ -709,7 +708,7 @@ function App() {
                             >
                               <QuestionCircle />
                             </OverlayTrigger>
-                          </Col> */}
+                          </Col>
                         </Row>
                       </Form.Group>
                     </Form>

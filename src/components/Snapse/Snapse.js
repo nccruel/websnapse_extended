@@ -10,6 +10,7 @@ import Slider from '@mui/material/Slider';
 
 
 const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless }) => {
+  
 
   var isClickedSynapse = false;
 
@@ -20,7 +21,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
   function handleCenterGraph() {
     const cy = cyRef.current;
+    
     if (cy) {
+      
       cy.center();
       cy.fit();
       cy.zoom({
@@ -83,8 +86,28 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           else{
             var evtTargetID = event.target.id();
             if(elements.edgeIDs.has(evtTargetID)){
-              console.log('tap on edge');
+              console.log('tap on EDGE');
+              // record edge ID
+              const edgeID = evtTargetID;
+              console.log("Edge ID:", edgeID);
+              var temp_edgeArr = edgeID.split("->");         
+
+              var srcID = temp_edgeArr[0];
+              var dstID = temp_edgeArr[1];
+              
+              const edgeArr = [srcID, dstID];
+              // console.log("Source & dest:", edgeArr);
+
+              isClickedSynapse = true;
+
+              //handleDeleteSynapse(srcID, dstID, edgeArr);
+              //var input = document.getElementById('user_inp');
+
+              setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+              console.log("ISCLICK", isClickedSynapse, srcID, dstID);
             }
+
+
             else {
               console.log('tap on some element');
               isClickedSynapse = false;
@@ -94,6 +117,11 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
           }        
         });
+
+      //   cy.nodeEditing({         
+      //     resizeToContentFunction: undefined,
+          
+      //  });
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",
