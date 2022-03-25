@@ -116,12 +116,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
             }
 
           }        
-        });
-
-      //   cy.nodeEditing({         
-      //     resizeToContentFunction: undefined,
-          
-      //  });
+        })
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",
@@ -139,7 +134,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
             //return sourceNode.edgesTo(targetNode).empty() ? 'flat' : undefined
           },
           complete: onEdgeCreate
-        })
+        });
         
         // cy.elements().unbind('mouseover');
         // cy.elements().bind('mouseover', (event) => event.target.id.show());
