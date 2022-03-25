@@ -791,11 +791,11 @@ function App() {
               </Row>
               <Row>
                 <Col sm={8}>
-                    <Button variant="light" size="lg" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
-                    <Button variant="light" size="lg" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
-                    <Button variant="light" size="lg" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
-                    <Button variant="light" size="lg" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit</Button>
-                    <Button variant="light" size="lg" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button> 
+                    <Button variant="outline-dark" size="md" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
+                    <Button variant="outline-dark" size="md" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
+                    <Button variant="outline-dark" size="md" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
+                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit</Button>
+                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button> 
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
                     <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
