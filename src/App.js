@@ -176,7 +176,7 @@ function App() {
   const handleShowDeleteModal = () => setShowDeleteModal(true);
   const handleCloseChooseRuleModal = () => setShowChooseRuleModal(false);
 
-  const [mode,setMode]= useState('PSEUDORANDOM MODE');
+  const [mode,setMode]= useState('PSEUDORANDOM');
   const handleSelect=(e)=>{
     console.log(e);
     setMode(e)
@@ -685,8 +685,8 @@ function App() {
                           <Col sm={8}>
                           <div>
                             <DropdownButton id="simu-mode" title={"Simulation Mode: " + mode} onSelect={handleSelect}>
-                              <Dropdown.Item eventKey="GUIDED MODE" onClick={() => setIsRandom(false)} >GUIDED MODE</Dropdown.Item>
-                              <Dropdown.Item eventKey="PSEUDORANDOM MODE" onClick={() => setIsRandom(true)}>PSEUDORANDOM MODE</Dropdown.Item>
+                              <Dropdown.Item eventKey="GUIDED" onClick={() => setIsRandom(false)} >GUIDED</Dropdown.Item>
+                              <Dropdown.Item eventKey="PSEUDORANDOM" onClick={() => setIsRandom(true)}>PSEUDORANDOM</Dropdown.Item>
                             </DropdownButton>
                           </div>
                           
