@@ -1,9 +1,12 @@
 import produce from 'immer'
 export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
-    const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
-    const testRe = /(a+)\(*(a*)\)*(\+*\**)\/(a+)->(a+);([0-9]+)/
-    const res = re.exec(rule)
+    // const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
+    const forgetRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
+
+    // const testRe = /(a+)\(*(a*)\)*(\+*\**)\/(a+)->(a+);([0-9]+)/
+    const testRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/
+    const res = re.exec(rule);
     const testRes = testRe.exec(rule);
     const forgetRes = forgetRe.exec(rule);
 
@@ -16,12 +19,42 @@ export function parseRule(rule, id) {
         console.log("Test Res");
         const [, requires, grouped, symbol, consumes, produces, delayStr] = testRes
         const delay = parseInt(delayStr, 10)
+
+        if (requires == null){
+            requires = 1;
+        }
+        else if (grouped == null){
+            grouped = 1;
+        }
+
+        else if (consumes == null){
+            consumes = 1;
+        }
+        else if (produces == null){
+            produces = 1;
+        }
+
         console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
-        return [requires.length, grouped.length, symbol, consumes.length, produces.length, delay];
+
+        return [parseInt(requires), parseInt(grouped), symbol, parseInt(consumes), parseInt(produces), delay];
     } else if (forgetRes) {
         const [, requires, grouped, symbol, consumes, produces, delayStr] = forgetRes;
+        if (requires == null){
+            requires = 1;
+        }
+        else if (grouped == null){
+            grouped = 1;
+        }
+
+        else if (consumes == null){
+            consumes = 1;
+        }
+        else if (produces == null){
+            produces = 1;
+        }
+        
         console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
-        return [requires.length, grouped.length, symbol, consumes.length, 0, 0];
+        return [parseInt(requires), parseInt(grouped), symbol, parseInt(consumes), 0, 0];
     }
 
 
