@@ -10,8 +10,13 @@
         <delay>0</delay>
         <spikes>8</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2</out>
         <out>n5-4RzUmMqzL</out>
+        <outWeights>
+            <n2>1</n2>
+            <n5-4RzUmMqzL>1</n5-4RzUmMqzL>
+        </outWeights>
     </n1>
     <n2>
         <id>n2</id>
@@ -24,8 +29,13 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n4</out>
         <out>n6-TEqaMSlVi</out>
+        <outWeights>
+            <n4>1</n4>
+            <n6-TEqaMSlVi>1</n6-TEqaMSlVi>
+        </outWeights>
     </n2>
     <n4>
         <id>n4</id>
@@ -34,6 +44,7 @@
             <y>67.53334045410156</y>
         </position>
         <isOutput>true</isOutput>
+        <isInput>false</isInput>
         <spikes>0</spikes>
         <bitstring> </bitstring>
     </n4>
@@ -48,8 +59,13 @@
         <delay>0</delay>
         <spikes>5</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n5-4RzUmMqzL</out>
         <out>n2</out>
+        <outWeights>
+            <n5-4RzUmMqzL>1</n5-4RzUmMqzL>
+            <n2>1</n2>
+        </outWeights>
     </n3-Ya7zAtdZO>
     <n5-4RzUmMqzL>
         <id>n5-4RzUmMqzL</id>
@@ -62,7 +78,11 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n6-TEqaMSlVi</out>
+        <outWeights>
+            <n6-TEqaMSlVi>1</n6-TEqaMSlVi>
+        </outWeights>
     </n5-4RzUmMqzL>
     <n6-TEqaMSlVi>
         <id>n6-TEqaMSlVi</id>
@@ -71,6 +91,7 @@
             <y>259.53334045410156</y>
         </position>
         <isOutput>true</isOutput>
+        <isInput>false</isInput>
         <spikes>0</spikes>
         <bitstring> </bitstring>
     </n6-TEqaMSlVi>

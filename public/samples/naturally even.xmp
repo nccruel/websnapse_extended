@@ -10,7 +10,11 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2</out>
+        <outWeights>
+            <n2>1</n2>
+        </outWeights>
     </n1>
     <n2>
         <id>n2</id>
@@ -23,10 +27,17 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n3</out>
         <out>n1</out>
         <out>OU_Se5nmr</out>
         <out>ghsld1QG1</out>
+        <outWeights>
+            <n3>1</n3>
+            <n1>1</n1>
+            <OU_Se5nmr>1</OU_Se5nmr>
+            <ghsld1QG1>1</ghsld1QG1>
+        </outWeights>
     </n2>
     <n3>
         <id>n3</id>
@@ -39,7 +50,11 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n4</out>
+        <outWeights>
+            <n4>1</n4>
+        </outWeights>
     </n3>
     <n4>
         <id>n4</id>
@@ -48,6 +63,7 @@
             <y>272.2718783784972</y>
         </position>
         <isOutput>true</isOutput>
+        <isInput>false</isInput>
         <spikes>0</spikes>
         <bitstring> </bitstring>
     </n4>
@@ -62,7 +78,11 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>mfmDlx8Ls</out>
+        <outWeights>
+            <mfmDlx8Ls>1</mfmDlx8Ls>
+        </outWeights>
     </OU_Se5nmr>
     <mfmDlx8Ls>
         <id>mfmDlx8Ls</id>
@@ -75,9 +95,15 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n3</out>
         <out>n1</out>
         <out>OU_Se5nmr</out>
+        <outWeights>
+            <n3>1</n3>
+            <n1>1</n1>
+            <OU_Se5nmr>1</OU_Se5nmr>
+        </outWeights>
     </mfmDlx8Ls>
     <rNZ8WUWST>
         <id>rNZ8WUWST</id>
@@ -90,8 +116,13 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n3</out>
         <out>ghsld1QG1</out>
+        <outWeights>
+            <n3>1</n3>
+            <ghsld1QG1>1</ghsld1QG1>
+        </outWeights>
     </rNZ8WUWST>
     <ghsld1QG1>
         <id>ghsld1QG1</id>
@@ -104,6 +135,10 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>rNZ8WUWST</out>
+        <outWeights>
+            <rNZ8WUWST>1</rNZ8WUWST>
+        </outWeights>
     </ghsld1QG1>
 </content>

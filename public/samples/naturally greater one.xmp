@@ -10,8 +10,13 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2</out>
         <out>n3-nm2MDs9Nh</out>
+        <outWeights>
+            <n2>1</n2>
+            <n3-nm2MDs9Nh>1</n3-nm2MDs9Nh>
+        </outWeights>
     </n1>
     <n2>
         <id>n2</id>
@@ -24,7 +29,11 @@
         <delay>0</delay>
         <spikes>3</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n4</out>
+        <outWeights>
+            <n4>1</n4>
+        </outWeights>
     </n2>
     <n4>
         <id>n4</id>
@@ -33,6 +42,7 @@
             <y>132.53334045410156</y>
         </position>
         <isOutput>true</isOutput>
+        <isInput>false</isInput>
         <spikes>0</spikes>
         <bitstring> </bitstring>
     </n4>
@@ -47,7 +57,12 @@
         <delay>0</delay>
         <spikes>1</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2</out>
         <out>n1</out>
+        <outWeights>
+            <n2>1</n2>
+            <n1>1</n1>
+        </outWeights>
     </n3-nm2MDs9Nh>
 </content>

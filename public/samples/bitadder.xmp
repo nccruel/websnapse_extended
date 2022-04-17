@@ -6,6 +6,7 @@
             <y>219.56093942404686</y>
         </position>
         <isOutput>true</isOutput>
+        <isInput>false</isInput>
         <spikes>0</spikes>
         <bitstring> </bitstring>
     </n4>
@@ -20,7 +21,11 @@
         <delay>0</delay>
         <spikes>2</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2-Tx5pOCJeb</out>
+        <outWeights>
+            <n2-Tx5pOCJeb>1</n2-Tx5pOCJeb>
+        </outWeights>
     </n0-phVoNyY4r>
     <n1-ItXCNFOva>
         <id>n1-ItXCNFOva</id>
@@ -33,7 +38,11 @@
         <delay>0</delay>
         <spikes>3</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n2-Tx5pOCJeb</out>
+        <outWeights>
+            <n2-Tx5pOCJeb>1</n2-Tx5pOCJeb>
+        </outWeights>
     </n1-ItXCNFOva>
     <n2-Tx5pOCJeb>
         <id>n2-Tx5pOCJeb</id>
@@ -46,6 +55,10 @@
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
+        <isInput>false</isInput>
         <out>n4</out>
+        <outWeights>
+            <n4>1</n4>
+        </outWeights>
     </n2-Tx5pOCJeb>
 </content>
