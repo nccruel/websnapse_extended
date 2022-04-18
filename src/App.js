@@ -660,11 +660,11 @@ function App() {
               </div>
               <div>
                 <DropdownButton id="file-dropdown" title="Download samples">
-                  <Dropdown.Item href="./samples/3k+3 spiker.xmp" download>3k+3 Spiker</Dropdown.Item>
-                  <Dropdown.Item href="./samples/bitadder.xmp" download>Bitadder</Dropdown.Item>
-                  <Dropdown.Item href="./samples/increasing comparator.xmp" download>Increasing Comparator</Dropdown.Item>
-                  <Dropdown.Item href="./samples/naturally even.xmp" download>Naturally Even</Dropdown.Item>
-                  <Dropdown.Item href="./samples/naturally greater one.xmp" download>Naturally Greater One</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex1 - 3k+3 spiker.xmp" download>Ex1 - 3k+3 Spiker</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex2 - bitadder.xmp" download>Ex2 - Bitadder</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex3 - increasing comparator.xmp" download>Ex3 - Increasing Comparator</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex4 - naturally even.xmp" download>Ex4 - Naturally Even</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex5 - naturally greater one.xmp" download>Ex5 - Naturally Greater One</Dropdown.Item>
                 </DropdownButton>
               </div>
               <div>
