@@ -90,6 +90,7 @@ function App() {
       delay: 0,
       spikes: 1,
       isOutput: false,
+      isInput: false,
       out: ['n2'],
       outWeights: {'n2': 1}
     },
@@ -101,6 +102,7 @@ function App() {
       delay: 0,
       spikes: 0,
       isOutput: false,
+      isInput: false,
       out: ['n3'],
       outWeights: {'n3': 1}
     },
@@ -112,6 +114,7 @@ function App() {
       delay: 0,
       spikes: 1,
       isOutput: false,
+      isInput: false,
       out: ["n4"],
       outWeights: {'n4': 1}
     },
@@ -119,6 +122,7 @@ function App() {
       id: "n4",
       position: { x: 400, y: 200 },
       isOutput: true,
+      isInput: false,
       spikes: 0,
       bitstring: ' '
     }
@@ -296,7 +300,7 @@ function App() {
     });
     reader.readAsText(file);
     setTime(0);
-  }
+  } 
  
   /// add weight argument
   /// make array of objects (neuron ID, weight)
@@ -451,6 +455,29 @@ function App() {
     setDirty(true);
     console.log("ALL DELETED", neurons);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
+  async function handleHoverDetails(neuronID) {
+    console.log("HOVERED NEURON IS", neuronID);
+    await setNeurons(draft => {
+      var neuron = draft[neuronID];
+
+      // details differ by neuron type
+  
+      if (!neuron.isOutput && !neuron.isInput) {
+        // regular neuron
+        console.log("REGULAR NEURON");
+        console.log("Spiking rules are:")
+      }
+      else if (neuron.isOutput) {
+        // output neuron
+        console.log("OUTPUT NEURON");
+      }
+      else if (neuron.isInput) {
+        // input neuron
+        console.log("INPUT NEURON");
+      }
+    })
   }
 
   function setIsClickedSynapse(click_flag, srcID, dstID){
@@ -813,6 +840,7 @@ function App() {
               handleDeleteSynapse={handleDeleteSynapse}
               setIsClickedSynapse={setIsClickedSynapse}
               handleShowDeleteAll = {handleShowDeleteAll}
+              handleHoverDetails={handleHoverDetails}
               headless={headless} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}

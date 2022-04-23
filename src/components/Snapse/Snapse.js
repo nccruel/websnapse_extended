@@ -9,7 +9,7 @@ import { AlignCenter, Trash } from 'react-bootstrap-icons';
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, handleHoverDetails, headless }) => {
   
 
   var isClickedSynapse = false;
@@ -65,10 +65,15 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           
         }) 
 
-        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
-          // console.log("Hover", ev.target.id());
+        /*cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
+          console.log("Hover", ev.target.id());
+        })*/
 
+        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input', (ev) => {
+          console.log("Hover", ev.target.id());
+          handleHoverDetails(ev.target.id());
         })
+
         cy.on('click', function(event){
           // target holds a reference to the originator
           // of the event (core or element)
