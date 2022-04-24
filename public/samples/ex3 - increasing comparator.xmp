@@ -24,7 +24,7 @@
             <x>355.6666717529297</x>
             <y>29.533340454101562</y>
         </position>
-        <rules>aa/aa-&gt;a;0 a/a-&gt;0;0</rules>
+        <rules>2a/2a-&gt;a;0 a/a-&gt;0;0</rules>
         <startingSpikes>0</startingSpikes>
         <delay>0</delay>
         <spikes>0</spikes>
@@ -73,7 +73,7 @@
             <x>403.6666717529297</x>
             <y>264.53334045410156</y>
         </position>
-        <rules>aa/aa-&gt;0;0 a/a-&gt;a;0</rules>
+        <rules>2a/2a-&gt;0;0 a/a-&gt;a;0</rules>
         <startingSpikes>0</startingSpikes>
         <delay>0</delay>
         <spikes>0</spikes>

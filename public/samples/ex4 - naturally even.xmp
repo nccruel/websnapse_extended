@@ -5,7 +5,7 @@
             <x>841.5196307950986</x>
             <y>57.75994302775559</y>
         </position>
-        <rules>aa/aa-&gt;a;0 a/a-&gt;0;0</rules>
+        <rules>2a/2a-&gt;a;0 a/a-&gt;0;0</rules>
         <startingSpikes>2</startingSpikes>
         <delay>0</delay>
         <spikes>2</spikes>
@@ -45,7 +45,7 @@
             <x>289.7729270385199</x>
             <y>318.30699757947326</y>
         </position>
-        <rules>aa/aa-&gt;a;0 aaa/aaa-&gt;0;0</rules>
+        <rules>2a/2a-&gt;a;0 3a/3a-&gt;0;0</rules>
         <startingSpikes>2</startingSpikes>
         <delay>0</delay>
         <spikes>2</spikes>
@@ -73,7 +73,7 @@
             <x>835.7722692976342</x>
             <y>318.30699757947326</y>
         </position>
-        <rules>aa/aa-&gt;a;0 a/a-&gt;0;0</rules>
+        <rules>2a/2a-&gt;a;0 a/a-&gt;0;0</rules>
         <startingSpikes>2</startingSpikes>
         <delay>0</delay>
         <spikes>2</spikes>
@@ -130,7 +130,7 @@
             <x>868.340651116599</x>
             <y>529.0435858198332</y>
         </position>
-        <rules>aa/aa-&gt;a;0 a/a-&gt;0;0</rules>
+        <rules>2a/2a-&gt;a;0 a/a-&gt;0;0</rules>
         <startingSpikes>2</startingSpikes>
         <delay>0</delay>
         <spikes>2</spikes>
