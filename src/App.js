@@ -16,6 +16,7 @@ import AddSynapseWeightForm from './components/forms/AddSynapseWeightForm';
 import NewOutputNodeForm from './components/forms/NewOutputNodeForm';
 import NewInputNodeForm from './components/forms/NewInputNodeForm';
 import EditNodeForm from './components/forms/EditNodeForm';
+import EditInputNodeForm from './components/forms/EditInputNodeForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
 import DeleteAllForm from './components/forms/DeleteAllForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
@@ -142,6 +143,7 @@ function App() {
   const [showNewInputModal, setShowNewInputModal] = useState(false);
   const [showChooseRuleModal, setShowChooseRuleModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditInputModal, setShowEditInputModal] = useState(false);
   const [showChoiceHistoryModal, setShowChoiceHistoryModal] = useState(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -173,6 +175,8 @@ function App() {
   const handleCloseNewInputModal = () => setShowNewInputModal(false);
   const handleShowNewInputModal = () => setShowNewInputModal(true);
   const handleCloseEditModal = () => setShowEditModal(false);
+  const handleShowEditInputModal = () => setShowEditInputModal(true);
+  const handleCloseEditInputModal = () => setShowEditInputModal(false);
   const handleShowEditModal = () => setShowEditModal(true);
   const handleCloseDeleteAllModal = () => setShowDeleteAllModal(false);
   const handleShowDeleteAllModal = () => setShowDeleteAllModal(true);
@@ -304,26 +308,28 @@ function App() {
  
   /// add weight argument
   /// make array of objects (neuron ID, weight)
-  const onEdgeCreate = async (src, dst) => {
+  const onEdgeCreate = (src, dst) => {
     setSrce(src); // srce = src
     setDest(dst); // dest = dst
     console.log("newEdge", src, dst);
-    await setNeurons(draft => {
+    
+    setNeurons(draft => {
       var outCopy = [...draft[src].out];
       var weightsDict = {...draft[src].outWeights};
       var currWeight = weightsDict[dst];
 
       if (outCopy.includes(dst)){
-        handleAddWeight(src, dst, currWeight + 1);
+        handleAddWeight(src, dst, currWeight + 1, 1);
       }
       
       else{
         handleShowAddWeightModal();
-        outCopy.push(dst)
-        console.log(outCopy);
-        draft[src].out = outCopy;
+        // outCopy.push(dst)
+        // console.log(outCopy);
+        // draft[src].out = outCopy;
       } 
 
+      window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
      
     });
   }
@@ -363,12 +369,19 @@ function App() {
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 
-  async function handleAddWeight(src, dst, weight) {
+  async function handleAddWeight(src, dst, weight, flag) {
     await setNeurons(draft => {
       var weightsDict = {...draft[src].outWeights};
       weightsDict[dst] = weight;
       draft[src].outWeights = weightsDict;
       console.log("WEIGHTS", weightsDict);
+
+      if (flag == 0){
+        console.log("FLAG IS ZERO");
+        var outCopy = [...draft[src].out];
+        outCopy.push(dst)
+        draft[src].out = outCopy;
+      }
 
     });
     setSrce('');
@@ -422,6 +435,16 @@ function App() {
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
+
+  async function handleEditInputNode(id,bitstring) {
+    //console.log("handleEditNode")
+    await setNeurons(draft => {      
+      draft[id].bitstring = bitstring;
+    });
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
   /// list all neurons connected to a neuron (delete ID to delete connected synapse)
   async function handleDeleteNode(neuronId) {
     console.log("handleDeleteNode", neuronId);
@@ -821,7 +844,8 @@ function App() {
                     <Button variant="outline-dark" size="md" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
                     <Button variant="outline-dark" size="md" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
                     <Button variant="outline-dark" size="md" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
-                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-info" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit</Button>
+                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Regular Node</Button>
+                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Input Node</Button>
                     <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button> 
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
@@ -866,6 +890,11 @@ function App() {
             <EditNodeForm showEditModal={showEditModal}
               handleCloseEditModal={handleCloseEditModal}
               handleEditNode={handleEditNode}
+              handleError={showError}
+              neurons={neurons} />
+            <EditInputNodeForm showEditInputModal={showEditInputModal}
+              handleCloseEditInputModal={handleCloseEditInputModal}
+              handleEditInputNode={handleEditInputNode}
               handleError={showError}
               neurons={neurons} />
             <DeleteAllForm showDeleteAllModal={showDeleteAllModal}

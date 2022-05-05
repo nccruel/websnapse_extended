@@ -3,6 +3,7 @@ import { useEffect, useReducer, useState } from 'react';
 import { allRulesValid } from "../../utils/helpers";
 
 const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, handleError, neurons }) => {
+    const [isInputNeuron, setIsInputNeuron] = useState('');
     const [neuronId, setNeuronId] = useState('');
     const [rules, setRules] = useState('');
     const [startingSpikes, setStartingSpikes] = useState(0);
@@ -18,7 +19,7 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
     }, []);
     function firstUpdate() {
         var filteredObject = Object.keys(neurons).reduce(function (r, e) {
-            if (!neurons[e].isOutput) r[e] = neurons[e];
+            if (!neurons[e].isOutput && !neurons[e].isInput) r[e] = neurons[e];
             return r;
         }, {});
         //var keys = Object.keys(filteredObject);
@@ -27,7 +28,8 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
         //setStartingSpikes(filteredObject[keys[0]].startingSpikes);
     }
     var filteredObject = Object.keys(neurons).reduce(function (r, e) {
-        if (!neurons[e].isOutput) r[e] = neurons[e];
+        if (!neurons[e].isOutput && !neurons[e].isInput) r[e] = neurons[e];
+        
         return r;
     }, {});
     let neuronOptions = Object.keys(filteredObject).map((neuron) => (
@@ -35,6 +37,7 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
     )
     function handleSelectChange(event) {
         let id = event.target.value;
+        
         setNeuronId(id);
         setRules(neurons[id].rules);
         setStartingSpikes(neurons[id].startingSpikes);
@@ -64,10 +67,15 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
         }
     }
 
+    if (neurons.isInput){
+        
+
+    }
+
     return (
         <Modal show={showEditModal} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit Node</Modal.Title>
+                <Modal.Title>Edit Regular Node</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit} data-testid="edit-node-form">

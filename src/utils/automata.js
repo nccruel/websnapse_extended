@@ -2,10 +2,11 @@ import produce from 'immer'
 export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     // const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
-    const forgetRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
+    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
 
     // const testRe = /(a+)\(*(a*)\)*(\+*\**)\/(a+)->(a+);([0-9]+)/
-    const testRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/
+    // const testRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/
+    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
     const res = re.exec(rule);
     const testRes = testRe.exec(rule);
     const forgetRes = forgetRe.exec(rule);
@@ -17,39 +18,41 @@ export function parseRule(rule, id) {
     } */
     if (testRes) {
         console.log("Test Res");
-        const [, requires, grouped, symbol, consumes, produces, delayStr] = testRes
+        var [, requires, grouped, char, symbol, consumes, produces, delayStr] = testRes
         const delay = parseInt(delayStr, 10)
 
-        if (requires == null){
+        if (requires == ""){
             requires = 1;
         }
-        else if (grouped == null){
+        if (char != "" && grouped == ""){
             grouped = 1;
         }
 
-        else if (consumes == null){
+        if (consumes == ""){
             consumes = 1;
         }
-        else if (produces == null){
+
+        if (produces == ""){
             produces = 1;
         }
 
-        console.log({'id': id, 'requires': requires, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
+        console.log({'id': id, 'requires': requires, 'char': char, 'grouped': grouped, 'symbol':symbol, 'consumes': consumes, 'produces': produces, 'delay': parseInt(delayStr)} );
 
         return [parseInt(requires), parseInt(grouped), symbol, parseInt(consumes), parseInt(produces), delay];
     } else if (forgetRes) {
-        const [, requires, grouped, symbol, consumes, produces, delayStr] = forgetRes;
-        if (requires == null){
+        var [, requires, grouped, char, symbol, consumes, produces, delayStr] = forgetRes;
+        if (requires == ""){
             requires = 1;
         }
-        else if (grouped == null){
+
+        if (char != "" && grouped == ""){
             grouped = 1;
         }
 
-        else if (consumes == null){
+        if (consumes == ""){
             consumes = 1;
         }
-        else if (produces == null){
+        if (produces == ""){
             produces = 1;
         }
         
@@ -172,16 +175,22 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     delete draft[neuron.id].currentRule;
                 }
             } else if (neuron.isInput) {
-                var len = (neuron.bitstring).length;
+                
                 inputTracker.push(neuron.id);
+                var spike_arr = (neuron.bitstring).split(",");
+                var len = spike_arr.length;
+                console.log("SPIKE ARR", spike_arr);
 
                 if (neuron.out) {
                     const neuronOut_in = neuron.out;
                     for (let k of neuronOut_in) {    
-                        var bit = parseInt((neuron.bitstring)[time]);
-                        var spk = 0;
+                        var bit = parseInt(spike_arr[time]);                        
+                        console.log("TIME", time);
+                        console.log("LEN", len);
+                        var spk;
                         console.log("Bit", bit);
                         if (time < len){        // Check if bitstring length is less than time
+                            console.log("TIME OK");
                             shouldEnd = false;
                             let newDelay = neuron.delay.valueOf();
                             newDelay--;
@@ -191,6 +200,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                            
                         }
                         else{
+                            console.log("TIME EXCEED");
+                            spk = 0;
                             draft[neuron.id].delay = 0;  
                         }                     
                         spikeAdds[k] = parseInt(spk);
@@ -215,7 +226,13 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             
             draft[k].spikes = newSpikes;
             if (draft[k].isOutput) {
-                var newString = `${draft[k].bitstring}${spikeAdds[k] || 0}`
+                var newString;
+                if (time == 0){
+                    newString = `${draft[k].bitstring}${spikeAdds[k] || 0}`
+                }
+                else{
+                    newString = `${draft[k].bitstring},${spikeAdds[k] || 0}`
+                }                
                 draft[k].bitstring = newString;
             }
         }

@@ -56,7 +56,7 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
     //     spikes: 0,
     //     bitstring: ' '
     //   }
-    handleAddWeight(srce, dest, weight);
+    handleAddWeight(srce, dest, weight, 0);
   }
 
   return (

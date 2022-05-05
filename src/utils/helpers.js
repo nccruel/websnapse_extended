@@ -102,8 +102,8 @@ export const createInputNeuron = (id,x,y, input,spike) =>  [{
 }];
 export const checkValidRule = (rule) =>{
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
-    const testRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(a+);([0-9]+)/
-    const forgetRe=/(a+)(\+*\**)\/(a+)->(0);(0)/
+    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
+    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
     var result = testRe.exec(rule) || forgetRe.exec(rule);
     console.log(result);    
     return result;

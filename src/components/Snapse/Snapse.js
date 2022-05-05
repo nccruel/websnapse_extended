@@ -42,29 +42,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
         })
-        // if DEL/BSPACE key is pressed, pass edge ID to the delete edge handler
-        cy.on('click', 'edge', (eve) => {
-          // record edge ID
-          const edgeID = eve.target.id();
-          console.log("Edge ID:", edgeID);
-          var temp_edgeArr = edgeID.split("->");         
-
-          var srcID = temp_edgeArr[0];
-          var dstID = temp_edgeArr[1];
-          
-          const edgeArr = [srcID, dstID];
-          // console.log("Source & dest:", edgeArr);
-
-          isClickedSynapse = true;
-
-          //handleDeleteSynapse(srcID, dstID, edgeArr);
-          //var input = document.getElementById('user_inp');
-
-          setIsClickedSynapse(isClickedSynapse, srcID, dstID);
-          console.log("ISCLICK", isClickedSynapse, srcID, dstID);
-          
-        }) 
-
+        
         /*cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
           console.log("Hover", ev.target.id());
         })*/
@@ -74,7 +52,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           handleHoverDetails(ev.target.id());
         })
 
-        cy.on('click', function(event){
+        cy.on('tap', function(event){
           // target holds a reference to the originator
           // of the event (core or element)
           var evtTarget = event.target;
@@ -88,39 +66,28 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
             setIsClickedSynapse(isClickedSynapse, srcID, dstID);
   
           }
-          else{
-            var evtTargetID = event.target.id();
-            if(elements.edgeIDs.has(evtTargetID)){
-              console.log('tap on EDGE');
-              // record edge ID
-              const edgeID = evtTargetID;
-              console.log("Edge ID:", edgeID);
-              var temp_edgeArr = edgeID.split("->");         
 
-              var srcID = temp_edgeArr[0];
-              var dstID = temp_edgeArr[1];
-              
-              const edgeArr = [srcID, dstID];
-              // console.log("Source & dest:", edgeArr);
+          else if (evtTarget.isNode()){
+            console.log("Tap on NODE");
+          }
 
-              isClickedSynapse = true;
+          else if (evtTarget.isEdge()){
+            console.log("Tap on EDGE");
 
-              //handleDeleteSynapse(srcID, dstID, edgeArr);
-              //var input = document.getElementById('user_inp');
+            // record edge ID
+            const edgeID = evtTarget.id();
+            console.log("Edge ID:", edgeID);
+            var temp_edgeArr = edgeID.split("->");         
 
-              setIsClickedSynapse(isClickedSynapse, srcID, dstID);
-              console.log("ISCLICK", isClickedSynapse, srcID, dstID);
+            srcID = temp_edgeArr[0];
+            dstID = temp_edgeArr[1];            
+
+            isClickedSynapse = true;
+
+            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+            console.log("ISCLICK", isClickedSynapse, srcID, dstID);
             }
-
-
-            else {
-              console.log('tap on some element');
-              isClickedSynapse = false;
-              setIsClickedSynapse(isClickedSynapse, srcID, dstID);
-              
-            }
-
-          }        
+          
         })
         cy.gridGuide({
           guidelinesStyle: {
