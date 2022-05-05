@@ -82,7 +82,7 @@ const EditInputNodeForm = ({ showEditInputModal, handleCloseEditInputModal, hand
                         <Form.Label>Bitstring/Spike Train</Form.Label>
                         <Form.Control id="spikeTrain" required name="spikeTrain" type="text" placeholder="1,0,1" value={spikeTrain} onChange={(event) => { setSpikeTrain(event.target.value) }} />
                         <Form.Text className="text-muted">
-                            Enter spike train. Separate spikes with commas with NO space in between, no quotation marks (e. g. "1,0,1,1").
+                            Enter spike train. Separate spikes with <b>commas</b> with <b>NO space in between</b> (e. g. <b>1,0,1,1</b>).
                         </Form.Text>
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>

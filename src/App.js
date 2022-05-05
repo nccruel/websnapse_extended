@@ -5,11 +5,12 @@ import { slide as Menu } from 'react-burger-menu';
 import { useState, useEffect, useRef } from "react";
 import { useImmer } from "use-immer";
 import { Button, Container, Alert, Row, Col, Form, OverlayTrigger, Tooltip, Dropdown, DropdownButton } from 'react-bootstrap';
-import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar, XCircle, PencilSquare, BoxArrowRight, BoxArrowInRight} from 'react-bootstrap-icons';
+import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwardFill, QuestionCircle, ClockFill, ClockHistory, PlusSquare, Save2, Sliders,WindowSidebar, XCircle, PencilSquare, BoxArrowRight, BoxArrowInRight, Eye} from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components'
 import Snapse from "./components/Snapse/Snapse";
 import shortid from 'shortid';
 import { step, backStep, parseRule } from "./utils/automata";
+import ElementPopUp from './components/forms/ElementPopUp';
 import ChooseRuleForm from './components/forms/ChooseRuleForm';
 import NewNodeForm from './components/forms/NewNodeForm';
 import AddSynapseWeightForm from './components/forms/AddSynapseWeightForm';
@@ -20,6 +21,7 @@ import EditInputNodeForm from './components/forms/EditInputNodeForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
 import DeleteAllForm from './components/forms/DeleteAllForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
+import {splitRules} from "./utils/helpers";
 import convert from 'xml-js';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { saveAs } from 'file-saver';
@@ -132,11 +134,18 @@ function App() {
   const [srce, setSrce] = useState('');
   const [dest, setDest] = useState('');
   const [time, setTime] = useState(0);
+  const [nodeID, setNeuronID] = useState('');
+  const [nodeType, setNeuronType] = useState('');
+  const [nodeSRules, setNeuronSRules] = useState('');
+  const [nodeFRules, setNeuronFRules] = useState('');
+  const [nodeSpikes, setNeuronSpikes] = useState('');
+  const [nodeBitstring, setNeuronBitstring] = useState('');
   const [isPressedDel, setIsPressedDel] = useState(false);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
   const [Prompt, setDirty, setPristine] = useUnsavedChanges();
   // Modal Booleans
+  const [showElementPopup, setShowElementPopup] = useState(false);
   const [showAddWeightModal, setShowAddWeightModal] = useState(false);
   const [showNewNodeModal, setShowNewNodeModal] = useState(false);
   const [showNewOutputModal, setShowNewOutputModal] = useState(false);
@@ -168,6 +177,8 @@ function App() {
   const handleSldOver = () => console.log("slide over");
   const handleClose = () => setShowNewNodeModal(false)
   const handleShow = () => setShowNewNodeModal(true)
+  const handleCloseElementPopup = () => setShowElementPopup(false);
+  const handleShowElementPopup = () => setShowElementPopup(true);  
   const handleCloseAddWeightModal = () => setShowAddWeightModal(false);
   const handleShowAddWeightModal = () => setShowAddWeightModal(true);  
   const handleCloseNewOutputModal = () => setShowNewOutputModal(false);
@@ -491,14 +502,37 @@ function App() {
         // regular neuron
         console.log("REGULAR NEURON");
         console.log("Spiking rules are:")
+        setNeuronID(neuronID);
+        setNeuronType("Regular");        
+        setNeuronSpikes(neuron.spikes);
+
+  
+       var [spkRules, frgRules] = splitRules(neuron.rules);
+       var strSpkRules = spkRules.join(", ");
+       var strFrgRules = frgRules.join(", ");
+
+
+        setNeuronSRules(strSpkRules);
+        setNeuronFRules(strFrgRules);
+        setTimeout(handleShowElementPopup, 800);
       }
       else if (neuron.isOutput) {
         // output neuron
         console.log("OUTPUT NEURON");
+        setNeuronID(neuronID);
+        setNeuronBitstring(neuron.bitstring);
+        setNeuronType("Output");
+        setTimeout(handleShowElementPopup, 800);
       }
+      
       else if (neuron.isInput) {
         // input neuron
         console.log("INPUT NEURON");
+        setNeuronID(neuronID);
+        setNeuronBitstring(neuron.bitstring);
+        setNeuronType("Input");
+        setTimeout(handleShowElementPopup, 800);
+        
       }
     })
   }
@@ -846,7 +880,7 @@ function App() {
                     <Button variant="outline-dark" size="md" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Regular Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Input Node</Button>
-                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button> 
+                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button>                    
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
                     <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
@@ -869,6 +903,15 @@ function App() {
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
               handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>
+            <ElementPopUp showElementPopup={showElementPopup}
+              handleCloseElementPopup={handleCloseElementPopup}
+              handleError={showError} 
+              nodeID = {nodeID}
+              nodeType = {nodeType} 
+              nodeSRules={nodeSRules} 
+              nodeFRules={nodeFRules} 
+              nodeSpikes={nodeSpikes}
+              nodeBitstring={nodeBitstring} />
             <AddSynapseWeightForm showAddWeightModal={showAddWeightModal}
               handleCloseAddWeightModal={handleCloseAddWeightModal}
               handleAddWeight={handleAddWeight}

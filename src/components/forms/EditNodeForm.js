@@ -67,11 +67,6 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
         }
     }
 
-    if (neurons.isInput){
-        
-
-    }
-
     return (
         <Modal show={showEditModal} onHide={handleClose}>
             <Modal.Header closeButton>

@@ -105,7 +105,7 @@ export const checkValidRule = (rule) =>{
     const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
     const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
     var result = testRe.exec(rule) || forgetRe.exec(rule);
-    console.log(result);    
+    console.log("RESSSS", result);    
     return result;
 }
 
@@ -137,6 +137,34 @@ export const allRulesValid = (rules) => {
     }else{
         return 0;
     }
+}
+
+export const splitRules = (rules) => {
+    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
+    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/;
+
+
+    var spikeRules = [];
+    var forgRules = [];
+
+    var splitRules = rules.split(" ");
+    for (var i=0;i<splitRules.length;i++){
+        var testRes = testRe.exec(splitRules[i]);
+        var forgetRes = forgetRe.exec(splitRules[i]);
+
+        if (testRes){
+            spikeRules.push(splitRules[i]);
+        }
+
+        else if (forgetRes){
+            forgRules.push(splitRules[i]);
+        }
+
+          
+    }
+
+    return [spikeRules, forgRules];  
+    
 }
 
 export const convertElements = elements =>{
