@@ -6,10 +6,11 @@ import useAnimateEdges from './useAnimateEdges';
 import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
 import { AlignCenter, Trash, Eye } from 'react-bootstrap-icons';
+import "./popper.css";
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, handleHoverDetails, headless }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, handleHoverDetails, headless, setNeurons, splitRules }) => {
   
 
   var isClickedSynapse = false;
@@ -18,6 +19,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
   const handleShow = () => {
     handleShowDeleteAll();
   };
+  function handleShowElementPopup(){
+    
+  }
 
   function handleCenterGraph() {
     const cy = cyRef.current;
@@ -42,15 +46,92 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
         })
-        
-        /*cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input, edge', (ev) => {
-          console.log("Hover", ev.target.id());
-        })*/
+      
 
-        cy.on('mouseover', '.snapse-node, .snapse-output, .snapse-input', (ev) => {
-          console.log("Hover", ev.target.id());
-          handleHoverDetails(ev.target.id());
-        })
+        cy.elements().unbind("mouseover");
+        cy.elements().bind("mouseover", (event) => {
+          if (event.target.isNode()){
+            event.target.popperRefObj = event.target.popper({
+              content: () => {
+                let content = document.createElement("div");
+          
+                content.classList.add("popper-div");
+
+                setNeurons(draft => {      
+                  let node = draft[event.target.id()];
+
+                  let node_type;									
+
+                  if (node.isInput || node.isOutput){
+                    if (node.isInput){
+											node_type = "Input neuron";
+										}
+
+										else{
+											node_type = "Output neuron";
+										}										
+
+										var bitstring = "<i>None </i>";
+
+										if (node.bitstring > 1){
+											bitstring = node.bitstring;
+
+										}										
+
+                    content.innerHTML = "<b>Node ID: </b>" + node.id + "<br />" + "<br />" +
+                                        "<b>Node Type: </b>" + node_type + "<br />" + "<br />" +
+                                        "<b>Spike train: </b>" + bitstring + "<br />";
+                  }        
+
+                  else {
+                    node_type = "Regular neuron";
+										var [spkRules, frgRules] = splitRules(node.rules);
+										var strSpkRules, strFrgRules;
+
+
+										if (spkRules.length == 0){
+											strSpkRules = "<i> None </i>";
+										}
+										else{
+											strSpkRules = spkRules.join("<br> ");
+										}
+
+										if (frgRules.length == 0){
+											strFrgRules = "<i> None </i>";
+										}
+
+										else{
+											strFrgRules = frgRules.join("<br> ");
+										}
+									
+                    content.innerHTML = "<b>Node ID: </b>" + node.id + "<br />" + "<br />" +
+                                        "<b>Node Type: </b>" + node_type + "<br />" + "<br />" +
+                                        "<b>Current number of spikes: </b>" + node.spikes + "<br />" + "<br />" +
+																				"<b>Spiking rule/s: </b> <br>" + strSpkRules + "<br />" + "<br />" +
+																				"<b>Forgetting rule/s: </b> <br>" + strFrgRules + "<br />";
+
+                  }
+
+
+                })
+          
+                document.body.appendChild(content);
+                return content;
+              },
+            });
+          }
+        });
+        
+        cy.elements().unbind("mouseout");
+        cy.elements().bind("mouseout", (event) => {
+          if (event.target.isNode()){
+            if (event.target.popper) {
+              event.target.popperRefObj.state.elements.popper.remove();
+              event.target.popperRefObj.destroy();
+            }
+          }
+          
+        });
 
         cy.on('tap', function(event){
           // target holds a reference to the originator
@@ -108,12 +189,6 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           complete: onEdgeCreate
         });
         
-        // cy.elements().unbind('mouseover');
-        // cy.elements().bind('mouseover', (event) => event.target.id.show());
-
-        // cy.elements().unbind('mouseout');
-        // cy.elements().bind('mouseout', (event) => event.target.id.hide());
-        // ;
       }
     }
     
@@ -124,7 +199,6 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
       height: "100%"
     }}>
       <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>{" "}
-      <Button className="show-details-button" variant="warning" onClick={handleCenterGraph}><Eye />{' '}Show Node Details</Button>
       <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}

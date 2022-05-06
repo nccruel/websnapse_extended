@@ -709,7 +709,31 @@ function App() {
   useKey("Backspace", handleDelBackspaceKey);
   
   /// handle backspace key for deleting neurons/synapses
+function splitRules(rules){
+    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
+    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/;
 
+    var spikeRules = [];
+    var forgRules = [];
+
+    var splitRules = rules.split(" ");
+    for (var i=0;i<splitRules.length;i++){
+        var testRes = testRe.exec(splitRules[i]);
+        var forgetRes = forgetRe.exec(splitRules[i]);
+
+        if (testRes){
+            spikeRules.push(splitRules[i]);
+        }
+
+        else if (forgetRes){
+            forgRules.push(splitRules[i]);
+        }
+          
+    }
+
+    return [spikeRules, forgRules];  
+    
+}
   function sliderThumbLabelFormat(value){
     
       return `${value}x`;
@@ -899,7 +923,9 @@ function App() {
               setIsClickedSynapse={setIsClickedSynapse}
               handleShowDeleteAll = {handleShowDeleteAll}
               handleHoverDetails={handleHoverDetails}
-              headless={headless} />
+              headless={headless}
+              setNeurons={setNeurons}
+              splitRules={splitRules} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
               handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>

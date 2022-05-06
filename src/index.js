@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import cytoscape from 'cytoscape';
+import popper from 'cytoscape-popper';
 import edgehandles from 'cytoscape-edgehandles';
 import gridGuide from 'cytoscape-grid-guide';
 
 cytoscape.use(edgehandles)
 cytoscape.use(gridGuide)
+cytoscape.use(popper)
 ReactDOM.render(
   <React.StrictMode>
     <App />
