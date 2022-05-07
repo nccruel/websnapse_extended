@@ -332,7 +332,7 @@ function App() {
     setNeurons(draft => {
       var outCopy = [...draft[src].out];
       var weightsDict = {...draft[src].outWeights};
-      var currWeight = weightsDict[dst];
+      var currWeight = parseInt(weightsDict[dst]);
 
       if (outCopy.includes(dst)){
         handleAddWeight(src, dst, currWeight + 1, 1);
@@ -529,7 +529,7 @@ function App() {
     if (isClickedSynapse){
       setNeurons(draft => {
         let weightsDict = {...draft[srcID].outWeights};
-        curr_weight = (weightsDict[dstID]);
+        curr_weight = parseInt(weightsDict[dstID]);
       });
   
       setWeight(curr_weight);

@@ -153,7 +153,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
                 })
           
-                document.body.appendChild(content);
+                setTimeout(() => {
+                  document.body.appendChild(content);
+                }, 800);
                 return content;
               },
             });
@@ -173,15 +175,17 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
                 setNeurons(draft => {
                   var weightsDict = {...draft[src].outWeights};
-                  var synapse_weight = weightsDict[dst];
+                  var synapse_weight = parseInt(weightsDict[dst]);
     
-                  content.innerHTML = "<b>Synapse ID: </b>" + edge_ID_arr + "<br />" + "<br />" +
+                  content.innerHTML = "<b>Synapse ID: </b>" + edgeID + "<br />" + "<br />" +
                                       "<b>Source Node: </b>" + src + "<br />" + "<br />" +
                                       "<b>Destination Node: </b>" + dst + "<br />" + "<br />" +
-                                      "<b>Synapse Weight: </b> <br>" + synapse_weight + "<br />";
+                                      "<b>Synapse Weight: </b>" + synapse_weight + "<br />";
                 })
           
-                document.body.appendChild(content);
+                setTimeout(() => {
+                  document.body.appendChild(content);
+                }, 800);
                 return content;
               },
             });
