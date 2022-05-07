@@ -10,7 +10,7 @@ import "./popper.css";
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules, checkIsHover}) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules, checkIsHover }) => {
   
 
   var isClickedSynapse = false;
@@ -88,7 +88,10 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
         cy.elements().unbind("mouseover");
         cy.elements().bind("mouseover", (event) => {
-          var checker = checkIsHover();
+
+          var checker = Boolean(checkIsHover());
+          console.log("checker", checker);
+
           if (event.target.isNode() && checker) {
             console.log("Hovering here", checker);
             event.target.popperRefObj = event.target.popper({
@@ -102,45 +105,39 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
                   let node_type;									
 
-                  if (node.isInput || node.isOutput){
-                    if (node.isInput){
+                  if (node.isInput || node.isOutput) {
+                    if (node.isInput) {
 											node_type = "Input neuron";
 										}
-
-										else{
+										else {
 											node_type = "Output neuron";
 										}										
-
 										var bitstring = "<i>None </i>";
 
 										if (node.bitstring > 1){
 											bitstring = node.bitstring;
-
 										}										
 
                     content.innerHTML = "<b>Node ID: </b>" + node.id + "<br />" + "<br />" +
                                         "<b>Node Type: </b>" + node_type + "<br />" + "<br />" +
                                         "<b>Spike train: </b>" + bitstring + "<br />";
                   }        
-
                   else {
                     node_type = "Regular neuron";
 										var [spkRules, frgRules] = splitRules(node.rules);
 										var strSpkRules, strFrgRules;
 
-
-										if (spkRules.length == 0){
+										if (spkRules.length == 0) {
 											strSpkRules = "<i> None </i>";
 										}
-										else{
+										else {
 											strSpkRules = spkRules.join("<br> ");
 										}
 
-										if (frgRules.length == 0){
+										if (frgRules.length == 0) {
 											strFrgRules = "<i> None </i>";
 										}
-
-										else{
+										else {
 											strFrgRules = frgRules.join("<br> ");
 										}
 									
@@ -149,7 +146,6 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
                                         "<b>Current number of spikes: </b>" + node.spikes + "<br />" + "<br />" +
 																				"<b>Spiking rule/s: </b> <br>" + strSpkRules + "<br />" + "<br />" +
 																				"<b>Forgetting rule/s: </b> <br>" + strFrgRules + "<br />";
-
                   }
 
                 })
@@ -196,7 +192,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
         
         cy.elements().unbind("mouseout");
         cy.elements().bind("mouseout", (event) => {
-          var checker = checkIsHover();
+          var checker = Boolean(checkIsHover());
           if ((event.target.isNode() || event.target.isEdge()) && checker) {
             if (event.target.popper) {
               event.target.popperRefObj.state.elements.popper.remove();

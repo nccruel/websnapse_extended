@@ -719,7 +719,7 @@ function App() {
     
   }
 
-  async function checkIsHover() {
+  function checkIsHover() {
     //await setIsHover(isHover);
     console.log("isHover is", isHover);
     return isHover;
