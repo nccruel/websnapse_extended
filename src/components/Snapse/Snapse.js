@@ -10,7 +10,7 @@ import "./popper.css";
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, handleHoverDetails, headless, setNeurons, splitRules }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules }) => {
   
 
   var isClickedSynapse = false;
@@ -19,9 +19,6 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
   const handleShow = () => {
     handleShowDeleteAll();
   };
-  function handleShowElementPopup(){
-    
-  }
 
   function handleCenterGraph() {
     const cy = cyRef.current;
@@ -37,6 +34,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
     }
   }
   const elements = convertElements(neurons);
+  
   useEffect(() => {
     if (!headless) {
       const cy = cyRef.current
@@ -46,6 +44,46 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           console.log("change position", evt.target.id());
           handleChangePosition(evt.position, evt.target.id());
         })
+
+        cy.on('tap', function(event){
+          // target holds a reference to the originator
+          // of the event (core or element)
+          var evtTarget = event.target;
+          var srcID = '.';
+          var dstID = '.';
+
+          if (evtTarget == cy){
+            console.log('tap on background');
+            isClickedSynapse = false;
+            console.log('EVT', cy);            
+            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+  
+          }
+
+          else if (evtTarget.isNode()){
+            isClickedSynapse = false;
+            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+            console.log("Tap on NODE");
+          }
+
+          else if (evtTarget.isEdge()){
+            console.log("Tap on EDGE");
+
+            // record edge ID
+            const edgeID = evtTarget.id();
+            console.log("Edge ID:", edgeID);
+            var temp_edgeArr = edgeID.split("->");         
+
+            srcID = temp_edgeArr[0];
+            dstID = temp_edgeArr[1];            
+
+            isClickedSynapse = true;
+
+            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
+            console.log("ISCLICK", isClickedSynapse, srcID, dstID);
+            }
+          
+        });
       
 
         cy.elements().unbind("mouseover");
@@ -161,43 +199,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
           }
         });
 
-        cy.on('tap', function(event){
-          // target holds a reference to the originator
-          // of the event (core or element)
-          var evtTarget = event.target;
-          var srcID = '.';
-          var dstID = '.';
-
-          if (evtTarget == cy){
-            console.log('tap on background');
-            isClickedSynapse = false;
-            console.log('EVT', cy);            
-            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
-  
-          }
-
-          else if (evtTarget.isNode()){
-            console.log("Tap on NODE");
-          }
-
-          else if (evtTarget.isEdge()){
-            console.log("Tap on EDGE");
-
-            // record edge ID
-            const edgeID = evtTarget.id();
-            console.log("Edge ID:", edgeID);
-            var temp_edgeArr = edgeID.split("->");         
-
-            srcID = temp_edgeArr[0];
-            dstID = temp_edgeArr[1];            
-
-            isClickedSynapse = true;
-
-            setIsClickedSynapse(isClickedSynapse, srcID, dstID);
-            console.log("ISCLICK", isClickedSynapse, srcID, dstID);
-            }
-          
-        })
+        
         cy.gridGuide({
           guidelinesStyle: {
             strokeStyle: "black",

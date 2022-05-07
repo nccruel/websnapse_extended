@@ -33,10 +33,8 @@ const EditInputNodeForm = ({ showEditInputModal, handleCloseEditInputModal, hand
         <option value={neuron} key={neuron}>{neuron}</option>)
     )
 
-    // function isSpikeTrainValid(spikeTrain){
-    //     spikeList = spikeTrain.split(",");
-    //     return res
-    // }
+    
+
 
     function handleSelectChange(event) {
         let id = event.target.value;        

@@ -3,7 +3,7 @@ import { useEffect, useReducer, useState } from 'react';
 import { allRulesValid } from "../../utils/helpers";
 
 const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, handleError, neurons }) => {
-    const [isInputNeuron, setIsInputNeuron] = useState('');
+    
     const [neuronId, setNeuronId] = useState('');
     const [rules, setRules] = useState('');
     const [startingSpikes, setStartingSpikes] = useState(0);
@@ -35,6 +35,8 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
     let neuronOptions = Object.keys(filteredObject).map((neuron) => (
         <option value={neuron} key={neuron}>{neuron}</option>)
     )
+    
+    
     function handleSelectChange(event) {
         let id = event.target.value;
         

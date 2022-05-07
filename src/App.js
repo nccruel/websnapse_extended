@@ -18,6 +18,7 @@ import NewOutputNodeForm from './components/forms/NewOutputNodeForm';
 import NewInputNodeForm from './components/forms/NewInputNodeForm';
 import EditNodeForm from './components/forms/EditNodeForm';
 import EditInputNodeForm from './components/forms/EditInputNodeForm';
+import EditSynapseForm from './components/forms/EditSynapseForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
 import DeleteAllForm from './components/forms/DeleteAllForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
@@ -140,6 +141,7 @@ function App() {
   const [nodeFRules, setNeuronFRules] = useState('');
   const [nodeSpikes, setNeuronSpikes] = useState('');
   const [nodeBitstring, setNeuronBitstring] = useState('');
+  const [weight_main, setWeight] = useState(1);
   const [isPressedDel, setIsPressedDel] = useState(false);
   const [isRandom, setIsRandom] = useState(true);
   const [fileName, setFileName] = useState('');
@@ -153,6 +155,7 @@ function App() {
   const [showChooseRuleModal, setShowChooseRuleModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showEditInputModal, setShowEditInputModal] = useState(false);
+  const [showEditSynapseModal, setShowEditSynapseModal] = useState(false);
   const [showChoiceHistoryModal, setShowChoiceHistoryModal] = useState(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -188,6 +191,8 @@ function App() {
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditInputModal = () => setShowEditInputModal(true);
   const handleCloseEditInputModal = () => setShowEditInputModal(false);
+  const handleCloseEditSynapseModal = () => setShowEditSynapseModal(false);
+  const handleShowEditSynapseModal = () => setShowEditSynapseModal(true);  
   const handleShowEditModal = () => setShowEditModal(true);
   const handleCloseDeleteAllModal = () => setShowDeleteAllModal(false);
   const handleShowDeleteAllModal = () => setShowDeleteAllModal(true);
@@ -345,13 +350,37 @@ function App() {
     });
   }
 
+  async function handleEditSynapse(src_id, dst_id, new_weight) {   
+    setNeurons(draft => {
+      console.log("NEW WEIGHT", new_weight);
+
+      if (new_weight == 0){
+        var weightsDict = {...draft[src_id].outWeights};
+        weightsDict[dst_id] = 1;
+        draft[src_id].outWeights = weightsDict;
+        handleDeleteSynapse(src_id, dst_id);
+      }
+
+      else{
+        var weightsDict = {...draft[src_id].outWeights};
+        weightsDict[dst_id] = new_weight;
+        draft[src_id].outWeights = weightsDict;
+      }
+
+    });
+
+    setDirty(true);
+   
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+  }
+
   async function handleDeleteSynapse(srcID, dstID) {
     await setNeurons(draft => {
       var origoutArr = [...draft[srcID].out];
-      console.log("OLD OUT DETAILS ", origoutArr);
+      // console.log("OLD OUT DETAILS ", origoutArr);
 
       var weightsDict = {...draft[srcID].outWeights};
-      console.log("WEIGHTS DETAILS", weightsDict);           
+      // console.log("WEIGHTS DETAILS", weightsDict);           
       
       if (weightsDict[dstID] > 1){
         draft[srcID].outWeights[dstID] = weightsDict[dstID] - 1;
@@ -491,57 +520,22 @@ function App() {
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 
-  async function handleHoverDetails(neuronID) {
-    console.log("HOVERED NEURON IS", neuronID);
-    await setNeurons(draft => {
-      var neuron = draft[neuronID];
-
-      // details differ by neuron type
-  
-      if (!neuron.isOutput && !neuron.isInput) {
-        // regular neuron
-        console.log("REGULAR NEURON");
-        console.log("Spiking rules are:")
-        setNeuronID(neuronID);
-        setNeuronType("Regular");        
-        setNeuronSpikes(neuron.spikes);
-
-  
-       var [spkRules, frgRules] = splitRules(neuron.rules);
-       var strSpkRules = spkRules.join(", ");
-       var strFrgRules = frgRules.join(", ");
-
-
-        setNeuronSRules(strSpkRules);
-        setNeuronFRules(strFrgRules);
-        setTimeout(handleShowElementPopup, 800);
-      }
-      else if (neuron.isOutput) {
-        // output neuron
-        console.log("OUTPUT NEURON");
-        setNeuronID(neuronID);
-        setNeuronBitstring(neuron.bitstring);
-        setNeuronType("Output");
-        setTimeout(handleShowElementPopup, 800);
-      }
-      
-      else if (neuron.isInput) {
-        // input neuron
-        console.log("INPUT NEURON");
-        setNeuronID(neuronID);
-        setNeuronBitstring(neuron.bitstring);
-        setNeuronType("Input");
-        setTimeout(handleShowElementPopup, 800);
-        
-      }
-    })
-  }
-
   function setIsClickedSynapse(click_flag, srcID, dstID){
     isClickedSynapse = click_flag;
     srcDel = srcID;
     dstDel = dstID;
+    let curr_weight;
 
+    if (isClickedSynapse){
+      setNeurons(draft => {
+        let weightsDict = {...draft[srcID].outWeights};
+        curr_weight = (weightsDict[dstID]);
+      });
+  
+      setWeight(curr_weight);
+    }
+
+    
   }
 
   function resetSlider(){
@@ -659,19 +653,6 @@ function App() {
       console.log("showChooseRuleModal is true");
     }
   }, [])
-
-  async function helperBackspaceDelete(srcID, dstID) {
-    // function is only called when synapse is clicked
-    //console.log("backspace should be false", isPressedDel);
-    //setIsClickedSynapse(true);
-    //console.log("backspace should be true", isPressedDel);
-    if (isPressedDel) {
-      handleDeleteSynapse(srcID, dstID);
-      await setIsPressedDel(false);
-    }
-    
-    console.log("Helper Done");
-  }
 
   // Key Bindings 
   function handleSpace() {
@@ -902,9 +883,11 @@ function splitRules(rules){
                     <Button variant="outline-dark" size="md" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
                     <Button variant="outline-dark" size="md" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
                     <Button variant="outline-dark" size="md" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
+                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button>  
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Regular Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Input Node</Button>
-                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button>                    
+                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>
+                                      
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
                     <Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginTop: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
@@ -922,7 +905,6 @@ function splitRules(rules){
               handleDeleteSynapse={handleDeleteSynapse}
               setIsClickedSynapse={setIsClickedSynapse}
               handleShowDeleteAll = {handleShowDeleteAll}
-              handleHoverDetails={handleHoverDetails}
               headless={headless}
               setNeurons={setNeurons}
               splitRules={splitRules} />
@@ -966,6 +948,16 @@ function splitRules(rules){
               handleEditInputNode={handleEditInputNode}
               handleError={showError}
               neurons={neurons} />
+             <EditSynapseForm showEditSynapseModal={showEditSynapseModal}
+              handleCloseEditSynapseModal={handleCloseEditSynapseModal}
+              handleEditSynapse={handleEditSynapse}
+              handleError={showError}
+              neurons={neurons}
+              isClickedSynapse={isClickedSynapse}
+              srcID={srcDel}
+              dstID={dstDel}
+              setWeight={setWeight} 
+              weight_main={weight_main} />
             <DeleteAllForm showDeleteAllModal={showDeleteAllModal}
               handleCloseDeleteAllModal={handleCloseDeleteAllModal}
               handleDeleteAll={handleDeleteAll}
