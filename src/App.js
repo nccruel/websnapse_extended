@@ -335,7 +335,7 @@ function App() {
     setNeurons(draft => {
       var outCopy = [...draft[src].out];
       var weightsDict = {...draft[src].outWeights};
-      var currWeight = weightsDict[dst];
+      var currWeight = parseInt(weightsDict[dst]);
 
       if (outCopy.includes(dst)){
         handleAddWeight(src, dst, currWeight + 1, 1);
@@ -532,7 +532,7 @@ function App() {
     if (isClickedSynapse){
       setNeurons(draft => {
         let weightsDict = {...draft[srcID].outWeights};
-        curr_weight = (weightsDict[dstID]);
+        curr_weight = parseInt(weightsDict[dstID]);
       });
   
       setWeight(curr_weight);
@@ -900,7 +900,7 @@ function App() {
                     <Button variant="outline-dark" size="md" id="new-node-btn" className="node-actions text-primary" onClick={handleShow} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PlusSquare />{' '}New Node</Button>
                     <Button variant="outline-dark" size="md" id="new-input-btn" className="node-actions text-primary" onClick={handleShowNewInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowInRight />{' '}New Input Node</Button>
                     <Button variant="outline-dark" size="md" id="new-output-btn" className="node-actions text-primary" onClick={handleShowNewOutputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><BoxArrowRight />{' '}New Output Node</Button>
-                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete</Button>  
+                    <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete Node</Button>  
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Regular Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Input Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>

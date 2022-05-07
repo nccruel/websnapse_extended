@@ -42,7 +42,7 @@ const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, ha
 
     if (isClickedSynapse){
         var weightsDict = {...neurons[srcID].outWeights};
-        currWeight = weightsDict[dstID];
+        currWeight = parseInt(weightsDict[dstID]);
 
     }
 
