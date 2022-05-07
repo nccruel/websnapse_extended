@@ -68,7 +68,7 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
         <Form onSubmit={handleSubmit}>
         <Form.Group>
             <Form.Label>Weight of the Synapse between {srce} and {dest}:</Form.Label>
-            <Form.Control  required name="weight" type="number" placeholder="1" min="1" value={formData.weight} onChange={handleChange} />
+            <Form.Control  required name="weight" type="number" placeholder={1} min={1} value={formData.weight} onChange={handleChange} />
           </Form.Group>
           <Button variant="secondary" onClick={handleClose}>
             Close
