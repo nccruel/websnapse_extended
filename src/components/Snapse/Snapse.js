@@ -50,7 +50,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
         cy.elements().unbind("mouseover");
         cy.elements().bind("mouseover", (event) => {
-          if (event.target.isNode()){
+          if (event.target.isNode()) {
             event.target.popperRefObj = event.target.popper({
               content: () => {
                 let content = document.createElement("div");
@@ -120,17 +120,45 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
               },
             });
           }
+          else if (event.target.isEdge()) {
+            event.target.popperRefObj = event.target.popper({
+              content: () => {
+                let content = document.createElement("div");
+          
+                content.classList.add("popper-div");
+
+                const edgeID = event.target.id();
+                console.log(edgeID);
+                var edge_ID_arr = edgeID.split("->");
+                var src = edge_ID_arr[0];
+                var dst = edge_ID_arr[1];
+
+                setNeurons(draft => {
+                  var weightsDict = {...draft[src].outWeights};
+                  var synapse_weight = weightsDict[dst];
+    
+                  content.innerHTML = "<b>Synapse ID: </b>" + edge_ID_arr + "<br />" + "<br />" +
+                                      "<b>Source Node: </b>" + src + "<br />" + "<br />" +
+                                      "<b>Destination Node: </b>" + dst + "<br />" + "<br />" +
+                                      "<b>Synapse Weight: </b> <br>" + synapse_weight + "<br />";
+                })
+          
+                document.body.appendChild(content);
+                return content;
+              },
+            });
+
+          }
         });
         
         cy.elements().unbind("mouseout");
         cy.elements().bind("mouseout", (event) => {
-          if (event.target.isNode()){
+          if (event.target.isNode() || event.target.isEdge()){
             if (event.target.popper) {
               event.target.popperRefObj.state.elements.popper.remove();
               event.target.popperRefObj.destroy();
             }
           }
-          
         });
 
         cy.on('tap', function(event){
