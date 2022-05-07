@@ -29,9 +29,12 @@ import { saveAs } from 'file-saver';
 import useUnsavedChanges from './components/useUnsavedChanges/useUnsavedChanges';
 import { original } from 'immer';
 import Tour from './components/Tour/Tour';
+import { tabScrollButtonClasses } from '@mui/material';
+
 var options = { compact: true, ignoreComment: true, spaces: 4, sanitize: false };
 var progBarRate = 3;
 var isClickedSynapse = false;
+var isHover = true;
 var srcDel = '';
 var dstDel = '';
 
@@ -690,7 +693,7 @@ function App() {
   useKey("Backspace", handleDelBackspaceKey);
   
   /// handle backspace key for deleting neurons/synapses
-function splitRules(rules){
+  function splitRules(rules){
     const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
     const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/;
 
@@ -714,12 +717,16 @@ function splitRules(rules){
 
     return [spikeRules, forgRules];  
     
-}
+  }
+
+  async function checkIsHover() {
+    //await setIsHover(isHover);
+    console.log("isHover is", isHover);
+    return isHover;
+  }
+
   function sliderThumbLabelFormat(value){
-    
       return `${value}x`;
-    
-    
   }
 
   return (
@@ -758,6 +765,16 @@ function splitRules(rules){
               </div>
               <div>
                 <Button id="restart-tour" variant="primary" onClick={handleTrueRestartTutorial}>Restart Tutorial</Button>
+              </div>
+              <div>
+                <Form>
+                  <Form.Check type="checkbox"
+                      label="Display details when hovering"
+                      defaultChecked={isHover}
+                      onChange={() => {
+                        isHover = !isHover
+                      }} />
+                </Form>
               </div>
             </Menu>
             <div>
@@ -907,7 +924,8 @@ function splitRules(rules){
               handleShowDeleteAll = {handleShowDeleteAll}
               headless={headless}
               setNeurons={setNeurons}
-              splitRules={splitRules} />
+              splitRules={splitRules}
+              checkIsHover={checkIsHover} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
               handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>

@@ -10,7 +10,7 @@ import "./popper.css";
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules }) => {
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules, checkIsHover}) => {
   
 
   var isClickedSynapse = false;
@@ -88,7 +88,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
         cy.elements().unbind("mouseover");
         cy.elements().bind("mouseover", (event) => {
-          if (event.target.isNode()) {
+          var checker = checkIsHover();
+          if (event.target.isNode() && checker) {
+            console.log("Hovering here", checker);
             event.target.popperRefObj = event.target.popper({
               content: () => {
                 let content = document.createElement("div");
@@ -150,7 +152,6 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
                   }
 
-
                 })
           
                 document.body.appendChild(content);
@@ -158,7 +159,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
               },
             });
           }
-          else if (event.target.isEdge()) {
+          else if (event.target.isEdge() && checker) {
             event.target.popperRefObj = event.target.popper({
               content: () => {
                 let content = document.createElement("div");
@@ -191,7 +192,8 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
         
         cy.elements().unbind("mouseout");
         cy.elements().bind("mouseout", (event) => {
-          if (event.target.isNode() || event.target.isEdge()){
+          var checker = checkIsHover();
+          if ((event.target.isNode() || event.target.isEdge()) && checker) {
             if (event.target.popper) {
               event.target.popperRefObj.state.elements.popper.remove();
               event.target.popperRefObj.destroy();
