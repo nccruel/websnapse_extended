@@ -67,7 +67,7 @@ export function canUseRule(requires, grouped, symbol, spikes, consumes) {
     if (consumes > spikes){
         return false;
     }
-    
+
     if (symbol == '+') {
         if (grouped > 0) {
             if ((spikes - requires) % grouped == 0 && (spikes - requires) >= grouped) {
@@ -252,6 +252,13 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
     localStorage.setItem(time + 'sec', JSON.stringify(newStates));
     return newStates;
 
+}
+
+export function null_step(){
+    const same_state = produce(draft => {
+        console.log("new_state")
+    })
+    return same_state;
 }
 
 export function backStep(time) {

@@ -5,19 +5,19 @@ import { Button, Container } from 'react-bootstrap';
 import useAnimateEdges from './useAnimateEdges';
 import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
-import { AlignCenter, Trash, Eye } from 'react-bootstrap-icons';
+import { AlignCenter, Trash, Eye, PencilSquare, XCircle} from 'react-bootstrap-icons';
 import "./popper.css";
 import Slider from '@mui/material/Slider';
 
 
-const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules, checkIsHover }) => {
-  
+const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePosition, setIsClickedSynapse, headless, setNeurons, splitRules, 
+  checkIsHover, handleShowEditSynapseModal, handleShowDeleteSynapseModal, time}) => {  
 
   var isClickedSynapse = false;
 
   const [cyRef, setCy] = useAnimateEdges()
   const handleShow = () => {
-    handleShowDeleteAll();
+    
   };
 
   function handleCenterGraph() {
@@ -158,6 +158,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
             });
           }
           else if (event.target.isEdge() && checker) {
+            console.log("HOVERING EDGE");
             event.target.popperRefObj = event.target.popper({
               content: () => {
                 let content = document.createElement("div");
@@ -232,6 +233,8 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
     }}>
       <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>{" "}
       <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
+      <Button variant="success" size="md" id="edit-node-btn" className="node-actions" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>
+      <Button variant="warning" size="md" id="del-node-btn" className="node-actions" onClick={handleShowDeleteSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete Clicked Synapse</Button>
       <CytoscapeComponent
         cy={setCy}
         wheelSensitivity={0.3}

@@ -9,7 +9,7 @@ import { ArrowCounterclockwise,PlayFill, PauseFill, SkipForwardFill, SkipBackwar
 import styled, { css, keyframes } from 'styled-components'
 import Snapse from "./components/Snapse/Snapse";
 import shortid from 'shortid';
-import { step, backStep, parseRule } from "./utils/automata";
+import { step, backStep, parseRule, null_step } from "./utils/automata";
 import ElementPopUp from './components/forms/ElementPopUp';
 import ChooseRuleForm from './components/forms/ChooseRuleForm';
 import NewNodeForm from './components/forms/NewNodeForm';
@@ -21,6 +21,7 @@ import EditInputNodeForm from './components/forms/EditInputNodeForm';
 import EditSynapseForm from './components/forms/EditSynapseForm';
 import DeleteNodeForm from './components/forms/DeleteNodeForm';
 import DeleteAllForm from './components/forms/DeleteAllForm';
+import DeleteSynapseForm from './components/forms/DeleteSynapseForm';
 import ChoiceHistory from './components/ChoiceHistory/ChoiceHistory';
 import {splitRules} from "./utils/helpers";
 import convert from 'xml-js';
@@ -162,6 +163,7 @@ function App() {
   const [showChoiceHistoryModal, setShowChoiceHistoryModal] = useState(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteSynapseModal, setShowDeleteSynapseModal] = useState(false);
   // Menu Booleans 
   const [showDropdownBasic, setShowDropdownBasic] = useState(false);
   const [showSideBarMenu, setShowSideBarMenu] = useState(false);
@@ -201,6 +203,9 @@ function App() {
   const handleShowDeleteAllModal = () => setShowDeleteAllModal(true);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
+  const handleCloseDeleteSynapseModal = () => setShowDeleteSynapseModal(false);
+  const handleShowDeleteSynapseModal = () =>{ console.log("SHOW DELSYN"); 
+                setShowDeleteSynapseModal(true) }
   const handleCloseChooseRuleModal = () => setShowChooseRuleModal(false);
 
   const [mode,setMode]= useState('PSEUDORANDOM');
@@ -348,6 +353,7 @@ function App() {
         // draft[src].out = outCopy;
       } 
 
+      setDirty(true);
       window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
      
     });
@@ -903,7 +909,7 @@ function App() {
                     <Button variant="outline-primary" size="md" id="del-node-btn" className="node-actions text-danger" onClick={handleShowDeleteModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete Node</Button>  
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Regular Node</Button>
                     <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditInputModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Input Node</Button>
-                    <Button variant="outline-primary" size="md" id="edit-node-btn" className="node-actions text-success" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>
+                    
                                       
                 </Col>
                 <Col sm={4} style={{ textAlign: "right" }}>
@@ -925,7 +931,10 @@ function App() {
               headless={headless}
               setNeurons={setNeurons}
               splitRules={splitRules}
-              checkIsHover={checkIsHover} />
+              checkIsHover={checkIsHover}
+              handleShowEditSynapseModal={handleShowEditSynapseModal}
+              handleShowDeleteSynapseModal={handleShowDeleteSynapseModal}
+              time={time} />
             <ChoiceHistory time={time}
               showChoiceHistoryModal={showChoiceHistoryModal}
               handleCloseHoiceHistoryModal={handleCloseHoiceHistoryModal}/>
@@ -986,6 +995,15 @@ function App() {
               handleDeleteNode={handleDeleteNode}
               handleError={showError}
               neurons={neurons}
+            />
+            <DeleteSynapseForm showDeleteSynapseModal={showDeleteSynapseModal}
+              handleCloseDeleteSynapseModal={handleCloseDeleteSynapseModal}
+              handleDeleteSynapse={handleDeleteSynapse}
+              handleError={showError}
+              setNeurons={setNeurons}
+              isClickedSynapse={isClickedSynapse}
+              srcID={srcDel}
+              dstID={dstDel}
             />
             <ChooseRuleForm showChooseRuleModal={showChooseRuleModal}
               handleCloseChooseRuleModal={handleCloseChooseRuleModal}

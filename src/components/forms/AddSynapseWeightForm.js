@@ -45,9 +45,6 @@ const AddSynapseWeightForm = ({showAddWeightModal, handleCloseAddWeightModal, ha
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      setFormData({
-        reset: true
-      })
     }, 3000);
     //   const newOutput = {
     //     id: newId,

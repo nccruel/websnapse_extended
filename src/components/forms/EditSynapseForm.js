@@ -61,7 +61,13 @@ const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, ha
                     <Form onSubmit={handleSubmit} data-testid="edit-node-form">
                         <Form.Group>       
                                          
-                            <Form.Label>Selected Synapse: <b>{srcID}->{dstID}</b></Form.Label>
+                            <Form.Label>Selected Synapse: {srcID}->{dstID}</Form.Label>
+                        </Form.Group>
+                        <Form.Group>   
+                            <Form.Label>Source Node: <b>{srcID}</b></Form.Label>
+                        </Form.Group>
+                        <Form.Group>   
+                            <Form.Label>Destination Node: <b>{dstID}</b></Form.Label>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label htmlFor="synapse-weight" >Synapse Weight</Form.Label>                        
