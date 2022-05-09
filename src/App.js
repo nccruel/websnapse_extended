@@ -136,6 +136,8 @@ function App() {
     }
   });
 
+  let btn;
+
   const [srce, setSrce] = useState('');
   const [dest, setDest] = useState('');
   const [time, setTime] = useState(0);
@@ -348,15 +350,19 @@ function App() {
       
       else{
         handleShowAddWeightModal();
+        
         // outCopy.push(dst)
         // console.log(outCopy);
         // draft[src].out = outCopy;
-      } 
-
-      setDirty(true);
-      window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+      }    
+    
      
     });
+
+    setDirty(true);
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+
+    
   }
 
   async function handleEditSynapse(src_id, dst_id, new_weight) {   
@@ -368,19 +374,29 @@ function App() {
         weightsDict[dst_id] = 1;
         draft[src_id].outWeights = weightsDict;
         handleDeleteSynapse(src_id, dst_id);
+        setDirty(true);   
+        window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+
       }
 
       else{
         var weightsDict = {...draft[src_id].outWeights};
         weightsDict[dst_id] = new_weight;
         draft[src_id].outWeights = weightsDict;
+
+        handleNullForward();
+        
+        setDirty(true);   
+        window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+        
+        
       }
 
     });
 
-    setDirty(true);
+    // window.location.reload()
+    
    
-    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
   }
 
   async function handleDeleteSynapse(srcID, dstID) {
@@ -416,6 +432,9 @@ function App() {
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+
+    handleNullForward();
+   
   }
 
   async function handleAddWeight(src, dst, weight, flag) {
@@ -437,6 +456,11 @@ function App() {
     setDest('');
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+
+    handleNullForward();
+
+   
+   
   }
 
   const handleNewPosition = async (position, id) => {
@@ -444,6 +468,7 @@ function App() {
       draft[id].position = position;
     });
     setDirty(true);
+    handleNullForward();
 
   }
   async function handleNewNode(newNeuron) {
@@ -452,6 +477,8 @@ function App() {
     })
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
 
   }
   async function handleNewOutput(newOutput) {
@@ -460,6 +487,8 @@ function App() {
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
   }
 
   async function handleNewInput(newInput) {
@@ -468,6 +497,8 @@ function App() {
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
   }
 
   async function handleShowDeleteAll() {
@@ -483,6 +514,8 @@ function App() {
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
   }
 
   async function handleEditInputNode(id,bitstring) {
@@ -492,6 +525,8 @@ function App() {
     });
     setDirty(true);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
   }
 
   /// list all neurons connected to a neuron (delete ID to delete connected synapse)
@@ -512,9 +547,15 @@ function App() {
       }
       //delete neuron
       delete draft[neuronId];
-    })
-    setDirty(true);
+      
+    })     
+
+    setDirty(true);    
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+
+
+   
   }
 
   async function handleDeleteAll() {
@@ -527,6 +568,8 @@ function App() {
     setDirty(true);
     console.log("ALL DELETED", neurons);
     window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
+   
   }
 
   function setIsClickedSynapse(click_flag, srcID, dstID){
@@ -606,9 +649,21 @@ function App() {
     });
     //setIsPlaying(true); // continue playing after choosing rule
   }
+
+  const onNullForward = async () => {
+    if (time == 0) {
+      //copy
+      console.log("NULL_FORWARD");
+      
+      window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+      
+    }
+  }
+
   const onForward = async () => {
     if (time == 0) {
       //copy
+      console.log("FORWARD");
       console.log("Time is: " + time);
       window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
       window.localStorage.setItem('shouldTimeStep', "1");
@@ -625,6 +680,8 @@ function App() {
       alert("Simulation has ended.");
     }
   }
+
+
   const onBackward = async () => {
     if (time > 1) {
       var tempTime = time.valueOf();
@@ -735,6 +792,11 @@ function App() {
       return `${value}x`;
   }
 
+  function handleNullForward() {
+      document.getElementById("forwardBtn").click();
+      document.getElementById("forwardBtn").click();
+  }
+
   return (
     <Router>
       <Tour handleShowDropdownBasic={handleShowDropdownBasic} handleCloseDropdownBasic={handleCloseDropdownBasic} handleShowSideBarMenu={handleShowSideBarMenu} handleCloseSideBarMenu={handleCloseSideBarMenu} restartTutorial={restartTutorial} handleFalseRestartTutorial={handleFalseRestartTutorial}/> 
@@ -834,12 +896,15 @@ function App() {
                 </Col>
                 <Col>
                   <div className="snapse-controls" style={{ textAlign: "center", marginBottom: "0.8em" }}>
-                    <Button variant="link" onClick={onBackward}><SkipBackwardFill /></Button>{' '}
+                    <Button variant="link" onClick={() => onBackward()}><SkipBackwardFill /></Button>{' '}
                     <div style={{ display: 'inline-block' }}>
                       <ProgressBar key={pBar} isPlaying={isPlaying} />
                       <Button size="lg" className="snapse-controls-play" onClick={handlePlay}>{isPlaying ? <PauseFill /> : <PlayFill />}</Button>
                     </div> {' '}
-                    <Button variant="link" onClick={() => onForward()}><SkipForwardFill /></Button>{' '}
+                   
+                    <Button variant="link"  onClick={() => onForward()}><SkipForwardFill /></Button>{' '} 
+                    <Button hidden={true} id="forwardBtn" variant="link"  onClick={() => onNullForward()}><SkipForwardFill /></Button>{' '} 
+                    
 
                   </div>
                   

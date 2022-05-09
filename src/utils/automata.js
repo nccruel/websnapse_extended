@@ -254,8 +254,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
 
 }
 
-export function null_step(){
-    const same_state = produce(draft => {
+export function null_step(neurons){
+    const same_state = produce(neurons, draft => {
         console.log("new_state")
     })
     return same_state;
