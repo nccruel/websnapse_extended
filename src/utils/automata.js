@@ -157,7 +157,15 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     var [requires, grouped, symbol, consumes, produces, delay] = parseRule(neuron.currentRule, k);
                     let newSpikes = neuron.spikes.valueOf();
                     newSpikes -= consumes;
+
+                    if (newSpikes < 0){
+                        console.log("NEW SPIKES:", newSpikes);
+                        alert("Neurons cannot have negative spikes!");
+                        return
+                    }
+
                     draft[neuron.id].spikes = newSpikes;
+                    
                     //send spikes
                     if (neuron.out) {
                         const neuronOutKeys = neuron.out;
@@ -221,10 +229,9 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             //states[k].spikes -= spikeAdds[k]
             let newSpikes = parseInt(draft[k].spikes.valueOf());
             newSpikes += spikeAdds[k];
-
-            console.log("NEWSPIKES:", newSpikes);
             
             draft[k].spikes = newSpikes;
+            
             if (draft[k].isOutput) {
                 var newString;
                 if (time == 0){
