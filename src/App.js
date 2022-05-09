@@ -366,36 +366,17 @@ function App() {
   }
 
   async function handleEditSynapse(src_id, dst_id, new_weight) {   
-    setNeurons(draft => {
+    await setNeurons(draft => {
       console.log("NEW WEIGHT", new_weight);
-
-      if (new_weight == 0){
-        var weightsDict = {...draft[src_id].outWeights};
-        weightsDict[dst_id] = 1;
-        draft[src_id].outWeights = weightsDict;
-        handleDeleteSynapse(src_id, dst_id);
-        setDirty(true);   
-        window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
-
-      }
-
-      else{
-        var weightsDict = {...draft[src_id].outWeights};
-        weightsDict[dst_id] = new_weight;
-        draft[src_id].outWeights = weightsDict;
-
-        handleNullForward();
-        
-        setDirty(true);   
-        window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
-        
-        
-      }
+      
+      var weightsDict = {...draft[src_id].outWeights};
+      weightsDict[dst_id] = new_weight;
+      draft[src_id].outWeights = weightsDict;      
 
     });
-
-    // window.location.reload()
-    
+    setDirty(true);   
+    window.localStorage.setItem('originalNeurons', JSON.stringify(JSON.parse(JSON.stringify(neurons))));
+    handleNullForward();
    
   }
 
@@ -1049,7 +1030,9 @@ function App() {
               srcID={srcDel}
               dstID={dstDel}
               setWeight={setWeight} 
-              weight_main={weight_main} />
+              weight_main={weight_main}
+              setNeurons={setNeurons}
+              handleDeleteSynapse={handleDeleteSynapse} />
             <DeleteAllForm showDeleteAllModal={showDeleteAllModal}
               handleCloseDeleteAllModal={handleCloseDeleteAllModal}
               handleDeleteAll={handleDeleteAll}

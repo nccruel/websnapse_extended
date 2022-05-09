@@ -3,7 +3,8 @@ import { useEffect, useReducer, useState, Text } from 'react';
 import { allRulesValid } from "../../utils/helpers";
 import { setUseProxies } from 'immer';
 
-const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, handleEditSynapse, handleError, neurons, isClickedSynapse, srcID, dstID, setWeight, weight_main}) => {
+const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, handleEditSynapse, handleError, neurons, isClickedSynapse, srcID, dstID, 
+    setWeight, weight_main, setNeurons, handleDeleteSynapse}) => {
     const handleClose = () => {
         if (isClickedSynapse){
             setWeight(weight_main);
@@ -17,7 +18,6 @@ const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, ha
     };
 
    
-   
 
     function handleSubmit(event) {        
         event.preventDefault();
@@ -27,13 +27,24 @@ const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, ha
             return;
         }
 
-        else{         
-           
+        else{   
             handleClose();
             setTimeout(() => {
             }, 3000);
 
-            handleEditSynapse(srcID, dstID, weight_main);
+            if (weight_main == 0){
+                setNeurons(draft => {
+                    var weightsDict = {...draft[srcID].outWeights};
+                    weightsDict[dstID] = 1;
+                    draft[srcID].outWeights = weightsDict;
+                    handleDeleteSynapse(srcID, dstID);
+              
+                });
+            }
+
+            else{
+                handleEditSynapse(srcID, dstID, weight_main);
+            }            
         }
       
     }
