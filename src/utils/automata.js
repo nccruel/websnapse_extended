@@ -63,7 +63,11 @@ export function parseRule(rule, id) {
 
     return false
 }
-export function canUseRule(requires, grouped, symbol, spikes) {
+export function canUseRule(requires, grouped, symbol, spikes, consumes) {
+    if (consumes > spikes){
+        return false;
+    }
+    
     if (symbol == '+') {
         if (grouped > 0) {
             if ((spikes - requires) % grouped == 0 && (spikes - requires) >= grouped) {
@@ -110,7 +114,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 var validRules = [];
                 for (var i = 0; i < rules.length; i++) {
                     var [requires, grouped, symbol, consumes, produces, delay] = parseRule(rules[i], k);
-                    if (canUseRule(requires, grouped, symbol, neuron.spikes)) {
+                    if (canUseRule(requires, grouped, symbol, neuron.spikes, consumes)) {
                         console.log("should end1", shouldEnd);
                         validRules.push(rules[i]);
                         shouldEnd = false;
@@ -151,18 +155,13 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     newDelay--;
                     draft[neuron.id].delay = newDelay;
                 }
-                console.log(neuron.delay)
+                
                 if (neuron.delay < 0) {
                     //consume spikes
                     var [requires, grouped, symbol, consumes, produces, delay] = parseRule(neuron.currentRule, k);
+                   
                     let newSpikes = neuron.spikes.valueOf();
                     newSpikes -= consumes;
-
-                    if (newSpikes < 0){
-                        console.log("NEW SPIKES:", newSpikes);
-                        alert("Neurons cannot have negative spikes!");
-                        return
-                    }
 
                     draft[neuron.id].spikes = newSpikes;
                     
