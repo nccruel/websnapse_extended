@@ -150,9 +150,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
                 })
           
-                setTimeout(() => {
-                  document.body.appendChild(content);
-                }, 800);
+               
+                document.body.appendChild(content);
+               
                 return content;
               },
             });
@@ -181,9 +181,9 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
                                       "<b>Synapse Weight: </b>" + synapse_weight + "<br />";
                 })
           
-                setTimeout(() => {
-                  document.body.appendChild(content);
-                }, 800);
+                
+                document.body.appendChild(content);
+                
                 return content;
               },
             });
