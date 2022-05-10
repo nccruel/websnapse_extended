@@ -97,6 +97,9 @@ def generateContent(n):
 	content += "</position>\n"
 
 	content += tabFunction(tabTracker)
+	content += "<isOutput>true</isOutput>\n"
+
+	content += tabFunction(tabTracker)
 	content += "<spikes>0</spikes>\n"
 
 	content += tabFunction(tabTracker)
