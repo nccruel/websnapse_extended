@@ -231,10 +231,10 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
       width: "100%",
       height: "100%"
     }}>
-      <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>{" "}
-      <Button className="clear-nodes-button" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
-      <Button variant="success" size="md" id="edit-node-btn" className="node-actions" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>
-      <Button variant="warning" size="md" id="del-node-btn" className="node-actions" onClick={handleShowDeleteSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete Clicked Synapse</Button>
+      <Button className="center-graph-button" variant="secondary" onClick={handleCenterGraph}><AlignCenter />{' '}Center Graph</Button>{" "}     
+      <Button variant="success" size="md" id="edit-syn-btn" className="node-actions" onClick={handleShowEditSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><PencilSquare />{' '}Edit Clicked Synapse</Button>
+      <Button variant="warning" size="md" id="del-syn-btn" className="node-actions" onClick={handleShowDeleteSynapseModal} style={{ textAlign: "center", marginRight: "0.3em" }} disabled={time > 0 ? true : false}><XCircle />{' '}Delete Clicked Synapse</Button>
+      <Button id="clear-all-btn" style={{float: 'right'}} variant="danger" onClick={handleShow}><Trash />{' '}Clear All</Button>
       <CytoscapeComponent
         cy={setCy}
         wheelSensitivity={0.3}

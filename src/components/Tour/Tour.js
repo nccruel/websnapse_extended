@@ -43,7 +43,18 @@ const TOUR_STEPS = [
   {
     target:"#new-node-btn",
     title:"Creating Rules",
-    content:"When writing rules, it should follow the format E/c->p;d, where E follows the regular expression (a+)(\+*\**), c is (a+) with length equal to the number of spikes consumed, p is (a+) with length equal to the number of spikes produced and d equal to the delay.",
+    content:"When writing rules, it should follow the format E/c->p;d, where E follows the regular expression (na)(\+*\**) with n equal to the number of spikes required, c is na with c equal to the number of spikes to be consumed, p is na with c equal to the number of spikes to be produced and d equal to the delay. If creating a forgetting rule, set p to 0. Example: 2a(a)+/2a->0;0",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#new-input-btn",
+    title: "New Input Node",
+    content: "You can also create input neurons to send spikes to connected neurons in your system. Input neurons have spike trains made up of numbers separated by commas, with each representing the number of spikes the input neuron sends at the given time.",
     placement:'right',
     disableBeacon: true,
     disableOverlayClose: true,
@@ -54,7 +65,7 @@ const TOUR_STEPS = [
   {
     target:"#new-output-btn",
     title: "New Output Node",
-    content: "You can also create output neurons to receive the output of your system in the form of a bitstring, with the bits representing whether the output neuron  receives a spike or not at the given time.",
+    content: "You can also create output neurons to receive the output of your system in the form of a spike train (string) composed of numbers separated by commas, with each representing the number of spikes the output neuron receives at the given time.",
     placement:'right',
     disableBeacon: true,
     disableOverlayClose: true,
@@ -62,17 +73,6 @@ const TOUR_STEPS = [
       disableAnimation: true,
     }
   }, 
-  {
-    target:"#edit-node-btn",
-    title: "Edit Node",
-    content:"You can edit a neuron by choosing the neuron ID of the neuron you would like to edit. The neurons are ordered from oldest to last added. You can edit the rules and spikes of the neuron. You can choose to cancel or save the changes you made, which will be seen right after.",
-    placement:'right',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    floaterProps: {
-      disableAnimation: true,
-    }
-  },
   {
     target:"#del-node-btn",
     title: "Delete Node",
@@ -84,6 +84,63 @@ const TOUR_STEPS = [
       disableAnimation: true,
     }
   },
+  {
+    target:"#edit-node-btn",
+    title: "Edit Regular Node",
+    content:"You can edit a neuron by choosing the neuron ID of the neuron you would like to edit. The neurons are ordered from oldest to last added. You can edit the rules and spikes of the neuron. You can choose to cancel or save the changes you made, which will be seen right after.",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#edit-inp-node-btn",
+    title: "Edit Input Node",
+    content:"You can edit an input neuron by choosing the neuron ID of the neuron you would like to edit. The neurons are ordered from oldest to last added. You can edit the spike train/bitstring of the neuron. You can choose to cancel or save the changes you made, which will be seen right after.",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+ 
+  {
+    target:"#edit-syn-btn",
+    title: "Edit Synapse",
+    content:"You can edit a synapse by first clicking the synapse you want to edit. You can edit the weight of the selected synapse. You can choose to cancel or save the changes you made, which will be seen right after.",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#del-syn-btn",
+    title: "Delete Synapse",
+    content:"You can delete a synapse by first clicking the synapse you want to delete. You can choose to cancel or apply the deletion, which will be seen right after.",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#clear-all-btn",
+    title: "Clear All",
+    content:"You can clear your workspace and delete all elements by clicking this button. You can choose to cancel or apply the deletion, which will be seen right after.",
+    placement:'right',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  
   {
     target:".__________cytoscape_container",
     title: "The Workspace",
@@ -123,7 +180,29 @@ const TOUR_STEPS = [
   {
     target:".snapse-controls",
     title:"Starting the Simulation",
-    content:"You can also simulate the system continuously by clicking the play button. It will then proceed to go step-by-step at 3 second intervals until the simulation is paused or the system halts.",
+    content:"You can also simulate the system continuously by clicking the play button. It will then proceed to go step-by-step at default 3 second intervals until the simulation is paused or the system halts.",
+    placement:'bottom',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#speed-slider",
+    title:"Simulation Speed Slider",
+    content:"You can change the speed of the continuous simulation through this slider. Drag the slider thumb to the left to slow the simulation down. Drag it to the right to speed the simulation up. Click 'Reset to 1x' to reset to default speed (3 second intervals).",
+    placement:'bottom',
+    disableBeacon: true,
+    disableOverlayClose: true,
+    floaterProps: {
+      disableAnimation: true,
+    }
+  },
+  {
+    target:"#res-btn",
+    title:"Restart Simulation",
+    content:"Click this button to restart your simulation from the top (timestep = 0).",
     placement:'bottom',
     disableBeacon: true,
     disableOverlayClose: true,
@@ -134,7 +213,7 @@ const TOUR_STEPS = [
   {
     target:"#formGridCheckbox",
     title:"Pseudorandom or Guided Mode",
-    content:"If your system contains points of non-determinism, or rather, if a neuron can execute more than one rule at a time, you can choose to set the simulation to pseudorandom or guided mode. When using guided mode, you will be prompted to choose which rule the neuron should follow for that timestep. ",
+    content:"If your system contains points of non-determinism, or rather, if a neuron can execute more than one rule at a time, you can choose to set the simulation to pseudorandom or guided mode. When using pseudorandom mode, the system chooses what rule to execute. When using guided mode, you will be prompted to choose which rule the neuron should follow for that timestep. ",
     placement:'bottom',
     disableBeacon: true,
     disableOverlayClose: true,
