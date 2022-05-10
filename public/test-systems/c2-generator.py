@@ -117,7 +117,8 @@ def generateContent(n):
 neuronNum = int(input("Input number of neurons for c2: "))
 
 # open file
-f = open("c2-content.txt", "w")
+filename = "c2-{}.xmp".format(neuronNum)
+f = open(filename, "w")
 
 wholeContent = generateContent(neuronNum)
 
