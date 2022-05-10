@@ -17,7 +17,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 
   const [cyRef, setCy] = useAnimateEdges()
   const handleShow = () => {
-    
+    handleShowDeleteAll();
   };
 
   function handleCenterGraph() {
