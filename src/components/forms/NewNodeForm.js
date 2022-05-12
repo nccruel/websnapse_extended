@@ -8,7 +8,7 @@ const renderTooltip = (props) => (
   <Tooltip id="button-tooltip" style={{'width': '300px'}}{...props}>
     <p><b>Expression</b>: a<sup>i</sup>(a<sup>j</sup>)<sup>*</sup>, where i and j cannot both be 0.<br/>
       <b>Invalid Input</b>:<br/>a/a-&gt;1;1, a^2/a-&gt;a;1,<br/> (a)a/a-&gt;a;1 <br/>
-      <b>Valid Input</b>:<br/>a/a-&gt;a;1, aa/a-&gt;a;1,<br/> a(a)/a-&gt;a;1
+      <b>Valid Input</b>:<br/>a/a-&gt;a;1, 2a/a-&gt;a;1,<br/> (2a)*/a-&gt;a;1
     </p>
   </Tooltip>
 );
