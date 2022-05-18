@@ -809,7 +809,7 @@ function App() {
                   <Dropdown.Item href="./samples/ex2 - bitadder.xmp" download>Ex2 - Bitadder</Dropdown.Item>
                   <Dropdown.Item href="./samples/ex3 - increasing comparator.xmp" download>Ex3 - Increasing Comparator</Dropdown.Item>
                   <Dropdown.Item href="./samples/ex4 - naturally even.xmp" download>Ex4 - Naturally Even</Dropdown.Item>
-                  <Dropdown.Item href="./samples/ex5 - naturally greater one.xmp" download>Ex5 - Naturally Greater One</Dropdown.Item>
+                  <Dropdown.Item href="./samples/ex5 - naturally greater one.xmp" download>Ex5 - Naturally Greater Than One</Dropdown.Item>
                 </DropdownButton>
               </div>
               <div>
