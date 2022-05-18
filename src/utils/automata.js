@@ -211,8 +211,9 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                             spk = 0;
                             draft[neuron.id].delay = 0;  
                         }                     
-                        spikeAdds[k] = parseInt(spk);
-                        console.log("Sent spikes from IN", spk);
+                        spikeAdds[k] = 
+                            k in spikeAdds ? spikeAdds[k] + parseInt(spk): parseInt(spk);
+                        console.log("Sent spikes from IN", neuron.id, k, spk);
                     }
                 }
             } else if (neuron.isOutput) {

@@ -11,7 +11,7 @@
         <delay>0</delay>
         <out>n0-7z_Tt33uQ</out>
         <out>n1-ax4qP_Rxv</out>
-        <bitstring>100000001</bitstring>
+        <bitstring>1,1,1,1,1,1,1,1</bitstring>
         <outWeights>
             <n0-7z_Tt33uQ>1</n0-7z_Tt33uQ>
             <n1-ax4qP_Rxv>1</n1-ax4qP_Rxv>
@@ -29,7 +29,7 @@
         <delay>0</delay>
         <out>n1-ax4qP_Rxv</out>
         <out>n0-7z_Tt33uQ</out>
-        <bitstring>100001</bitstring>
+        <bitstring>1,1,1,1,1</bitstring>
         <outWeights>
             <n1-ax4qP_Rxv>1</n1-ax4qP_Rxv>
             <n0-7z_Tt33uQ>1</n0-7z_Tt33uQ>
@@ -65,7 +65,7 @@
         <delay>0</delay>
         <out>n3-VaS88thhD</out>
         <out>n2-dq3Gt-3Tv</out>
-        <bitstring>1001</bitstring>
+        <bitstring>1,1,1</bitstring>
         <outWeights>
             <n3-VaS88thhD>1</n3-VaS88thhD>
             <n2-dq3Gt-3Tv>1</n2-dq3Gt-3Tv>
