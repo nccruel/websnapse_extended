@@ -181,13 +181,16 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                     //resolve rule
                     delete draft[neuron.id].currentRule;
                 }
-            } else if (neuron.isInput) {
-                
+            } else if (neuron.isInput) {                
                 inputTracker.push(neuron.id);
                 var spike_arr = (neuron.bitstring).split(",");
                 var len = spike_arr.length;
                 console.log("SPIKE ARR", spike_arr);
 
+                if ((neuron.bitstring).length < 1){
+                    len = 0;
+                }
+                
                 if (neuron.out) {
                     const neuronOut_in = neuron.out;
                     for (let k of neuronOut_in) {    

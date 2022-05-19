@@ -114,7 +114,7 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
 										}										
 										var bitstring = "<i>None </i>";
 
-										if (node.bitstring > 1){
+										if ((node.bitstring).length > 1){
 											bitstring = node.bitstring;
 										}										
 
