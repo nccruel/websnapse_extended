@@ -34,7 +34,7 @@
             <y>355.53334045410156</y>
         </position>
         <rules>3a/2a-&gt;a;0 a/a-&gt;a;0</rules>
-        <startingSpikes>1</startingSpikes>
+        <startingSpikes>3</startingSpikes>
         <delay>0</delay>
         <spikes>3</spikes>
         <isOutput>false</isOutput>
@@ -51,7 +51,7 @@
             <y>225.81093942404686</y>
         </position>
         <rules>a/a-&gt;a;0 2a/a-&gt;0;0 3a/2a-&gt;a;0</rules>
-        <startingSpikes>3</startingSpikes>
+        <startingSpikes>0</startingSpikes>
         <delay>0</delay>
         <spikes>0</spikes>
         <isOutput>false</isOutput>
