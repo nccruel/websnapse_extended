@@ -511,6 +511,8 @@ function App() {
    
   }
 
+
+
   /// list all neurons connected to a neuron (delete ID to delete connected synapse)
   async function handleDeleteNode(neuronId) {
     console.log("handleDeleteNode", neuronId);
@@ -594,13 +596,27 @@ function App() {
       Pseudorandom mode will allow the system to decide which rule will be executed. Guided mode will let you be the one to decide.
     </Tooltip>
   );
+  
+
   const handleReset = () => {
-    if(time != 0){
+    if(time != 0){    
+      var currNeurons = JSON.parse(window.localStorage.getItem('originalNeurons'));
+
+      for (var k in currNeurons) {
+        var neuron = currNeurons[k];
+        if (!neuron.isOutput && !neuron.isInput) {
+            delete currNeurons[neuron.id].chosenRule;
+            delete currNeurons[neuron.id].currentRule;
+        }
+      }
+      window.localStorage.setItem('originalNeurons', JSON.stringify(currNeurons));
+  
       setNeurons(draft => draft = JSON.parse(window.localStorage.getItem('originalNeurons')));
       setTime(0);
       setIsPlaying(false);
       setHasEnded(false);
       var tempNeurons = window.localStorage.getItem('originalNeurons');
+      
       window.localStorage.clear();
       window.localStorage.setItem('originalNeurons', tempNeurons);
     }
@@ -907,6 +923,7 @@ function App() {
       
                 </Col>
                 <Col style={{ textAlign: "right" }}>
+                  
                   <div id="speed-slider" style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
                       <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
                         <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}

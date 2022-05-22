@@ -101,7 +101,8 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         const outputTracker = [];
         const inputTracker = [];
         var neuronValidRules = {};
-        var shouldEnd = true;
+        var shouldEnd = true;        
+
 
         for (var k in draft) {
             var neuron = draft[k];

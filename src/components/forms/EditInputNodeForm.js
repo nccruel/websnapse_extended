@@ -34,8 +34,6 @@ const EditInputNodeForm = ({ showEditInputModal, handleCloseEditInputModal, hand
     )
 
     
-
-
     function handleSelectChange(event) {
         let id = event.target.value;        
         setNeuronId(id);
