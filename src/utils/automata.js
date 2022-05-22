@@ -102,7 +102,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         const inputTracker = [];
         var neuronValidRules = {};
         var shouldEnd = true;
-        
+
         for (var k in draft) {
             var neuron = draft[k];
             //choose rule to follow if not working on a rule currently
@@ -235,16 +235,19 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             newSpikes += spikeAdds[k];
             
             draft[k].spikes = newSpikes;
+
+            console.log("bitstring", draft[k].bitstring);
             
             if (draft[k].isOutput) {
                 var newString;
                 if (time == 0){
-                    newString = `${draft[k].bitstring}${spikeAdds[k] || 0}`
+                    newString = `${spikeAdds[k] || 0}`
                 }
                 else{
                     newString = `${draft[k].bitstring},${spikeAdds[k] || 0}`
                 }                
                 draft[k].bitstring = newString;
+                
             }
         }
         console.log("should end", shouldEnd);
