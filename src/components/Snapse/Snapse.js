@@ -5,6 +5,7 @@ import { Button, Container } from 'react-bootstrap';
 import useAnimateEdges from './useAnimateEdges';
 import { useEffect, useMemo } from 'react';
 import { convertElements } from '../../utils/helpers';
+import { canUseRule, parseRule } from '../../utils/automata';
 import { AlignCenter, Trash, Eye, PencilSquare, XCircle} from 'react-bootstrap-icons';
 import "./popper.css";
 import Slider from '@mui/material/Slider';
@@ -125,6 +126,28 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
                   else {
                     node_type = "Regular neuron";
 										var [spkRules, frgRules] = splitRules(node.rules);
+
+                    // var rules = node.rules.split(' ');
+                    // var validRules = [];
+                    // for (var i = 0; i < rules.length; i++) {
+                    //     var [requires, grouped, symbol, consumes, produces, delay] = parseRule(rules[i], node.id);
+                    //     if (canUseRule(requires, grouped, symbol, node.spikes, consumes)) {
+                    //         validRules.push(rules[i]);
+                    //     }
+                    // }
+
+                    // console.log("validRules", validRules);
+
+                    // var determStr;
+
+                    // if (validRules.length > 1){
+                    //   determStr = "True";
+                    // }
+
+                    // else{
+                    //   determStr = "False";
+                    // }
+
 										var strSpkRules, strFrgRules;
 
 										if (spkRules.length == 0) {
@@ -145,7 +168,8 @@ const Snapse = ({ neurons, onEdgeCreate, handleShowDeleteAll, handleChangePositi
                                         "<b>Node Type: </b>" + node_type + "<br />" + "<br />" +
                                         "<b>Current number of spikes: </b>" + node.spikes + "<br />" + "<br />" +
 																				"<b>Spiking rule/s: </b> <br>" + strSpkRules + "<br />" + "<br />" +
-																				"<b>Forgetting rule/s: </b> <br>" + strFrgRules + "<br />";
+																				"<b>Forgetting rule/s: </b> <br>" + strFrgRules + "<br />" 
+                                        // + "<br />" + "<b>Non-deterministic: </b>" + determStr + "<br />";
                   }
 
                 })

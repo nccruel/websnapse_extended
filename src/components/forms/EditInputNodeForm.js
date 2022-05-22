@@ -52,10 +52,6 @@ const EditInputNodeForm = ({ showEditInputModal, handleCloseEditInputModal, hand
         else {
            
                 handleClose();
-                setTimeout(() => {
-                    setNeuronId('');
-                    setSpikeTrain('');
-                }, 3000);
                 handleEditInputNode(neuronId, spikeTrain);
         }
     }

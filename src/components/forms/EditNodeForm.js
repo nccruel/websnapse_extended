@@ -56,11 +56,6 @@ const EditNodeForm = ({ showEditModal, handleCloseEditModal, handleEditNode, han
             if (allRulesValid(rules)) {
                 console.log("All rules valid");
                 handleClose();
-                setTimeout(() => {
-                    setNeuronId('');
-                    setRules('');
-                    setStartingSpikes(0);
-                }, 3000);
                 handleEditNode(neuronId, rules, startingSpikes);
             } else {
                 console.log("One or more of the rules is invalid");

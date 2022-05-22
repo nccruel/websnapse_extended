@@ -283,15 +283,16 @@ function App() {
         const keyName = pOpKeys[keyNo - 1];
         const arrOfKey = parentElement._parent[keyName];
         const arrOfKeyLen = arrOfKey.length;
+
         if (arrOfKeyLen > 0) {
           const arr = arrOfKey;
           const arrIndex = arrOfKey.length - 1;
           arr[arrIndex] = value;
         } else if (keyName == "out") {
           parentElement._parent[keyName] = [value];
-        } else if (keyName == "bitstring") {
-          console.log("bitstring");
-          parentElement._parent[keyName] = "";
+        } 
+        else if (keyName == "bitstring") {
+          parentElement._parent[keyName] = value;
         }
         else {
           parentElement._parent[keyName] = nativeType(value);
@@ -316,8 +317,8 @@ function App() {
       await setNeurons(draft => {
         for (var k in draft) {
           if (draft[k].bitstring) {
-            console.log(draft[k].bitstring);
-            draft[k].bitstring = " ";
+            // console.log("loaded string", draft[k].bitstring);
+            // draft[k].bitstring = " ";
           }
           if(!draft[k].isOutput && !draft[k].out){
             draft[k].out = [];
@@ -906,26 +907,6 @@ function App() {
       
                 </Col>
                 <Col style={{ textAlign: "right" }}>
-                  {/*<Button variant="danger" onClick={handleReset} style={{ textAlign: "center", marginBottom: "0.4em" }}><ArrowCounterclockwise />{' '}Restart Simulation</Button>{' '}
-                  <div style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
-                    <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
-                      <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}
-                    </h6>
-                    
-                    <Slider 
-                      aria-label="simuSpeed"
-                      color="secondary" 
-                      min={0.1} 
-                      max={3.0} 
-                      step={0.1}
-                      defaultValue={1}
-                      value={sld_value} 
-                      onChange={handleSldChange} 
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={sliderThumbLabelFormat}
-                    /> 
-                    
-                </div>*/}
                   <div id="speed-slider" style={{backgroundColor: "#786fa6", borderRadius: "10px", padding: "0.5em"}}>                    
                       <h6 className="slider-title" style={{textAlign: "center"}} ><Sliders />{' '}Simulation Speed 
                         <Button size="sm" variant="light" style={{float: 'right'}} onClick={resetSlider}>Reset to 1x</Button>{' '}

@@ -102,7 +102,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
         const inputTracker = [];
         var neuronValidRules = {};
         var shouldEnd = true;
-
+        
         for (var k in draft) {
             var neuron = draft[k];
             //choose rule to follow if not working on a rule currently
@@ -139,7 +139,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
             }
         }
         if (Object.keys(neuronValidRules).length > 0) {
-            //console.log(neuronValidRules);
+            console.log("Neuron valid rules", neuronValidRules);
             window.localStorage.setItem('shouldTimeStep', "0");
             handleStartGuidedMode(neuronValidRules);
             return;
@@ -183,6 +183,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 }
             } else if (neuron.isInput) {                
                 inputTracker.push(neuron.id);
+                console.log("BS", neuron.bitstring);
                 var spike_arr = (neuron.bitstring).split(",");
                 var len = spike_arr.length;
                 console.log("SPIKE ARR", spike_arr);
@@ -190,7 +191,7 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                 if ((neuron.bitstring).length < 1){
                     len = 0;
                 }
-                
+
                 if (neuron.out) {
                     const neuronOut_in = neuron.out;
                     for (let k of neuronOut_in) {    
