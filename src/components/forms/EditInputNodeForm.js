@@ -46,7 +46,7 @@ const EditInputNodeForm = ({ showEditInputModal, handleCloseEditInputModal, hand
         event.preventDefault();
        
         if (!neuronId || neuronId == '-1') {
-            handleError("Please select a node to edit");
+            handleError("Please select a node to edit!");
             return;
         }
         else {
