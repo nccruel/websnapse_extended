@@ -17,19 +17,12 @@ const DeleteNodeForm = ({ showDeleteModal, handleCloseDeleteModal, handleDeleteN
     }
     function handleSubmit(event) {
         event.preventDefault();
-        if(neuronId!==''){
-            
+        if(neuronId!==''){            
             handleClose();
-                setTimeout(() => {
-                    setNeuronId('');
-                }, 3000);
-                handleDeleteNode(neuronId);
+            handleDeleteNode(neuronId);
         }else{
             handleClose();
-                setTimeout(() => {
-                    setNeuronId('');
-                }, 3000);
-                handleDeleteNode(defaultNeuron);
+            handleDeleteNode(defaultNeuron);
         }
     }
 

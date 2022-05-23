@@ -2,11 +2,11 @@ import produce from 'immer'
 export function parseRule(rule, id) {
     const re = /(a+)(\+*\**)\/(a+)->(a+);([0-9]+)/
     // const forgetRe = /(a+)(\(*a*\)*)(\+*\**)\/(a+)->(0);(0)/
-    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/
+    const forgetRe = /([0-9]*)a\(*([0-9]*)(a*)\)*(\+?|\*?)\/([0-9]*)a->(0);(0)/
 
     // const testRe = /(a+)\(*(a*)\)*(\+*\**)\/(a+)->(a+);([0-9]+)/
-    // const testRe = /([1-9]*)a\(*([1-9]*)a*\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/
-    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
+    // const testRe = /([0-9]*)a\(*([0-9]*)a*\)*(\+?|\*?)\/([0-9]*)a->([0-9]*)a;([0-9]+)/
+    const testRe = /([0-9]*)a\(*([0-9]*)(a*)\)*(\+?|\*?)\/([0-9]*)a->([0-9]*)a;([0-9]+)/;
     const res = re.exec(rule);
     const testRes = testRe.exec(rule);
     const forgetRes = forgetRe.exec(rule);

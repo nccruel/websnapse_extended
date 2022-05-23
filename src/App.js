@@ -755,8 +755,8 @@ function App() {
   
   /// handle backspace key for deleting neurons/synapses
   function splitRules(rules){
-    const testRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->([1-9]*)a;([0-9]+)/;
-    const forgetRe = /([1-9]*)a\(*([1-9]*)(a*)\)*(\+?|\*?)\/([1-9]*)a->(0);(0)/;
+    const testRe = /([0-9]*)a\(*([0-9]*)(a*)\)*(\+?|\*?)\/([0-9]*)a->([0-9]*)a;([0-9]+)/;
+    const forgetRe = /([0-9]*)a\(*([0-9]*)(a*)\)*(\+?|\*?)\/([0-9]*)a->(0);(0)/;
 
     var spikeRules = [];
     var forgRules = [];
