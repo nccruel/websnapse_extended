@@ -71,6 +71,9 @@ const NewInputNodeForm = ({ showNewInputModal, handleCloseNewInputModal, handleN
         <Form.Group>
           <Form.Label> Bitstring/Spike Train</Form.Label>
           <Form.Control  required name="bitstring" type="text" placeholder="1,0,1" value={formData.bitstring} onChange={handleChange} />
+          <Form.Text className="text-muted">
+              Enter spike train. Separate spikes with <b>commas</b> with <b>NO space in between</b> (e. g. <b>1,0,1,1</b>).v
+          </Form.Text>
         </Form.Group>
           <Button variant="secondary" onClick={handleClose}>
             Close
