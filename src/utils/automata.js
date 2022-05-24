@@ -172,10 +172,9 @@ export function step(neurons, time, isRandom, handleStartGuidedMode, handleSimul
                         for (let k of neuronOutKeys) {
                             
                             spikeAdds[k] =
-                                k in spikeAdds ? spikeAdds[k] + produces : produces
+                                k in spikeAdds ? spikeAdds[k] + (produces*neuronOutWeights[k]) : produces*neuronOutWeights[k];
                             
-                            spikeAdds[k] = spikeAdds[k]*neuronOutWeights[k];    // Multiply # of spikes by the SYNAPSE WEIGHT
-                            console.log("Sent spikes from " + k + ": " + spikeAdds[k]);
+                            console.log("Sent spikes to " + k + ": " + spikeAdds[k]);
                         }
                     }
 
