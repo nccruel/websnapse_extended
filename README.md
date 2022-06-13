@@ -1,7 +1,7 @@
 The extended WebSnapse application can be accessed in **https://nccruel.github.io/websnapse_extended/#/**.
 
 # Requirements
-- Install [node and npm](https://nodejs.org/en/download/) 
+- Install [node and npm](https://nodejs.org/en/download/). You may also type _npm install_ in the terminal.
 - Install [yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable) (Use command: `npm install --global yarn`)
 - Install the libraries for the project by going to the directory where the
   project is then putting in the terminal `yarn install`
