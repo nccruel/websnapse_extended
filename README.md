@@ -1,4 +1,4 @@
-The WebSnapse Extended application can be accessed in **https://nccruel.github.io/websnapse_extended/#/**.
+The extended WebSnapse application can be accessed in **https://nccruel.github.io/websnapse_extended/#/**.
 
 # Requirements
 - Install [node and npm](https://nodejs.org/en/download/) 
