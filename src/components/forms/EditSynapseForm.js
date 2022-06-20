@@ -51,10 +51,11 @@ const EditSynapseForm = ({ showEditSynapseModal, handleCloseEditSynapseModal, ha
 
     var currWeight;
 
-    if (isClickedSynapse){
-        var weightsDict = {...neurons[srcID].outWeights};
-        currWeight = parseInt(weightsDict[dstID]);
-
+    if (isClickedSynapse && neurons[srcID]){
+        setNeurons(draft => {
+            var weightsDict = {...draft[srcID].outWeights};
+            currWeight = parseInt(weightsDict[dstID]);
+        });
     }
 
     else{
